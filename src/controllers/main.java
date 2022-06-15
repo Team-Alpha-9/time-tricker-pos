@@ -11,6 +11,7 @@ import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import views.frmLogin;
+import views.frmUser;
 
 /**
  *
@@ -28,11 +29,14 @@ public class main {
         } catch (UnsupportedLookAndFeelException ex) {
             System.err.println("Failed to initialize LaF");
         }
-        
-       frmLogin frm_login =  new frmLogin();
-       frm_login.setUndecorated(true);
-       frm_login.getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
-       frm_login.setVisible(true);
+
+//       frmLogin frm_login =  new frmLogin();
+//       frm_login.setUndecorated(true);
+//       frm_login.getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
+//       frm_login.setVisible(true);
+
+        frmUser user = new frmUser();
+        user.setVisible(true);
     }
 
 }

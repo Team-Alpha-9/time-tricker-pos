@@ -9,20 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectDB {
 
     private static Connection conn;
-    private static ResultSet rs;
     private static String serverIP, port, database, username, password;
     //To Connect DB.........
 
     public static Connection getConn() {
         if (conn == null) {
             try {
-                serverIP = "192.168.8.102";
+                serverIP = "localhost";
                 port = "3306";
                 database = "time_triker";
                 username = "remote_user";
