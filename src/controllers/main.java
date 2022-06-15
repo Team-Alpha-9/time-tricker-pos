@@ -9,6 +9,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JRootPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import views.frmLogin;
 
 /**
@@ -24,7 +25,7 @@ public class main {
 
         try {
             UIManager.setLookAndFeel(new FlatDarculaLaf());
-        } catch (Exception ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             System.err.println("Failed to initialize LaF");
         }
         
