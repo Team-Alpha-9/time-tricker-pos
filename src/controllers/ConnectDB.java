@@ -22,11 +22,11 @@ public class ConnectDB {
     public static Connection getConn() {
         if (conn == null) {
             try {
-                serverIP = ConnConfig.getServerIP();
-                port = ConnConfig.getServerPort();
-                database = ConnConfig.getDatabase();
-                username = ConnConfig.getLoggedUser();
-                password = ConnConfig.getLoggedPassword();
+                serverIP = "192.168.8.102";
+                port = "3306";
+                database = "time_triker";
+                username = "remote_user";
+                password = "9tQAo^VMneM@";
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://" + serverIP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false", "" + username + "", "" + password + "");
             } catch (ClassNotFoundException e) {
@@ -34,7 +34,7 @@ public class ConnectDB {
                 JOptionPane.showMessageDialog(null, "No Database Driver found", "Database Driver Error", JOptionPane.ERROR_MESSAGE);
             } catch (SQLException e) {
                 Toolkit.getDefaultToolkit().beep();
-                //e.printStackTrace();
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Connection fail", "SQL Error", JOptionPane.ERROR_MESSAGE);
             }
         }
