@@ -330,11 +330,11 @@ public class frmUser extends javax.swing.JFrame {
         filltblUser();
     }
 
-    private void getUserDataByName(String userName) {
+    private void getUserDataByName(int userId) {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT  employers.name, user.user_name, user.password, user.user_type, user.status FROM user INNER JOIN employers ON user.employers_id = employers.id WHERE user.user_name = ?");
-            pst.setString(1, userName);
+            pst = conn.prepareStatement("SELECT  employers.name, user.user_name, user.password, user.user_type, user.status FROM user INNER JOIN employers ON user.employers_id = employers.id WHERE user.id = ?");
+            pst.setInt(1, userId);
             rs = pst.executeQuery();
 
 //            if (!rs.isBeforeFirst()) {
@@ -394,7 +394,7 @@ public class frmUser extends javax.swing.JFrame {
         if (tblUser.getModel().getRowCount() > 0) {
             try {
                 int row = tblUser.getSelectedRow();
-                String userName = tblUser.getModel().getValueAt(row, 2).toString();
+                int userName = Integer.parseInt(tblUser.getModel().getValueAt(row, 0).toString());
                 getUserDataByName(userName);
             } catch (Exception e) {
                 e.printStackTrace();

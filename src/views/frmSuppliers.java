@@ -32,7 +32,6 @@ public class frmSuppliers extends javax.swing.JFrame {
             pst.setString(2, txtFirstName.getText());
             pst.setString(3, cmbUserType.getSelectedItem().toString());
             pst.setString(4, cmbStatus.getSelectedItem().toString());
-
             pst.setInt(5, supId);
 
             saveDone = pst.executeUpdate();
