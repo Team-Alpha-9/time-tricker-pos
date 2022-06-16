@@ -20,10 +20,10 @@ public class ConnectDB {
     public static Connection getConn() {
         if (conn == null) {
             try {
-                serverIP = "localhost";
+                serverIP = "192.168.8.101";
                 port = "3306";
                 database = "time_triker";
-                username = "root";
+                username = "remote_user";
                 password = "9tQAo^VMneM@";
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://" + serverIP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false", "" + username + "", "" + password + "");
