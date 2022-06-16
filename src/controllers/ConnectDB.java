@@ -18,7 +18,7 @@ public class ConnectDB {
     //To Connect DB.........
 
     
-    public static Connection getConn() {
+  public static Connection getConn() {
         if (conn == null) {
             try {
                 serverIP = "localhost";

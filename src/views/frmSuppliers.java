@@ -8,6 +8,10 @@ package views;
 import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -22,20 +26,22 @@ public class frmSuppliers extends javax.swing.JFrame {
     public frmSuppliers() {
         initComponents();
         conn = ConnectDB.getConn();
+        
+        
+        filltblsupplier();
     }
 
     private int saveSuppliers() {
         int saveDone = 0;
         try {
-            pst = conn.prepareStatement("INSERT INTO supplier(name,suppliers_number, mobile_Number, address, Joindate, email, status ) VALUES (?,?,?,?,?,?,?)");
-            pst.setString(2, txtName.getText());
-
-            pst.setString(1, txtSupNumber.getText());
-            pst.setString(4, txtMobileNumber.getText());
-            pst.setString(2, txtAddress.getText());
-            pst.setString(3, txtAddress.getText());
-            pst.setString(5, txtEmail.getText());
-            pst.setString(3, txtStatus.getText());
+            pst = conn.prepareStatement("INSERT INTO supplier(name,supplier_number, mobile_Number, address, Join_date, email, status ) VALUES (?,?,?,?,?,?,?)");
+            pst.setString(1, txtName.getText());
+            pst.setString(2, txtSupNumber.getText());
+            pst.setString(3, txtMobileNumber.getText());
+            pst.setString(4, txtAddress.getText());
+             pst.setString(5, "2022/6/17");
+            pst.setString(6, txtEmail.getText());
+            pst.setString(7, cmbStatus.getModel().getSelectedItem().toString());
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -53,6 +59,44 @@ public class frmSuppliers extends javax.swing.JFrame {
         return saveDone;
     }
 
+    
+    private void filltblsupplier() {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id AS 'Id', name AS 'Name',mobile_number AS 'Mobile Number',email AS 'Email',join_date AS 'Email',status AS 'Status' FROM supplier");
+            rs = pst.executeQuery();
+
+            //To remove previously added rows
+            while (tblsupplier.getRowCount() > 0) {
+                ((DefaultTableModel) tblsupplier.getModel()).removeRow(0);
+            }
+
+            // Fill data to tblUser
+            tblsupplier.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,9 +115,9 @@ public class frmSuppliers extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         txtSupNumber = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
-        txtStatus = new javax.swing.JTextField();
+        cmbStatus = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblsupplier = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -89,9 +133,9 @@ public class frmSuppliers extends javax.swing.JFrame {
         cdJoinDate = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -117,16 +161,12 @@ public class frmSuppliers extends javax.swing.JFrame {
         jPanel2.add(txtSupNumber);
         jPanel2.add(txtName);
 
-        txtStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStatusActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txtStatus);
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
+        jPanel2.add(cmbStatus);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 0, 367, 150));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblsupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -134,7 +174,16 @@ public class frmSuppliers extends javax.swing.JFrame {
                 "Name", "Supplier Number", "Mobile Number", "Address", "Join Date", "Email", "Status"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tblsupplier.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tblsupplierAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jScrollPane2.setViewportView(tblsupplier);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1488, 383));
 
@@ -151,7 +200,6 @@ public class frmSuppliers extends javax.swing.JFrame {
         jPanel4.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
         jPanel4.add(txtMobileNumber);
 
-        txtEmail.setText("jTextField6");
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -183,16 +231,21 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1084, 6, 258, 100));
         getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 610, -1, -1));
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Update");
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Delete");
+        btnDelete.setText("Delete");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -200,20 +253,20 @@ public class frmSuppliers extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(246, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(126, 126, 126)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12))
         );
 
@@ -222,17 +275,26 @@ public class frmSuppliers extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStatusActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        int  saveSuppliers = saveSuppliers();
+        if ( saveSuppliers> 0) {
+            //resetAll();
+            JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void tblsupplierAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblsupplierAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblsupplierAncestorAdded
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,10 +332,11 @@ public class frmSuppliers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
     private com.toedter.calendar.JDateChooser cdJoinDate;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -293,12 +356,11 @@ public class frmSuppliers extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblsupplier;
     private javax.swing.JTextArea txtAddress;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMobileNumber;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtSupNumber;
     // End of variables declaration//GEN-END:variables
 }
