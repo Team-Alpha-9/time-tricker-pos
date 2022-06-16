@@ -29,7 +29,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         try {
             pst = conn.prepareStatement("INSERT INTO Supplier(Suppliers_number, First_Name, Last_Name, status, mobile_Number,Email,Address,) VALUES (?,?,?,?,?,?,?,?)");
             pst.setString(1, txtSuppliersNumber.getText());
-            pst.setString(2, txtFirstName.getText());
+            pst.setString(2, txtName.getText());
             pst.setString(3, cmbUserType.getSelectedItem().toString());
             pst.setString(4, cmbStatus.getSelectedItem().toString());
             pst.setInt(5, supId);
@@ -66,26 +66,24 @@ public class frmSuppliers extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        txtSupNumber = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        txtStatus = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        txtMobileNumber = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        DcAddress = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtJoinDate = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -104,7 +102,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         jLabel5.setText("Supplier Number");
         jPanel1.add(jLabel5);
 
-        jLabel2.setText("First Name");
+        jLabel2.setText("Name");
         jPanel1.add(jLabel2);
 
         jLabel10.setText("Status");
@@ -113,15 +111,15 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, 136, 150));
 
         jPanel2.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
-        jPanel2.add(jTextField3);
-        jPanel2.add(jTextField1);
+        jPanel2.add(txtSupNumber);
+        jPanel2.add(txtName);
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txtStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                txtStatusActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField5);
+        jPanel2.add(txtStatus);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 0, 367, 150));
 
@@ -139,9 +137,6 @@ public class frmSuppliers extends javax.swing.JFrame {
 
         jPanel3.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
 
-        jLabel4.setText("Last Name");
-        jPanel3.add(jLabel4);
-
         jLabel6.setText("Mobile Number");
         jPanel3.add(jLabel6);
 
@@ -151,11 +146,15 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(516, 0, 100, 150));
 
         jPanel4.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
-        jPanel4.add(jTextField2);
-        jPanel4.add(jTextField4);
+        jPanel4.add(txtMobileNumber);
 
-        jTextField6.setText("jTextField6");
-        jPanel4.add(jTextField6);
+        txtEmail.setText("jTextField6");
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtEmail);
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(628, 6, 316, 140));
 
@@ -170,11 +169,11 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(956, 6, 122, 100));
 
         jPanel6.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
-        jPanel6.add(jDateChooser1);
+        jPanel6.add(DcAddress);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtJoinDate.setColumns(20);
+        txtJoinDate.setRows(5);
+        jScrollPane1.setViewportView(txtJoinDate);
 
         jPanel6.add(jScrollPane1);
 
@@ -220,13 +219,17 @@ public class frmSuppliers extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void txtStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStatusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_txtStatusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,15 +267,14 @@ public class frmSuppliers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DcAddress;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -289,12 +291,11 @@ public class frmSuppliers extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextArea txtJoinDate;
+    private javax.swing.JTextField txtMobileNumber;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtStatus;
+    private javax.swing.JTextField txtSupNumber;
     // End of variables declaration//GEN-END:variables
 }
