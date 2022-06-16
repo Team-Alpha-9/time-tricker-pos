@@ -20,15 +20,17 @@ import net.proteanit.sql.DbUtils;
  */
 public class frmUser extends javax.swing.JFrame {
 
-    PreparedStatement pst;
-    Connection conn;
-    int empId = 0, userId = 0;
+    private PreparedStatement pst;
+    private Connection conn;
+    private int empId = 0, userId = 0;
 
     public frmUser() {
         initComponents();
+
         conn = ConnectDB.getConn();
 
-        fillUserTypeCombo(cmbEmpName);
+        fillEmpNameCombo(cmbEmpName);
+
         filltblUser();
     }
 
@@ -149,9 +151,16 @@ public class frmUser extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -171,6 +180,14 @@ public class frmUser extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tblUser);
+        if (tblUser.getColumnModel().getColumnCount() > 0) {
+            tblUser.getColumnModel().getColumn(0).setResizable(false);
+            tblUser.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblUser.getColumnModel().getColumn(1).setResizable(false);
+            tblUser.getColumnModel().getColumn(2).setResizable(false);
+            tblUser.getColumnModel().getColumn(3).setResizable(false);
+            tblUser.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,7 +237,7 @@ public class frmUser extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fillUserTypeCombo(JComboBox cmbEmpName) {
+    private void fillEmpNameCombo(JComboBox cmbEmpName) {
         ResultSet rs = null;
         cmbEmpName.removeAllItems();
         try {
@@ -248,14 +265,15 @@ public class frmUser extends javax.swing.JFrame {
         ResultSet rs = null;
         try {
             pst = conn.prepareStatement("SELECT id FROM employers WHERE name = ?");
-            pst.setString(1, cmbEmpName.getSelectedItem().toString());
+            pst.setString(1, cmbEmpName.getModel().getSelectedItem().toString());
             rs = pst.executeQuery();
 
 //            if (!rs.isBeforeFirst()) {
 //                userType.resetAll();
 //            }
-            while (rs.next()) {
+            if (rs.next()) {
                 empId = rs.getInt(1);
+                System.out.println("Emp Id: " + empId);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,7 +332,7 @@ public class frmUser extends javax.swing.JFrame {
             pst.setInt(5, empId);
 
             saveDone = pst.executeUpdate();
-            // saveDone = Statement.RETURN_GENERATED_KEYS;
+            //saveDone = Statement.RETURN_GENERATED_KEYS;
         } catch (Exception e) {
             e.printStackTrace();
             //alerts.getErrorAlert(e);
