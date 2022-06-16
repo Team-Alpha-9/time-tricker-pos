@@ -20,7 +20,7 @@ public class ConnectDB {
     public static Connection getConn() {
         if (conn == null) {
             try {
-                serverIP = "192.168.8.101";
+                serverIP = "localhost";
                 port = "3306";
                 database = "time_triker";
                 username = "remote_user";

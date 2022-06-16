@@ -40,18 +40,22 @@ public class frmUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        cmbEmpName = new javax.swing.JComboBox<>();
-        txtUserName = new javax.swing.JTextField();
-        pfPassword = new javax.swing.JTextField();
-        cmbUserType = new javax.swing.JComboBox<>();
-        cmbStatus = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        cmbEmpName = new javax.swing.JComboBox<>();
+        txtUserName = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        pfPassword = new javax.swing.JTextField();
+        cmbUserType = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        cmbStatus = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -61,9 +65,16 @@ public class frmUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.GridLayout(5, 2, 0, 5));
+        jPanel2.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
-        cmbEmpName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        jLabel1.setText("Employee Name");
+        jPanel2.add(jLabel1);
+
+        jLabel3.setText("User Name");
+        jPanel2.add(jLabel3);
+
+        jPanel1.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
         cmbEmpName.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
@@ -75,30 +86,30 @@ public class frmUser extends javax.swing.JFrame {
         });
         jPanel1.add(cmbEmpName);
         jPanel1.add(txtUserName);
-        jPanel1.add(pfPassword);
 
-        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Store Keeper", "Cashier", "Wotch Wekers" }));
-        jPanel1.add(cmbUserType);
-
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acive", "Deactive" }));
-        jPanel1.add(cmbStatus);
-
-        jPanel2.setLayout(new java.awt.GridLayout(5, 1, 5, 5));
-
-        jLabel1.setText("Employee Name");
-        jPanel2.add(jLabel1);
-
-        jLabel3.setText("User Name");
-        jPanel2.add(jLabel3);
+        jPanel4.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
         jLabel2.setText("Password");
-        jPanel2.add(jLabel2);
+        jPanel4.add(jLabel2);
 
         jLabel4.setText("User Type");
-        jPanel2.add(jLabel4);
+        jPanel4.add(jLabel4);
+
+        jPanel5.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+        jPanel5.add(pfPassword);
+
+        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Store Keeper", "Cashier", "Wotch Wekers" }));
+        jPanel5.add(cmbUserType);
+
+        jPanel6.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
         jLabel5.setText("Status");
-        jPanel2.add(jLabel5);
+        jPanel6.add(jLabel5);
+
+        jPanel7.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
+        jPanel7.add(cmbStatus);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
@@ -149,36 +160,45 @@ public class frmUser extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 791, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                        .addGap(63, 63, 63)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 96, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        setSize(new java.awt.Dimension(1179, 388));
+        setSize(new java.awt.Dimension(1044, 547));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -261,6 +281,11 @@ public class frmUser extends javax.swing.JFrame {
     }
 
     private int saveUser() {
+
+        if (cmbEmpName.getItemCount() > 0) {
+            getEmpIdByName();
+        }
+
         int saveDone = 0;
         try {
             pst = conn.prepareStatement("INSERT INTO user(user_name, password, user_type, status, employers_id) VALUES (?,?,?,?,?)");
@@ -287,11 +312,22 @@ public class frmUser extends javax.swing.JFrame {
     }
 
     private void resetAll() {
-        cmbEmpName.setSelectedIndex(0);
+        if (cmbEmpName.getItemCount() > 0) {
+            cmbEmpName.setSelectedIndex(0);
+        }
+
         txtUserName.setText("");
         pfPassword.setText("");
-        cmbUserType.setSelectedIndex(0);
-        cmbStatus.setSelectedIndex(0);
+
+        if (cmbUserType.getItemCount() > 0) {
+            cmbUserType.setSelectedIndex(0);
+        }
+
+        if (cmbStatus.getItemCount() > 0) {
+            cmbStatus.setSelectedIndex(0);
+        }
+
+        filltblUser();
     }
 
     private void getUserDataByName(String userName) {
@@ -349,17 +385,20 @@ public class frmUser extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbEmpNamePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbEmpNamePopupMenuWillBecomeInvisible
-        getEmpIdByName();
-        System.out.println("Emp Id : " + empId);
+        if (cmbEmpName.getItemCount() > 0) {
+            getEmpIdByName();
+        }
     }//GEN-LAST:event_cmbEmpNamePopupMenuWillBecomeInvisible
 
     private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
-        try {
-            int row = tblUser.getSelectedRow();
-            String userName = tblUser.getModel().getValueAt(row, 2).toString();
-            getUserDataByName(userName);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (tblUser.getModel().getRowCount() > 0) {
+            try {
+                int row = tblUser.getSelectedRow();
+                String userName = tblUser.getModel().getValueAt(row, 2).toString();
+                getUserDataByName(userName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_tblUserMouseClicked
 
@@ -417,6 +456,10 @@ public class frmUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField pfPassword;
     private javax.swing.JTable tblUser;
