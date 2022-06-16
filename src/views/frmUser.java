@@ -40,11 +40,13 @@ public class frmUser extends javax.swing.JFrame {
         txtUserName = new javax.swing.JTextField();
         pfPassword = new javax.swing.JTextField();
         cmbUserType = new javax.swing.JComboBox<>();
+        cmbStatus = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -54,7 +56,7 @@ public class frmUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.GridLayout(4, 2, 0, 5));
+        jPanel1.setLayout(new java.awt.GridLayout(5, 2, 0, 5));
 
         cmbEmpName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
         cmbEmpName.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
@@ -70,10 +72,13 @@ public class frmUser extends javax.swing.JFrame {
         jPanel1.add(txtUserName);
         jPanel1.add(pfPassword);
 
-        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Store Keeper", "Cashier", "Wotch Wekers" }));
         jPanel1.add(cmbUserType);
 
-        jPanel2.setLayout(new java.awt.GridLayout(4, 1, 5, 5));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acive", "Deactive" }));
+        jPanel1.add(cmbStatus);
+
+        jPanel2.setLayout(new java.awt.GridLayout(5, 1, 5, 5));
 
         jLabel1.setText("Employee Name");
         jPanel2.add(jLabel1);
@@ -86,6 +91,9 @@ public class frmUser extends javax.swing.JFrame {
 
         jLabel4.setText("User Type");
         jPanel2.add(jLabel4);
+
+        jLabel5.setText("Status");
+        jPanel2.add(jLabel5);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
@@ -105,17 +113,14 @@ public class frmUser extends javax.swing.JFrame {
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Id", "Emp Id", "User Name", "User Type"
+                "Id", "Emp Id", "User Name", "User Type", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -253,11 +258,13 @@ public class frmUser extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cmbEmpName;
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbUserType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
