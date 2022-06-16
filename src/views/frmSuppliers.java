@@ -14,22 +14,17 @@ import java.sql.PreparedStatement;
  * @author shehan
  */
 public class frmSuppliers extends javax.swing.JFrame {
-    
-    
-    
+
     PreparedStatement pst;
     Connection conn;
     int supID = 0;
-    
-    
+
     public frmSuppliers() {
         initComponents();
         conn = ConnectDB.getConn();
-
-       
     }
 
- private int saveSuppliers() {
+    private int saveSuppliers() {
         int saveDone = 0;
         try {
             pst = conn.prepareStatement("INSERT INTO Supplier(Suppliers_number, First_Name, Last_Name, status, mobile_Number,Email,Address,) VALUES (?,?,?,?,?,?,?,?)");
@@ -37,7 +32,7 @@ public class frmSuppliers extends javax.swing.JFrame {
             pst.setString(2, txtFirstName.getText());
             pst.setString(3, cmbUserType.getSelectedItem().toString());
             pst.setString(4, cmbStatus.getSelectedItem().toString());
-            
+
             pst.setInt(5, supId);
 
             saveDone = pst.executeUpdate();
@@ -54,13 +49,6 @@ public class frmSuppliers extends javax.swing.JFrame {
             }
         }
         return saveDone;
-    }
-
-    /**
-     * Creates new form frmSuppliers
-     */
-    public frmSuppliers() {
-        initComponents();
     }
 
     /**
@@ -248,7 +236,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
