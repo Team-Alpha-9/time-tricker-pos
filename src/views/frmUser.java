@@ -80,7 +80,7 @@ public class frmUser extends javax.swing.JFrame {
         cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Store Keeper", "Cashier", "Wotch Wekers" }));
         jPanel1.add(cmbUserType);
 
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acive", "Deactive" }));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
         jPanel1.add(cmbStatus);
 
         jPanel2.setLayout(new java.awt.GridLayout(5, 1, 5, 5));
