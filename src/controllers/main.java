@@ -10,11 +10,9 @@ import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import views.frmLogin;
-<<<<<<< Updated upstream
-=======
+
 import views.frmSuppliers;
 import views.frmUser;
->>>>>>> Stashed changes
 
 /**
  *
@@ -38,13 +36,11 @@ public class main {
         frm_login.getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         frm_login.setVisible(true);
 
-<<<<<<< Updated upstream
 //        frmUser user = new frmUser();
 //        user.setVisible(true);
-=======
         frmSuppliers supplier = new frmSuppliers();
         supplier.setVisible(true);
->>>>>>> Stashed changes
+
     }
 
 }
