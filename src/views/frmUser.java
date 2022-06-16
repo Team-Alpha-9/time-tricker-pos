@@ -5,6 +5,7 @@
 package views;
 
 import controllers.ConnectDB;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -158,6 +159,17 @@ public class frmUser extends javax.swing.JFrame {
                 tblUserMouseClicked(evt);
             }
         });
+        tblUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblUserKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblUserKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tblUserKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblUser);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,7 +212,8 @@ public class frmUser extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setSize(new java.awt.Dimension(1044, 547));
@@ -497,6 +510,48 @@ public class frmUser extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            int deleteUser = 0;
+            if (userId > 0) {
+
+                int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtUserName.getText(),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    deleteUser = deleteUser();
+                } else if (result == JOptionPane.NO_OPTION) {
+
+                } else {
+
+                }
+
+                if (deleteUser > 0) {
+                    resetAll();
+                    JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblUserKeyPressed
+
+    private void tblUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (tblUser.getModel().getRowCount() > 0) {
+                try {
+                    int row = tblUser.getSelectedRow();
+                    userId = Integer.parseInt(tblUser.getModel().getValueAt(row, 0).toString());
+                    getUserDataByName(userId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_tblUserKeyReleased
+
+    private void tblUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyTyped
+
+    }//GEN-LAST:event_tblUserKeyTyped
 
     /**
      * @param args the command line arguments
