@@ -5,11 +5,11 @@
  */
 package controllers;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.*;
 
 public class ConnectDB {
 
@@ -23,7 +23,7 @@ public class ConnectDB {
                 serverIP = "localhost";
                 port = "3306";
                 database = "time_triker";
-                username = "remote_user";
+                username = "root";
                 password = "9tQAo^VMneM@";
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://" + serverIP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false", "" + username + "", "" + password + "");

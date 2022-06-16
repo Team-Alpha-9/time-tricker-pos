@@ -7,11 +7,9 @@ package views;
 import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -116,6 +114,11 @@ public class frmUser extends javax.swing.JFrame {
         jPanel3.add(btnDelete);
 
         btnClearAll.setText("Clear All");
+        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAllActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnClearAll);
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -132,6 +135,11 @@ public class frmUser extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUserMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblUser);
@@ -255,11 +263,12 @@ public class frmUser extends javax.swing.JFrame {
     private int saveUser() {
         int saveDone = 0;
         try {
-            pst = conn.prepareStatement("INSERT INTO user(user_name, password, user_type, employers_id) VALUES (?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO user(user_name, password, user_type, status, employers_id) VALUES (?,?,?,?,?)");
             pst.setString(1, txtUserName.getText());
             pst.setString(2, pfPassword.getText());
             pst.setString(3, cmbUserType.getSelectedItem().toString());
-            pst.setInt(4, empId);
+            pst.setString(4, cmbStatus.getSelectedItem().toString());
+            pst.setInt(5, empId);
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -283,6 +292,36 @@ public class frmUser extends javax.swing.JFrame {
         pfPassword.setText("");
         cmbUserType.setSelectedIndex(0);
         cmbStatus.setSelectedIndex(0);
+    }
+
+    private void getUserDataByName(String userName) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT  employers.name, user.user_name, user.password, user.user_type, user.status FROM user INNER JOIN employers ON user.employers_id = employers.id WHERE user.user_name = ?");
+            pst.setString(1, userName);
+            rs = pst.executeQuery();
+
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            if (rs.next()) {
+                cmbEmpName.getModel().setSelectedItem(rs.getString(1));
+                txtUserName.setText(rs.getString(2));
+                pfPassword.setText(rs.getString(3));
+                cmbUserType.getModel().setSelectedItem(rs.getString(4));
+                cmbStatus.getModel().setSelectedItem(rs.getString(5));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
     }
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -314,6 +353,20 @@ public class frmUser extends javax.swing.JFrame {
         System.out.println("Emp Id : " + empId);
     }//GEN-LAST:event_cmbEmpNamePopupMenuWillBecomeInvisible
 
+    private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
+        try {
+            int row = tblUser.getSelectedRow();
+            String userName = tblUser.getModel().getValueAt(row, 2).toString();
+            getUserDataByName(userName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tblUserMouseClicked
+
+    private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
+        resetAll();
+    }//GEN-LAST:event_btnClearAllActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -321,7 +374,7 @@ public class frmUser extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
