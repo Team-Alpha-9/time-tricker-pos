@@ -2,12 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package kalindu.pos;
-
-/**
- *
- * @author Kalindu
- */
 public class Spare2 extends javax.swing.JFrame {
 
     /**
@@ -38,17 +32,17 @@ public class Spare2 extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        CombOne1 = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jAddProduct1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtPCode1 = new javax.swing.JTextField();
-        txtPName2 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        CombRetail = new javax.swing.JComboBox<>();
+        jBtnIteTyp = new javax.swing.JLabel();
+        jBtnUpd = new javax.swing.JButton();
+        jBtnAddProd = new javax.swing.JButton();
+        jBtnProdCod = new javax.swing.JLabel();
+        jBtnProdNam = new javax.swing.JLabel();
+        txtProdCod = new javax.swing.JTextField();
+        txtProdNam = new javax.swing.JTextField();
+        jBtnRemv = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableSpares = new javax.swing.JTable();
 
         CombOne.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Retail Items", "Spare Parts", " " }));
         CombOne.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -141,70 +135,67 @@ public class Spare2 extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 380));
 
-        CombOne1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Retail Items", "Spare Parts", " " }));
-        CombOne1.addMouseListener(new java.awt.event.MouseAdapter() {
+        CombRetail.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Retail Items", "Spare Parts", " " }));
+        CombRetail.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CombOne1MouseClicked(evt);
+                CombRetailMouseClicked(evt);
             }
         });
-        CombOne1.addActionListener(new java.awt.event.ActionListener() {
+        CombRetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CombOne1ActionPerformed(evt);
+                CombRetailActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Item Type ");
+        jBtnIteTyp.setText("Item Type ");
 
-        jButton3.setText("Update");
+        jBtnUpd.setText("Update");
 
-        jAddProduct1.setText("Add Products");
+        jBtnAddProd.setText("Add Products");
 
-        jLabel5.setText("Product Code");
+        jBtnProdCod.setText("Product Code");
 
-        jLabel6.setText("Product Name");
+        jBtnProdNam.setText("Product Name");
 
-        txtPCode1.addActionListener(new java.awt.event.ActionListener() {
+        txtProdCod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPCode1ActionPerformed(evt);
+                txtProdCodActionPerformed(evt);
             }
         });
 
-        txtPName2.addActionListener(new java.awt.event.ActionListener() {
+        txtProdNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPName2ActionPerformed(evt);
+                txtProdNamActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Remove");
+        jBtnRemv.setText("Remove");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPName2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(CombOne1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPCode1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jBtnRemv, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnUpd, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtnProdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtProdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jBtnIteTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jAddProduct1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CombRetail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jBtnProdCod, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtProdCod, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(547, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -212,22 +203,22 @@ public class Spare2 extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtPCode1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBtnProdCod)
+                    .addComponent(txtProdCod, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPName2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(txtProdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnProdNam))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(CombOne1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                    .addComponent(jBtnIteTyp)
+                    .addComponent(CombRetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(100, 100, 100)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jAddProduct1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(162, 162, 162))
+                    .addComponent(jBtnRemv, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnUpd, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -243,7 +234,7 @@ public class Spare2 extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableSpares.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -255,7 +246,10 @@ public class Spare2 extends javax.swing.JFrame {
                 "Product Code", "Product Name", "Item Type"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableSpares);
+        if (jTableSpares.getColumnModel().getColumnCount() > 0) {
+            jTableSpares.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -263,17 +257,17 @@ public class Spare2 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, 576, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         pack();
@@ -296,22 +290,22 @@ public class Spare2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPName1ActionPerformed
 
-    private void CombOne1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CombOne1MouseClicked
+    private void CombRetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CombRetailMouseClicked
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_CombOne1MouseClicked
+    }//GEN-LAST:event_CombRetailMouseClicked
 
-    private void CombOne1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CombOne1ActionPerformed
+    private void CombRetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CombRetailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CombOne1ActionPerformed
+    }//GEN-LAST:event_CombRetailActionPerformed
 
-    private void txtPCode1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPCode1ActionPerformed
+    private void txtProdCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProdCodActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPCode1ActionPerformed
+    }//GEN-LAST:event_txtProdCodActionPerformed
 
-    private void txtPName2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPName2ActionPerformed
+    private void txtProdNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProdNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPName2ActionPerformed
+    }//GEN-LAST:event_txtProdNamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,27 +344,27 @@ public class Spare2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CombOne;
-    private javax.swing.JComboBox<String> CombOne1;
+    private javax.swing.JComboBox<String> CombRetail;
     private javax.swing.JButton jAddProduct;
-    private javax.swing.JButton jAddProduct1;
+    private javax.swing.JButton jBtnAddProd;
+    private javax.swing.JLabel jBtnIteTyp;
+    private javax.swing.JLabel jBtnProdCod;
+    private javax.swing.JLabel jBtnProdNam;
+    private javax.swing.JButton jBtnRemv;
+    private javax.swing.JButton jBtnUpd;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableSpares;
     private javax.swing.JTextField txtPCode;
-    private javax.swing.JTextField txtPCode1;
     private javax.swing.JTextField txtPName1;
-    private javax.swing.JTextField txtPName2;
+    private javax.swing.JTextField txtProdCod;
+    private javax.swing.JTextField txtProdNam;
     // End of variables declaration//GEN-END:variables
 }
