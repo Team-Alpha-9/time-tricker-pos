@@ -123,7 +123,7 @@ public class frmUser extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Emp Id", "User Name", "User Type", "Status"
+                "Id", "Employee Name", "User Name", "User Type", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -228,21 +228,17 @@ public class frmUser extends javax.swing.JFrame {
     private void filltblUser() {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT id,user_name,user_type,employers_id FROM user");
+            pst = conn.prepareStatement("SELECT user.id AS 'Id',employers.name AS 'Emp Name',user.user_name AS 'User Name',user.user_type AS 'User Type',user.status AS 'Status' FROM user INNER JOIN employers ON user.employers_id = employers.id");
             rs = pst.executeQuery();
 
             //To remove previously added rows
             while (tblUser.getRowCount() > 0) {
                 ((DefaultTableModel) tblUser.getModel()).removeRow(0);
             }
-            int columns = rs.getMetaData().getColumnCount();
-            while (rs.next()) {
-                Object[] row = new Object[columns];
-                for (int i = 1; i <= columns; i++) {
-                    row[i - 1] = rs.getObject(i);
-                }
-                ((DefaultTableModel) tblUser.getModel()).insertRow(rs.getRow() - 1, row);
-            }
+
+            // Fill data to tblUser
+            tblUser.setModel(DbUtils.resultSetToTableModel(rs));
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
