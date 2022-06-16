@@ -21,7 +21,7 @@ public class frmUser extends javax.swing.JFrame {
 
     PreparedStatement pst;
     Connection conn;
-    int empId = 0;
+    int empId = 0, userId = 0;
 
     public frmUser() {
         initComponents();
@@ -122,6 +122,11 @@ public class frmUser extends javax.swing.JFrame {
         jPanel3.add(btnSave);
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnDelete);
 
         btnClearAll.setText("Clear All");
@@ -311,6 +316,60 @@ public class frmUser extends javax.swing.JFrame {
         return saveDone;
     }
 
+    private int updateUser() {
+
+        if (cmbEmpName.getItemCount() > 0) {
+            getEmpIdByName();
+        }
+
+        int saveDone = 0;
+        try {
+            pst = conn.prepareStatement("UPDATE user SET user_name = ?, password = ?, user_type = ?, status = ?, employers_id = ? WHERE id = ?");
+            pst.setString(1, txtUserName.getText());
+            pst.setString(2, pfPassword.getText());
+            pst.setString(3, cmbUserType.getSelectedItem().toString());
+            pst.setString(4, cmbStatus.getSelectedItem().toString());
+            pst.setInt(5, empId);
+            pst.setInt(6, userId);
+
+            saveDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private int deleteUser() {
+        int deleteDone = 0;
+        try {
+            pst = conn.prepareStatement("DELETE FROM user WHERE id = ?");
+            pst.setInt(1, userId);
+
+            deleteDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return deleteDone;
+    }
+
     private void resetAll() {
         if (cmbEmpName.getItemCount() > 0) {
             cmbEmpName.setSelectedIndex(0);
@@ -326,6 +385,9 @@ public class frmUser extends javax.swing.JFrame {
         if (cmbStatus.getItemCount() > 0) {
             cmbStatus.setSelectedIndex(0);
         }
+
+        empId = 0;
+        userId = 0;
 
         filltblUser();
     }
@@ -365,10 +427,18 @@ public class frmUser extends javax.swing.JFrame {
             if (!txtUserName.getText().isEmpty()) {
                 if (!pfPassword.getText().isEmpty()) {
                     if (!cmbUserType.getSelectedItem().equals("")) {
-                        int saveUser = saveUser();
-                        if (saveUser > 0) {
-                            resetAll();
-                            JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+                        if (userId > 0) {
+                            int updateUser = updateUser();
+                            if (updateUser > 0) {
+                                resetAll();
+                                JOptionPane.showMessageDialog(this, "User update done", "User Update", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } else {
+                            int saveUser = saveUser();
+                            if (saveUser > 0) {
+                                resetAll();
+                                JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+                            }
                         }
                     } else {
 
@@ -394,8 +464,8 @@ public class frmUser extends javax.swing.JFrame {
         if (tblUser.getModel().getRowCount() > 0) {
             try {
                 int row = tblUser.getSelectedRow();
-                int userName = Integer.parseInt(tblUser.getModel().getValueAt(row, 0).toString());
-                getUserDataByName(userName);
+                userId = Integer.parseInt(tblUser.getModel().getValueAt(row, 0).toString());
+                getUserDataByName(userId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -405,6 +475,28 @@ public class frmUser extends javax.swing.JFrame {
     private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
         resetAll();
     }//GEN-LAST:event_btnClearAllActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int deleteUser = 0;
+        if (userId > 0) {
+
+            int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtUserName.getText(),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+                deleteUser = deleteUser();
+            } else if (result == JOptionPane.NO_OPTION) {
+
+            } else {
+
+            }
+
+            if (deleteUser > 0) {
+                resetAll();
+                JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
