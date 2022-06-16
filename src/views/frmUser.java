@@ -7,14 +7,18 @@ package views;
 import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author buddh
  */
-
-
 public class frmUser extends javax.swing.JFrame {
 
     PreparedStatement pst;
@@ -24,6 +28,9 @@ public class frmUser extends javax.swing.JFrame {
     public frmUser() {
         initComponents();
         conn = ConnectDB.getConn();
+
+        fillUserTypeCombo(cmbEmpName);
+        filltblUser();
     }
 
     /**
@@ -163,8 +170,91 @@ public class frmUser extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1179, 388));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void fillUserTypeCombo(JComboBox cmbEmpName) {
+        ResultSet rs = null;
+        cmbEmpName.removeAllItems();
+        try {
+            pst = conn.prepareStatement("SELECT name FROM employers");
+            rs = pst.executeQuery();
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            while (rs.next()) {
+                cmbEmpName.addItem(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getEmpIdByName() {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id FROM employers WHERE name = ?");
+            pst.setString(1, cmbEmpName.getSelectedItem().toString());
+            rs = pst.executeQuery();
+
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            while (rs.next()) {
+                empId = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void filltblUser() {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id,user_name,user_type,employers_id FROM user");
+            rs = pst.executeQuery();
+
+            //To remove previously added rows
+            while (tblUser.getRowCount() > 0) {
+                ((DefaultTableModel) tblUser.getModel()).removeRow(0);
+            }
+            int columns = rs.getMetaData().getColumnCount();
+            while (rs.next()) {
+                Object[] row = new Object[columns];
+                for (int i = 1; i <= columns; i++) {
+                    row[i - 1] = rs.getObject(i);
+                }
+                ((DefaultTableModel) tblUser.getModel()).insertRow(rs.getRow() - 1, row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
 
     private int saveUser() {
         int saveDone = 0;
@@ -173,7 +263,7 @@ public class frmUser extends javax.swing.JFrame {
             pst.setString(1, txtUserName.getText());
             pst.setString(2, pfPassword.getText());
             pst.setString(3, cmbUserType.getSelectedItem().toString());
-            pst.setInt(4, 1);
+            pst.setInt(4, empId);
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -191,6 +281,14 @@ public class frmUser extends javax.swing.JFrame {
         return saveDone;
     }
 
+    private void resetAll() {
+        cmbEmpName.setSelectedIndex(0);
+        txtUserName.setText("");
+        pfPassword.setText("");
+        cmbUserType.setSelectedIndex(0);
+        cmbStatus.setSelectedIndex(0);
+    }
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (!cmbEmpName.getSelectedItem().equals("")) {
             if (!txtUserName.getText().isEmpty()) {
@@ -198,6 +296,7 @@ public class frmUser extends javax.swing.JFrame {
                     if (!cmbUserType.getSelectedItem().equals("")) {
                         int saveUser = saveUser();
                         if (saveUser > 0) {
+                            resetAll();
                             JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } else {
@@ -215,7 +314,8 @@ public class frmUser extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbEmpNamePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbEmpNamePopupMenuWillBecomeInvisible
-        empId = 0;
+        getEmpIdByName();
+        System.out.println("Emp Id : " + empId);
     }//GEN-LAST:event_cmbEmpNamePopupMenuWillBecomeInvisible
 
     /**
