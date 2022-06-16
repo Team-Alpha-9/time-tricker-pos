@@ -27,12 +27,15 @@ public class frmSuppliers extends javax.swing.JFrame {
     private int saveSuppliers() {
         int saveDone = 0;
         try {
-            pst = conn.prepareStatement("INSERT INTO Supplier(Suppliers_number, First_Name, Last_Name, status, mobile_Number,Email,Address,) VALUES (?,?,?,?,?,?,?,?)");
-            pst.setString(1, txtSuppliersNumber.getText());
+            pst = conn.prepareStatement("INSERT INTO supplier(name,suppliers_number, mobile_Number, address, Joindate, email, status ) VALUES (?,?,?,?,?,?,?)");
             pst.setString(2, txtName.getText());
-            pst.setString(3, cmbUserType.getSelectedItem().toString());
-            pst.setString(4, cmbStatus.getSelectedItem().toString());
-            pst.setInt(5, supId);
+
+            pst.setString(1, txtSupNumber.getText());
+            pst.setString(4, txtMobileNumber.getText());
+            pst.setString(2, txtAddress.getText());
+            pst.setString(3, txtAddress.getText());
+            pst.setString(5, txtEmail.getText());
+            pst.setString(3, txtStatus.getText());
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -81,9 +84,9 @@ public class frmSuppliers extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        DcAddress = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtJoinDate = new javax.swing.JTextArea();
+        txtAddress = new javax.swing.JTextArea();
+        cdJoinDate = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -128,7 +131,7 @@ public class frmSuppliers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "First Name", "Last NAame", "Supplier Number", "Mobile Number", "Address", "Join Date", "Email", "Status"
+                "Name", "Supplier Number", "Mobile Number", "Address", "Join Date", "Email", "Status"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -169,13 +172,13 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(956, 6, 122, 100));
 
         jPanel6.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
-        jPanel6.add(DcAddress);
 
-        txtJoinDate.setColumns(20);
-        txtJoinDate.setRows(5);
-        jScrollPane1.setViewportView(txtJoinDate);
+        txtAddress.setColumns(20);
+        txtAddress.setRows(5);
+        jScrollPane1.setViewportView(txtAddress);
 
         jPanel6.add(jScrollPane1);
+        jPanel6.add(cdJoinDate);
 
         getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1084, 6, 258, 100));
         getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 610, -1, -1));
@@ -267,7 +270,7 @@ public class frmSuppliers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DcAddress;
+    private com.toedter.calendar.JDateChooser cdJoinDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -291,8 +294,8 @@ public class frmSuppliers extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea txtAddress;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextArea txtJoinDate;
     private javax.swing.JTextField txtMobileNumber;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtStatus;
