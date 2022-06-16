@@ -46,8 +46,8 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="620" max="-2" attributes="0"/>
-              <Component id="jPanel3" min="-2" pref="400" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="570" max="-2" attributes="0"/>
+              <Component id="jPanel3" min="-2" pref="450" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
