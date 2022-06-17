@@ -217,19 +217,19 @@
                               <Component id="jBtnAddProd" min="-2" pref="115" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jBtnProdNam" min="-2" pref="108" max="-2" attributes="0"/>
+                              <Component id="jBtnPNam" min="-2" pref="108" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtProdNam" min="-2" pref="300" max="-2" attributes="0"/>
+                              <Component id="txtPNam" min="-2" pref="300" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jBtnIteTyp" min="-2" pref="108" max="-2" attributes="0"/>
+                              <Component id="jBtnItTyp" min="-2" pref="108" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="CombRetail" min="-2" pref="300" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jBtnProdCod" min="-2" pref="108" max="-2" attributes="0"/>
+                              <Component id="jBtnPCod" min="-2" pref="108" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtProdCod" min="-2" pref="300" max="-2" attributes="0"/>
+                              <Component id="txtPCod" min="-2" pref="300" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="547" max="32767" attributes="0"/>
@@ -241,17 +241,17 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="42" pref="42" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jBtnProdCod" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtProdCod" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="jBtnPCod" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPCod" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtProdNam" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jBtnProdNam" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPNam" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="jBtnPNam" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jBtnIteTyp" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jBtnItTyp" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="CombRetail" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
@@ -284,7 +284,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JLabel" name="jBtnIteTyp">
+            <Component class="javax.swing.JLabel" name="jBtnItTyp">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Item Type "/>
               </Properties>
@@ -298,25 +298,28 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add Products"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnAddProdActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jBtnProdCod">
+            <Component class="javax.swing.JLabel" name="jBtnPCod">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Product Code"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jBtnProdNam">
+            <Component class="javax.swing.JLabel" name="jBtnPNam">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Product Name"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtProdCod">
+            <Component class="javax.swing.JTextField" name="txtPCod">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtProdCodActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPCodActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtProdNam">
+            <Component class="javax.swing.JTextField" name="txtPNam">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtProdNamActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPNamActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jBtnRemv">
