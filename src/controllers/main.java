@@ -9,6 +9,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import views.frmEmployer;
 import views.frmLogin;
 
 import views.frmSuppliers;
@@ -38,8 +39,13 @@ public class main {
 
 //        frmUser user = new frmUser();
 //        user.setVisible(true);
-        frmSuppliers supplier = new frmSuppliers();
-        supplier.setVisible(true);
+        //frmSuppliers supplier = new frmSuppliers();
+        //supplier.setVisible(true);
+        
+        frmEmployer employer= new frmEmployer();
+        employer.setVisible(true);
+        
+       
 
     }
 

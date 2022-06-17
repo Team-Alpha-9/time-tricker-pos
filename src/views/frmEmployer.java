@@ -1,45 +1,43 @@
 package views;
+
 import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-   
-
 /**
  *
  * @author Acer
  */
-public class employer extends javax.swing.JFrame {
+public class frmEmployer extends javax.swing.JFrame {
 
     PreparedStatement pst;
     Connection conn;
     int empID = 0;
-    
-    
-    public employer() {
+
+    public frmEmployer() {
         initComponents();
         conn = ConnectDB.getConn();
+
+        //filltblsupplier();
     }
-    
+
     private int saveEmployer() {
         int saveDone = 0;
         try {
-            pst = conn.prepareStatement("INSERT INTO emplyers(id, name,nic, address,job_rle, Join_date,  status ) VALUES (?,?,?,?,?,?,?)");
-            pst.setString(1, txtId.getText());
-            pst.setString(2, txtName.getText());
-            pst.setString(3, txtNic.getText());
-            pst.setString(4, txtAddress.getText());
+            pst = conn.prepareStatement("INSERT INTO employers( name,nic_number, address,job_role, Join_date,  status ) VALUES (?,?,?,?,?,?)");
+            
+            pst.setString(1, txtName.getText());
+            pst.setString(2, txtNic.getText());
+            pst.setString(3, txtAddress.getText());
+            pst.setString(4, txtJobRoll.getText());
             pst.setString(5, ((JTextField) cdJoinDate.getDateEditor().getUiComponent()).getText());
-            pst.setString(6, txtEmail.getText());
-            pst.setString(7, cmbStatus.getModel().getSelectedItem().toString());
+            pst.setString(6, cmbStatus.getModel().getSelectedItem().toString());
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -60,7 +58,6 @@ public class employer extends javax.swing.JFrame {
     /**
      * Creates new form employ1
      */
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,10 +84,10 @@ public class employer extends javax.swing.JFrame {
         txtNic = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
         txtJobRoll = new javax.swing.JTextField();
-        txtJoinDate = new javax.swing.JTextField();
+        cdJoinDate = new com.toedter.calendar.JDateChooser();
         cmbStatus = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
         jbtnSave = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
@@ -144,23 +141,40 @@ public class employer extends javax.swing.JFrame {
             }
         });
         jPanel3.add(txtName);
+
+        txtNic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNicActionPerformed(evt);
+            }
+        });
         jPanel3.add(txtNic);
         jPanel3.add(txtAddress);
+
+        txtJobRoll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtJobRollActionPerformed(evt);
+            }
+        });
         jPanel3.add(txtJobRoll);
-        jPanel3.add(txtJoinDate);
+        jPanel3.add(cdJoinDate);
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(cmbStatus);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        btnSave.setText("Save");
+        btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveMouseClicked(evt);
             }
         });
-        jPanel4.add(jButton1);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSave);
 
         jbtnSave.setText("Delete");
         jbtnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -217,9 +231,7 @@ public class employer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jbtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSaveActionPerformed
-                                        
-        
-                                         
+
 
     }//GEN-LAST:event_jbtnSaveActionPerformed
 
@@ -231,20 +243,36 @@ public class employer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        int saveEmployer = saveEmployer();
+        if (saveEmployer > 0) {
+            //resetAll();
+            JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void txtNicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNicActionPerformed
+      
+    }//GEN-LAST:event_txtNicActionPerformed
+
+    private void txtJobRollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJobRollActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_txtJobRollActionPerformed
+
+    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+
+            
+        
+    }//GEN-LAST:event_btnSaveMouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
-        
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSave;
+    private com.toedter.calendar.JDateChooser cdJoinDate;
     private javax.swing.JComboBox<String> cmbStatus;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -263,7 +291,6 @@ public class employer extends javax.swing.JFrame {
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtJobRoll;
-    private javax.swing.JTextField txtJoinDate;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNic;
     // End of variables declaration//GEN-END:variables
