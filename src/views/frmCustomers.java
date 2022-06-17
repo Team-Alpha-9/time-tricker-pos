@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -22,6 +23,8 @@ public class frmCustomers extends javax.swing.JFrame {
     public frmCustomers() {
         initComponents();
         conn = ConnectDB.getConn();
+        
+        filltblcustomers();
     }
 
     private int saveCustomers() {
@@ -48,6 +51,57 @@ public class frmCustomers extends javax.swing.JFrame {
         }
         return saveDone;
     }
+    
+    // Update Customers
+    private int updateCustomers() {
+          int saveDone = 0;
+        try {
+            pst = conn.prepareStatement("UPDATE customer SET name=?,address=?,email=?,contact=?");
+            pst.setString(1, txtCusName.getText());
+            pst.setString(2, txtCusAddress.getText());
+            pst.setString(3, txtCusEmail.getText());
+            pst.setString(4, txtMobileNumber.getText());
+            
+            
+            saveDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+     
+     // Delete Customers
+    private int deleteCustomers(){int deleteDone = 0;
+        try {
+            pst = conn.prepareStatement("DELETE FROM customer WHERE id = ?");
+            pst.setInt(1, cusID);
+
+            deleteDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return deleteDone;
+    }
+         
+     
 
     // Save to table part
     private void filltblcustomers() {
@@ -182,6 +236,11 @@ public class frmCustomers extends javax.swing.JFrame {
         });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -276,7 +335,7 @@ public class frmCustomers extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCusEmailActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -286,6 +345,16 @@ public class frmCustomers extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int updateSuppliers = updateCustomers();
+        if (updateSuppliers > 0) {
+
+            resetAll();
+            JOptionPane.showMessageDialog(this, "Data Update Done ", "User Update", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,4 +415,8 @@ public class frmCustomers extends javax.swing.JFrame {
     private javax.swing.JTextField txtCusName;
     private javax.swing.JTextField txtMobileNumber;
     // End of variables declaration//GEN-END:variables
+
+    private void resetAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
