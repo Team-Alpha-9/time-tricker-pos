@@ -5,25 +5,33 @@
 package views;
 
 import controllers.ConnectDB;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author buddh
  */
-
-
 public class frmUser extends javax.swing.JFrame {
 
-    PreparedStatement pst;
-    Connection conn;
-    int empId = 0;
+    private PreparedStatement pst;
+    private Connection conn;
+    private int empId = 0, userId = 0;
 
     public frmUser() {
         initComponents();
+
         conn = ConnectDB.getConn();
+
+        fillEmpNameCombo(cmbEmpName);
+
+        filltblUser();
     }
 
     /**
@@ -35,16 +43,22 @@ public class frmUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        cmbEmpName = new javax.swing.JComboBox<>();
-        txtUserName = new javax.swing.JTextField();
-        pfPassword = new javax.swing.JTextField();
-        cmbUserType = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        cmbEmpName = new javax.swing.JComboBox<>();
+        txtUserName = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        pfPassword = new javax.swing.JTextField();
+        cmbUserType = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        cmbStatus = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -54,9 +68,16 @@ public class frmUser extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.GridLayout(4, 2, 0, 5));
+        jPanel2.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
-        cmbEmpName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        jLabel1.setText("Employee Name");
+        jPanel2.add(jLabel1);
+
+        jLabel3.setText("User Name");
+        jPanel2.add(jLabel3);
+
+        jPanel1.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
         cmbEmpName.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
@@ -68,24 +89,30 @@ public class frmUser extends javax.swing.JFrame {
         });
         jPanel1.add(cmbEmpName);
         jPanel1.add(txtUserName);
-        jPanel1.add(pfPassword);
 
-        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
-        jPanel1.add(cmbUserType);
-
-        jPanel2.setLayout(new java.awt.GridLayout(4, 1, 5, 5));
-
-        jLabel1.setText("Employee Name");
-        jPanel2.add(jLabel1);
-
-        jLabel3.setText("User Name");
-        jPanel2.add(jLabel3);
+        jPanel4.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
 
         jLabel2.setText("Password");
-        jPanel2.add(jLabel2);
+        jPanel4.add(jLabel2);
 
         jLabel4.setText("User Type");
-        jPanel2.add(jLabel4);
+        jPanel4.add(jLabel4);
+
+        jPanel5.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+        jPanel5.add(pfPassword);
+
+        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Store Keeper", "Cashier", "Wotch Wekers" }));
+        jPanel5.add(cmbUserType);
+
+        jPanel6.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+
+        jLabel5.setText("Status");
+        jPanel6.add(jLabel5);
+
+        jPanel7.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
+        jPanel7.add(cmbStatus);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
@@ -98,77 +125,243 @@ public class frmUser extends javax.swing.JFrame {
         jPanel3.add(btnSave);
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnDelete);
 
         btnClearAll.setText("Clear All");
+        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAllActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnClearAll);
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Id", "Emp Id", "User Name", "User Type"
+                "Id", "Employee Name", "User Name", "User Type", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUserMouseClicked(evt);
+            }
+        });
+        tblUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblUserKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblUserKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tblUserKeyTyped(evt);
+            }
         });
         jScrollPane1.setViewportView(tblUser);
+        if (tblUser.getColumnModel().getColumnCount() > 0) {
+            tblUser.getColumnModel().getColumn(0).setResizable(false);
+            tblUser.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblUser.getColumnModel().getColumn(1).setResizable(false);
+            tblUser.getColumnModel().getColumn(2).setResizable(false);
+            tblUser.getColumnModel().getColumn(3).setResizable(false);
+            tblUser.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 791, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(570, 570, 570)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                        .addGap(63, 63, 63)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 96, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1044, 547));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fillEmpNameCombo(JComboBox cmbEmpName) {
+        ResultSet rs = null;
+        cmbEmpName.removeAllItems();
+        try {
+            pst = conn.prepareStatement("SELECT name FROM employers");
+            rs = pst.executeQuery();
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            while (rs.next()) {
+                cmbEmpName.addItem(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void getEmpIdByName() {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id FROM employers WHERE name = ?");
+            pst.setString(1, cmbEmpName.getModel().getSelectedItem().toString());
+            rs = pst.executeQuery();
+
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            if (rs.next()) {
+                empId = rs.getInt(1);
+                System.out.println("Emp Id: " + empId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void filltblUser() {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT user.id AS 'Id',employers.name AS 'Emp Name',user.user_name AS 'User Name',user.user_type AS 'User Type',user.status AS 'Status' FROM user INNER JOIN employers ON user.employers_id = employers.id");
+            rs = pst.executeQuery();
+
+            //To remove previously added rows
+            while (tblUser.getRowCount() > 0) {
+                ((DefaultTableModel) tblUser.getModel()).removeRow(0);
+            }
+
+            // Fill data to tblUser
+            tblUser.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
     private int saveUser() {
+
+        if (cmbEmpName.getItemCount() > 0) {
+            getEmpIdByName();
+        }
+
         int saveDone = 0;
         try {
-            pst = conn.prepareStatement("INSERT INTO user(user_name, password, user_type, employers_id) VALUES (?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO user(user_name, password, user_type, status, employers_id) VALUES (?,?,?,?,?)");
             pst.setString(1, txtUserName.getText());
             pst.setString(2, pfPassword.getText());
             pst.setString(3, cmbUserType.getSelectedItem().toString());
-            pst.setInt(4, 1);
+            pst.setString(4, cmbStatus.getSelectedItem().toString());
+            pst.setInt(5, empId);
+
+            saveDone = pst.executeUpdate();
+            //saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private int updateUser() {
+
+        if (cmbEmpName.getItemCount() > 0) {
+            getEmpIdByName();
+        }
+
+        int saveDone = 0;
+        try {
+            pst = conn.prepareStatement("UPDATE user SET user_name = ?, password = ?, user_type = ?, status = ?, employers_id = ? WHERE id = ?");
+            pst.setString(1, txtUserName.getText());
+            pst.setString(2, pfPassword.getText());
+            pst.setString(3, cmbUserType.getSelectedItem().toString());
+            pst.setString(4, cmbStatus.getSelectedItem().toString());
+            pst.setInt(5, empId);
+            pst.setInt(6, userId);
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -186,14 +379,97 @@ public class frmUser extends javax.swing.JFrame {
         return saveDone;
     }
 
+    private int deleteUser() {
+        int deleteDone = 0;
+        try {
+            pst = conn.prepareStatement("DELETE FROM user WHERE id = ?");
+            pst.setInt(1, userId);
+
+            deleteDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return deleteDone;
+    }
+
+    private void resetAll() {
+        if (cmbEmpName.getItemCount() > 0) {
+            cmbEmpName.setSelectedIndex(0);
+        }
+
+        txtUserName.setText("");
+        pfPassword.setText("");
+
+        if (cmbUserType.getItemCount() > 0) {
+            cmbUserType.setSelectedIndex(0);
+        }
+
+        if (cmbStatus.getItemCount() > 0) {
+            cmbStatus.setSelectedIndex(0);
+        }
+
+        empId = 0;
+        userId = 0;
+
+        filltblUser();
+    }
+
+    private void getUserDataByName(int userId) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT  employers.name, user.user_name, user.password, user.user_type, user.status FROM user INNER JOIN employers ON user.employers_id = employers.id WHERE user.id = ?");
+            pst.setInt(1, userId);
+            rs = pst.executeQuery();
+
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            if (rs.next()) {
+                cmbEmpName.getModel().setSelectedItem(rs.getString(1));
+                txtUserName.setText(rs.getString(2));
+                pfPassword.setText(rs.getString(3));
+                cmbUserType.getModel().setSelectedItem(rs.getString(4));
+                cmbStatus.getModel().setSelectedItem(rs.getString(5));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (!cmbEmpName.getSelectedItem().equals("")) {
             if (!txtUserName.getText().isEmpty()) {
                 if (!pfPassword.getText().isEmpty()) {
                     if (!cmbUserType.getSelectedItem().equals("")) {
-                        int saveUser = saveUser();
-                        if (saveUser > 0) {
-                            JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+                        if (userId > 0) {
+                            int updateUser = updateUser();
+                            if (updateUser > 0) {
+                                resetAll();
+                                JOptionPane.showMessageDialog(this, "User update done", "User Update", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } else {
+                            int saveUser = saveUser();
+                            if (saveUser > 0) {
+                                resetAll();
+                                JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+                            }
                         }
                     } else {
 
@@ -210,8 +486,90 @@ public class frmUser extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbEmpNamePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbEmpNamePopupMenuWillBecomeInvisible
-        empId = 0;
+        if (cmbEmpName.getItemCount() > 0) {
+            getEmpIdByName();
+        }
     }//GEN-LAST:event_cmbEmpNamePopupMenuWillBecomeInvisible
+
+    private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
+        if (tblUser.getModel().getRowCount() > 0) {
+            try {
+                int row = tblUser.getSelectedRow();
+                userId = Integer.parseInt(tblUser.getModel().getValueAt(row, 0).toString());
+                getUserDataByName(userId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_tblUserMouseClicked
+
+    private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
+        resetAll();
+    }//GEN-LAST:event_btnClearAllActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int deleteUser = 0;
+        if (userId > 0) {
+
+            int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtUserName.getText(),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+                deleteUser = deleteUser();
+            } else if (result == JOptionPane.NO_OPTION) {
+
+            } else {
+
+            }
+
+            if (deleteUser > 0) {
+                resetAll();
+                JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            int deleteUser = 0;
+            if (userId > 0) {
+
+                int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtUserName.getText(),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    deleteUser = deleteUser();
+                } else if (result == JOptionPane.NO_OPTION) {
+
+                } else {
+
+                }
+
+                if (deleteUser > 0) {
+                    resetAll();
+                    JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblUserKeyPressed
+
+    private void tblUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (tblUser.getModel().getRowCount() > 0) {
+                try {
+                    int row = tblUser.getSelectedRow();
+                    userId = Integer.parseInt(tblUser.getModel().getValueAt(row, 0).toString());
+                    getUserDataByName(userId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_tblUserKeyReleased
+
+    private void tblUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUserKeyTyped
+
+    }//GEN-LAST:event_tblUserKeyTyped
 
     /**
      * @param args the command line arguments
@@ -220,7 +578,7 @@ public class frmUser extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -253,14 +611,20 @@ public class frmUser extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cmbEmpName;
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbUserType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField pfPassword;
     private javax.swing.JTable tblUser;

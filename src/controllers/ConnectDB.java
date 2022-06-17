@@ -5,11 +5,11 @@
  */
 package controllers;
 
-import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.*;
 
 public class ConnectDB {
 
@@ -17,13 +17,14 @@ public class ConnectDB {
     private static String serverIP, port, database, username, password;
     //To Connect DB.........
 
-    public static Connection getConn() {
+    
+  public static Connection getConn() {
         if (conn == null) {
             try {
                 serverIP = "localhost";
                 port = "3306";
                 database = "time_triker";
-                username = "remote_user";
+                username = "root";
                 password = "9tQAo^VMneM@";
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://" + serverIP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false", "" + username + "", "" + password + "");
@@ -38,6 +39,29 @@ public class ConnectDB {
         }
         return conn;
     }
+    
+//    public static Connection getConn() {
+//        if (conn == null) {
+//            try {
+//                serverIP = "192.168.8.100";
+//                port = "3306";
+//                database = "time_triker";
+//                username = "remote_user";
+//                password = "9tQAo^VMneM@";
+//                Class.forName("com.mysql.cj.jdbc.Driver");
+//                conn = DriverManager.getConnection("jdbc:mysql://" + serverIP + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false", "" + username + "", "" + password + "");
+//            } catch (ClassNotFoundException e) {
+//                Toolkit.getDefaultToolkit().beep();
+//                JOptionPane.showMessageDialog(null, "No Database Driver found", "Database Driver Error", JOptionPane.ERROR_MESSAGE);
+//            } catch (SQLException e) {
+//                Toolkit.getDefaultToolkit().beep();
+//                e.printStackTrace();
+//                JOptionPane.showMessageDialog(null, "Connection fail", "SQL Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//        return conn;
+//    }
+    
 
     //close ResultSet
     public static void closeConn() {
