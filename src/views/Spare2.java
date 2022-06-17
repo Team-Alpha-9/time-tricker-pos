@@ -2,6 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+package kalindu.pos;
+
+/**
+ *
+ * @author Kalindu
+ */
 public class Spare2 extends javax.swing.JFrame {
 
     /**
@@ -33,13 +39,13 @@ public class Spare2 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         CombRetail = new javax.swing.JComboBox<>();
-        jBtnIteTyp = new javax.swing.JLabel();
+        jBtnItTyp = new javax.swing.JLabel();
         jBtnUpd = new javax.swing.JButton();
         jBtnAddProd = new javax.swing.JButton();
-        jBtnProdCod = new javax.swing.JLabel();
-        jBtnProdNam = new javax.swing.JLabel();
-        txtProdCod = new javax.swing.JTextField();
-        txtProdNam = new javax.swing.JTextField();
+        jBtnPCod = new javax.swing.JLabel();
+        jBtnPNam = new javax.swing.JLabel();
+        txtPCod = new javax.swing.JTextField();
+        txtPNam = new javax.swing.JTextField();
         jBtnRemv = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSpares = new javax.swing.JTable();
@@ -147,25 +153,30 @@ public class Spare2 extends javax.swing.JFrame {
             }
         });
 
-        jBtnIteTyp.setText("Item Type ");
+        jBtnItTyp.setText("Item Type ");
 
         jBtnUpd.setText("Update");
 
         jBtnAddProd.setText("Add Products");
-
-        jBtnProdCod.setText("Product Code");
-
-        jBtnProdNam.setText("Product Name");
-
-        txtProdCod.addActionListener(new java.awt.event.ActionListener() {
+        jBtnAddProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProdCodActionPerformed(evt);
+                jBtnAddProdActionPerformed(evt);
             }
         });
 
-        txtProdNam.addActionListener(new java.awt.event.ActionListener() {
+        jBtnPCod.setText("Product Code");
+
+        jBtnPNam.setText("Product Name");
+
+        txtPCod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProdNamActionPerformed(evt);
+                txtPCodActionPerformed(evt);
+            }
+        });
+
+        txtPNam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPNamActionPerformed(evt);
             }
         });
 
@@ -185,17 +196,17 @@ public class Spare2 extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jBtnAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jBtnProdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtnPNam, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtProdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPNam, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jBtnIteTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtnItTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(CombRetail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jBtnProdCod, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtnPCod, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtProdCod, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPCod, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(547, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -203,15 +214,15 @@ public class Spare2 extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnProdCod)
-                    .addComponent(txtProdCod, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBtnPCod)
+                    .addComponent(txtPCod, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtProdNam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtnProdNam))
+                    .addComponent(txtPNam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnPNam))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnIteTyp)
+                    .addComponent(jBtnItTyp)
                     .addComponent(CombRetail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(100, 100, 100)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -299,13 +310,17 @@ public class Spare2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CombRetailActionPerformed
 
-    private void txtProdCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProdCodActionPerformed
+    private void txtPCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPCodActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtProdCodActionPerformed
+    }//GEN-LAST:event_txtPCodActionPerformed
 
-    private void txtProdNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProdNamActionPerformed
+    private void txtPNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPNamActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtProdNamActionPerformed
+    }//GEN-LAST:event_txtPNamActionPerformed
+
+    private void jBtnAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddProdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnAddProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,9 +362,9 @@ public class Spare2 extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> CombRetail;
     private javax.swing.JButton jAddProduct;
     private javax.swing.JButton jBtnAddProd;
-    private javax.swing.JLabel jBtnIteTyp;
-    private javax.swing.JLabel jBtnProdCod;
-    private javax.swing.JLabel jBtnProdNam;
+    private javax.swing.JLabel jBtnItTyp;
+    private javax.swing.JLabel jBtnPCod;
+    private javax.swing.JLabel jBtnPNam;
     private javax.swing.JButton jBtnRemv;
     private javax.swing.JButton jBtnUpd;
     private javax.swing.JButton jButton1;
@@ -362,9 +377,9 @@ public class Spare2 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableSpares;
+    private javax.swing.JTextField txtPCod;
     private javax.swing.JTextField txtPCode;
+    private javax.swing.JTextField txtPNam;
     private javax.swing.JTextField txtPName1;
-    private javax.swing.JTextField txtProdCod;
-    private javax.swing.JTextField txtProdNam;
     // End of variables declaration//GEN-END:variables
 }
