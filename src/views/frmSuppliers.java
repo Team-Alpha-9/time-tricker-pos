@@ -6,10 +6,13 @@
 package views;
 
 import controllers.ConnectDB;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -26,8 +29,7 @@ public class frmSuppliers extends javax.swing.JFrame {
     public frmSuppliers() {
         initComponents();
         conn = ConnectDB.getConn();
-        
-        
+
         filltblsupplier();
     }
 
@@ -39,7 +41,7 @@ public class frmSuppliers extends javax.swing.JFrame {
             pst.setString(2, txtSupNumber.getText());
             pst.setString(3, txtMobileNumber.getText());
             pst.setString(4, txtAddress.getText());
-             pst.setString(5, "2022/6/17");
+            pst.setString(5, ((JTextField) cdJoinDate.getDateEditor().getUiComponent()).getText());
             pst.setString(6, txtEmail.getText());
             pst.setString(7, cmbStatus.getModel().getSelectedItem().toString());
 
@@ -59,11 +61,77 @@ public class frmSuppliers extends javax.swing.JFrame {
         return saveDone;
     }
 
-    
+    private int updateSupplier() {
+
+        int saveDone = 0;
+        try {
+            pst = conn.prepareStatement("UPDATE supplier SET supplier_number = ?, name = ?,  status = ?, mobile_number= ?,email = ?,address = ?,join_date = ? WHERE id = ?");
+            pst.setString(1, txtSupNumber.getText());
+            pst.setString(2, txtName.getText());
+            pst.setString(3, cmbStatus.getSelectedItem().toString());
+            pst.setString(4, txtMobileNumber.getText());
+            pst.setString(5, txtEmail.getText());
+            pst.setString(6, txtAddress.getText());
+            pst.setString(7, ((JTextField) cdJoinDate.getDateEditor().getUiComponent()).getText());
+            pst.setInt(8, supID);
+
+            saveDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private void resetAll() {
+        if (cmbStatus.getItemCount() > 0) {
+            cmbStatus.setSelectedIndex(0);
+        }
+        txtSupNumber.setText("");
+        txtName.setText("");
+        txtMobileNumber.setText("");
+        txtEmail.setText("");
+        txtAddress.setText("");
+
+        supID = 0;
+
+        filltblsupplier();
+    }
+
+    private int deleteSupplier() {
+        int deleteDone = 0;
+        try {
+            pst = conn.prepareStatement("DELETE FROM supplier WHERE id = ?");
+            pst.setInt(1, supID);
+
+            deleteDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return deleteDone;
+    }
+
     private void filltblsupplier() {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT id AS 'Id', name AS 'Name',mobile_number AS 'Mobile Number',email AS 'Email',join_date AS 'Email',status AS 'Status' FROM supplier");
+            pst = conn.prepareStatement("SELECT id AS 'Id', name AS 'Name',mobile_number AS 'Mobile Number',email AS 'Email',join_date AS 'Join Date',status AS 'Status' FROM supplier");
             rs = pst.executeQuery();
 
             //To remove previously added rows
@@ -86,17 +154,42 @@ public class frmSuppliers extends javax.swing.JFrame {
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    private void getSuppliersDataByName(int supId) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id, name, supplier_number, mobile_number, address, join_date, email, status FROM supplier WHERE id = ? ");
+            pst.setInt(1, supId);
+            rs = pst.executeQuery();
+
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            if (rs.next()) {
+                supID = rs.getInt(1);
+                txtName.setText(rs.getString(2));
+                txtSupNumber.setText(rs.getString(3));
+                txtMobileNumber.setText(rs.getString(4));
+                txtAddress.setText(rs.getString(5));
+                cdJoinDate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString(6)));
+                txtEmail.setText(rs.getString(7));
+                cmbStatus.getModel().setSelectedItem(rs.getString(8));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -116,8 +209,6 @@ public class frmSuppliers extends javax.swing.JFrame {
         txtSupNumber = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         cmbStatus = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblsupplier = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -136,6 +227,9 @@ public class frmSuppliers extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblsupplier = new javax.swing.JTable();
 
         jLabel1.setText("jLabel1");
 
@@ -158,34 +252,22 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, 136, 150));
 
         jPanel2.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
+
+        txtSupNumber.setText("sdsdfsd");
         jPanel2.add(txtSupNumber);
+
+        txtName.setText("sddd");
         jPanel2.add(txtName);
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
+        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmbStatus);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 0, 367, 150));
-
-        tblsupplier.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Name", "Supplier Number", "Mobile Number", "Address", "Join Date", "Email", "Status"
-            }
-        ));
-        tblsupplier.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                tblsupplierAncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        jScrollPane2.setViewportView(tblsupplier);
-
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1488, 383));
 
         jPanel3.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
 
@@ -198,6 +280,12 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(516, 0, 100, 150));
 
         jPanel4.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
+
+        txtMobileNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMobileNumberActionPerformed(evt);
+            }
+        });
         jPanel4.add(txtMobileNumber);
 
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
@@ -226,10 +314,14 @@ public class frmSuppliers extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtAddress);
 
         jPanel6.add(jScrollPane1);
+
+        cdJoinDate.setDateFormatString("yyyy-MM-dd");
         jPanel6.add(cdJoinDate);
 
         getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1084, 6, 258, 100));
         getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 610, -1, -1));
+
+        jPanel8.setLayout(new java.awt.GridLayout(1, 4, 5, 5));
 
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -237,6 +329,7 @@ public class frmSuppliers extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
+        jPanel8.add(btnSave);
 
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -244,46 +337,76 @@ public class frmSuppliers extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
+        jPanel8.add(btnUpdate);
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnDelete);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap(246, Short.MAX_VALUE)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(126, 126, 126)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12))
-        );
+        btnReset.setText("Resset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnReset);
 
-        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 620, 1250, 90));
+        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 600, 1260, 90));
+
+        tblsupplier.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Supplier Number", "Mobile Number", "Address", "Join Date", "Email", "Status"
+            }
+        ));
+        tblsupplier.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tblsupplierAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        tblsupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblsupplierMouseClicked(evt);
+            }
+        });
+        tblsupplier.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblsupplierKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblsupplierKeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblsupplier);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1410, 383));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        int  saveSuppliers = saveSuppliers();
-        if ( saveSuppliers> 0) {
-            //resetAll();
+        int saveSuppliers = saveSuppliers();
+        if (saveSuppliers > 0) {
+            resetAll();
             JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+  
+        
     
+
+
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
@@ -293,8 +416,104 @@ public class frmSuppliers extends javax.swing.JFrame {
     }//GEN-LAST:event_tblsupplierAncestorAdded
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        int updateSuppliers = updateSupplier();
+        if (updateSuppliers > 0) {
+
+            resetAll();
+            JOptionPane.showMessageDialog(this, "Data Update Done ", "User Update", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbStatusActionPerformed
+
+    private void txtMobileNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMobileNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMobileNumberActionPerformed
+
+    private void tblsupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblsupplierMouseClicked
+        if (tblsupplier.getModel().getRowCount() > 0) {
+            try {
+                int row = tblsupplier.getSelectedRow();
+                supID = Integer.parseInt(tblsupplier.getModel().getValueAt(row, 0).toString());
+                getSuppliersDataByName(supID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_tblsupplierMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+
+        int deleteSupplier = 0;
+        if (supID > 0) {
+
+            int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtName.getText(),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+                deleteSupplier = deleteSupplier();
+            } else if (result == JOptionPane.NO_OPTION) {
+
+            } else {
+
+            }
+
+            if (deleteSupplier > 0) {
+                resetAll();
+                JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+
+        resetAll();
+
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void tblsupplierKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblsupplierKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (tblsupplier.getModel().getRowCount() > 0) {
+                try {
+                    int row = tblsupplier.getSelectedRow();
+                    supID = Integer.parseInt(tblsupplier.getModel().getValueAt(row, 0).toString());
+                    getSuppliersDataByName(supID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_tblsupplierKeyReleased
+
+    private void tblsupplierKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblsupplierKeyPressed
+        
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            int deleteUser = 0;
+            if (supID > 0) {
+
+                int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtName.getText(),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    deleteUser = deleteSupplier();
+                } else if (result == JOptionPane.NO_OPTION) {
+
+                } else {
+
+                }
+
+                if (deleteUser > 0) {
+                    resetAll();
+                    JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tblsupplierKeyPressed
 
     /**
      * @param args the command line arguments
@@ -333,6 +552,7 @@ public class frmSuppliers extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private com.toedter.calendar.JDateChooser cdJoinDate;
@@ -363,4 +583,5 @@ public class frmSuppliers extends javax.swing.JFrame {
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtSupNumber;
     // End of variables declaration//GEN-END:variables
+
 }
