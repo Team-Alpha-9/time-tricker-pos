@@ -32,10 +32,10 @@ public class employer extends javax.swing.JFrame {
     private int saveEmployer() {
         int saveDone = 0;
         try {
-            pst = conn.prepareStatement("INSERT INTO emplyers(name,supplier_number, mobile_Number, address, Join_date, email, status ) VALUES (?,?,?,?,?,?,?)");
-            pst.setString(1, txtName.getText());
-            pst.setString(2, txtSupNumber.getText());
-            pst.setString(3, txtMobileNumber.getText());
+            pst = conn.prepareStatement("INSERT INTO emplyers(id, name,nic, address,job_rle, Join_date,  status ) VALUES (?,?,?,?,?,?,?)");
+            pst.setString(1, txtId.getText());
+            pst.setString(2, txtName.getText());
+            pst.setString(3, txtNic.getText());
             pst.setString(4, txtAddress.getText());
             pst.setString(5, ((JTextField) cdJoinDate.getDateEditor().getUiComponent()).getText());
             pst.setString(6, txtEmail.getText());
@@ -82,13 +82,13 @@ public class employer extends javax.swing.JFrame {
         textID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        txtName = new javax.swing.JTextField();
-        txtJobRoll = new javax.swing.JTextField();
-        txtJoinDate = new javax.swing.JTextField();
-        txtStatus = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         txtNic = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
+        txtJobRoll = new javax.swing.JTextField();
+        txtJoinDate = new javax.swing.JTextField();
+        cmbStatus = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jbtnSave = new javax.swing.JButton();
@@ -136,6 +136,7 @@ public class employer extends javax.swing.JFrame {
         jPanel2.add(jLabel3);
 
         jPanel3.setLayout(new java.awt.GridLayout(7, 5, 5, 5));
+        jPanel3.add(txtId);
 
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,12 +144,13 @@ public class employer extends javax.swing.JFrame {
             }
         });
         jPanel3.add(txtName);
-        jPanel3.add(txtJobRoll);
-        jPanel3.add(txtJoinDate);
-        jPanel3.add(txtStatus);
-        jPanel3.add(txtId);
         jPanel3.add(txtNic);
         jPanel3.add(txtAddress);
+        jPanel3.add(txtJobRoll);
+        jPanel3.add(txtJoinDate);
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel3.add(cmbStatus);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
@@ -241,6 +243,7 @@ public class employer extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -263,6 +266,5 @@ public class employer extends javax.swing.JFrame {
     private javax.swing.JTextField txtJoinDate;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNic;
-    private javax.swing.JTextField txtStatus;
     // End of variables declaration//GEN-END:variables
 };
