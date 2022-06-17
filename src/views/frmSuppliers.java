@@ -402,10 +402,6 @@ public class frmSuppliers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
-  
-        
-    
-
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
@@ -491,7 +487,7 @@ public class frmSuppliers extends javax.swing.JFrame {
     }//GEN-LAST:event_tblsupplierKeyReleased
 
     private void tblsupplierKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblsupplierKeyPressed
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             int deleteUser = 0;
             if (supID > 0) {
