@@ -3,6 +3,7 @@ import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 
 
@@ -27,6 +28,34 @@ public class employer extends javax.swing.JFrame {
         initComponents();
         conn = ConnectDB.getConn();
     }
+    
+    private int saveEmployer() {
+        int saveDone = 0;
+        try {
+            pst = conn.prepareStatement("INSERT INTO emplyers(name,supplier_number, mobile_Number, address, Join_date, email, status ) VALUES (?,?,?,?,?,?,?)");
+            pst.setString(1, txtName.getText());
+            pst.setString(2, txtSupNumber.getText());
+            pst.setString(3, txtMobileNumber.getText());
+            pst.setString(4, txtAddress.getText());
+            pst.setString(5, ((JTextField) cdJoinDate.getDateEditor().getUiComponent()).getText());
+            pst.setString(6, txtEmail.getText());
+            pst.setString(7, cmbStatus.getModel().getSelectedItem().toString());
+
+            saveDone = pst.executeUpdate();
+            // saveDone = Statement.RETURN_GENERATED_KEYS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //alerts.getErrorAlert(e);
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
 
     /**
      * Creates new form employ1
@@ -45,13 +74,13 @@ public class employer extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        textID = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        textID = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
         txtJobRoll = new javax.swing.JTextField();
@@ -80,11 +109,20 @@ public class employer extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(7, 1, 5, 5));
 
+        jLabel4.setText("Id");
+        jPanel2.add(jLabel4);
+
         jLabel2.setText("Name");
         jPanel2.add(jLabel2);
 
-        jLabel4.setText("Job Roll");
-        jPanel2.add(jLabel4);
+        jLabel6.setText("NIC");
+        jPanel2.add(jLabel6);
+
+        jLabel7.setText("Address");
+        jPanel2.add(jLabel7);
+
+        jLabel5.setText("Job Roll");
+        jPanel2.add(jLabel5);
 
         textID.setText("Join Date");
         textID.addActionListener(new java.awt.event.ActionListener() {
@@ -96,15 +134,6 @@ public class employer extends javax.swing.JFrame {
 
         jLabel3.setText("Status");
         jPanel2.add(jLabel3);
-
-        jLabel5.setText("Id");
-        jPanel2.add(jLabel5);
-
-        jLabel6.setText("NIC");
-        jPanel2.add(jLabel6);
-
-        jLabel7.setText("Address");
-        jPanel2.add(jLabel7);
 
         jPanel3.setLayout(new java.awt.GridLayout(7, 5, 5, 5));
 
@@ -124,6 +153,11 @@ public class employer extends javax.swing.JFrame {
         jPanel4.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
         jButton1.setText("Save");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel4.add(jButton1);
 
         jbtnSave.setText("Delete");
@@ -194,6 +228,10 @@ public class employer extends javax.swing.JFrame {
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
