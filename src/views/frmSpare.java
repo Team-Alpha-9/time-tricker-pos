@@ -8,8 +8,11 @@ import controllers.ConnectDB;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -25,7 +28,7 @@ public class frmSpare extends javax.swing.JFrame {
         initComponents();
         conn = ConnectDB.getConn();
 
-        //filltblsupplier();
+        filltblSpare();
     }
 
     private int saveSpare() {
@@ -34,7 +37,7 @@ public class frmSpare extends javax.swing.JFrame {
             pst = conn.prepareStatement("INSERT INTO product(code,name, item_type ) VALUES (?,?,?)");
             pst.setString(1, txtPcode.getText());
             pst.setString(2, txtPname.getText());
-            pst.setString(7, CmbItem.getModel().getSelectedItem().toString());
+            pst.setString(3, CmbItem.getModel().getSelectedItem().toString());
 
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
@@ -65,8 +68,36 @@ public class frmSpare extends javax.swing.JFrame {
 
         spareID = 0;
 
-        //filltblsupplier();
+        filltblSpare();
     }
+    
+    private void filltblSpare() {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT code AS 'Code', name AS 'Name',item_type AS 'Item type' FROM product");
+            rs = pst.executeQuery();
+
+            //To remove previously added rows
+            while (tblSpare.getRowCount() > 0) {
+                ((DefaultTableModel) tblSpare.getModel()).removeRow(0);
+            }
+
+            // Fill data to tblUser
+            tblSpare.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
 
     /**
      * Creates new form Spare2
@@ -102,7 +133,7 @@ public class frmSpare extends javax.swing.JFrame {
         txtPname = new javax.swing.JTextField();
         jBtnRemv = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableSpares = new javax.swing.JTable();
+        tblSpare = new javax.swing.JTable();
 
         CombOne.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Retail Items", "Spare Parts", " " }));
         CombOne.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -304,7 +335,7 @@ public class frmSpare extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTableSpares.setModel(new javax.swing.table.DefaultTableModel(
+        tblSpare.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -316,25 +347,25 @@ public class frmSpare extends javax.swing.JFrame {
                 "Product Code", "Product Name", "Item Type"
             }
         ));
-        jTableSpares.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblSpare.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableSparesMouseClicked(evt);
+                tblSpareMouseClicked(evt);
             }
         });
-        jTableSpares.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblSpare.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTableSparesKeyPressed(evt);
+                tblSpareKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTableSparesKeyReleased(evt);
+                tblSpareKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTableSparesKeyTyped(evt);
+                tblSpareKeyTyped(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableSpares);
-        if (jTableSpares.getColumnModel().getColumnCount() > 0) {
-            jTableSpares.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane1.setViewportView(tblSpare);
+        if (tblSpare.getColumnModel().getColumnCount() > 0) {
+            tblSpare.getColumnModel().getColumn(2).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -396,7 +427,7 @@ public class frmSpare extends javax.swing.JFrame {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
          int saveSpare = saveSpare();
         if (saveSpare > 0) {
-            //resetAll();
+            resetAll();
             JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
         }
         
@@ -408,21 +439,21 @@ public class frmSpare extends javax.swing.JFrame {
         resetAll();
     }//GEN-LAST:event_btnResetActionPerformed
 
-    private void jTableSparesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSparesKeyPressed
+    private void tblSpareKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblSpareKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTableSparesKeyPressed
+    }//GEN-LAST:event_tblSpareKeyPressed
 
-    private void jTableSparesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSparesKeyReleased
+    private void tblSpareKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblSpareKeyReleased
 
-    }//GEN-LAST:event_jTableSparesKeyReleased
+    }//GEN-LAST:event_tblSpareKeyReleased
 
-    private void jTableSparesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSparesKeyTyped
+    private void tblSpareKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblSpareKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTableSparesKeyTyped
+    }//GEN-LAST:event_tblSpareKeyTyped
 
-    private void jTableSparesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSparesMouseClicked
+    private void tblSpareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSpareMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTableSparesMouseClicked
+    }//GEN-LAST:event_tblSpareMouseClicked
 
     /**
      * @param args the command line arguments
@@ -479,7 +510,7 @@ public class frmSpare extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableSpares;
+    private javax.swing.JTable tblSpare;
     private javax.swing.JTextField txtPCode;
     private javax.swing.JTextField txtPName1;
     private javax.swing.JTextField txtPcode;
