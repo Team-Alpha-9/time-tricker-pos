@@ -100,6 +100,8 @@ public class frmInvoice extends javax.swing.JFrame {
 
         jLabel2.setText("Item Count:");
         jPanel4.add(jLabel2);
+
+        txtInteCount.setText("0");
         jPanel4.add(txtInteCount);
 
         jLabel6.setText("Net Amount:");
@@ -376,6 +378,7 @@ public class frmInvoice extends javax.swing.JFrame {
             itenm.add(txtAmount.getText());
 
             dtm.addRow(itenm);
+             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -386,6 +389,7 @@ public class frmInvoice extends javax.swing.JFrame {
             while (tblInvoice.getRowCount() > 0) {
                 ((DefaultTableModel) tblInvoice.getModel()).removeRow(0);
             }
+             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -396,6 +400,7 @@ public class frmInvoice extends javax.swing.JFrame {
             if (tblInvoice.getRowCount() > 0) {
                 ((DefaultTableModel) tblInvoice.getModel()).removeRow(tblInvoice.getSelectedRow());
             }
+             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -417,6 +422,20 @@ public class frmInvoice extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    
+    
+    private void increaseItemCount(){
+    
+        try {
+            
+            
+         
+                    
+        } catch (Exception e) {
+        }
+    
     }
 
     private void btnAddCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCartActionPerformed
