@@ -39,12 +39,12 @@ public class frmInvoice extends javax.swing.JFrame {
         tctCustomerName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtInteCount = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtTAmount = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtDiscount = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtNetAmount = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtDiscount = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtTAmount = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtPayAmount = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -91,23 +91,28 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel4.add(jLabel1);
 
         tctCustomerName.setToolTipText("Customer Name:");
+        tctCustomerName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tctCustomerNameActionPerformed(evt);
+            }
+        });
         jPanel4.add(tctCustomerName);
 
         jLabel2.setText("Item Count:");
         jPanel4.add(jLabel2);
         jPanel4.add(txtInteCount);
 
-        jLabel3.setText("Total Amount:");
-        jPanel4.add(jLabel3);
-        jPanel4.add(txtTAmount);
+        jLabel6.setText("Net Amount:");
+        jPanel4.add(jLabel6);
+        jPanel4.add(txtNetAmount);
 
         jLabel8.setText("Discount:");
         jPanel4.add(jLabel8);
         jPanel4.add(txtDiscount);
 
-        jLabel6.setText("Net Amount:");
-        jPanel4.add(jLabel6);
-        jPanel4.add(txtNetAmount);
+        jLabel3.setText("Total Amount:");
+        jPanel4.add(jLabel3);
+        jPanel4.add(txtTAmount);
 
         jLabel7.setText("Payable Amount:");
         jPanel4.add(jLabel7);
@@ -148,7 +153,7 @@ public class frmInvoice extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
@@ -269,9 +274,9 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 418, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -279,11 +284,13 @@ public class frmInvoice extends javax.swing.JFrame {
                                 .addGap(211, 211, 211)
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE))))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jScrollPane1)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -295,9 +302,9 @@ public class frmInvoice extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -326,14 +333,15 @@ public class frmInvoice extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(59, 59, 59)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -430,6 +438,10 @@ public class frmInvoice extends javax.swing.JFrame {
             calAmount();
         }
     }//GEN-LAST:event_txtQtyKeyReleased
+
+    private void tctCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tctCustomerNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tctCustomerNameActionPerformed
 
     /**
      * @param args the command line arguments
