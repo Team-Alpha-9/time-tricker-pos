@@ -26,34 +26,8 @@ public class frmAdminHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<<<<<<< Updated upstream
         dpHome = new javax.swing.JDesktopPane();
         jButton1 = new javax.swing.JButton();
-=======
-        jButton1 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        btnLogin = new javax.swing.JButton();
-        btnUser = new javax.swing.JButton();
-        btnSupplier = new javax.swing.JButton();
-        btnEmployer = new javax.swing.JButton();
-        btnInvoice = new javax.swing.JButton();
-        btnSpare = new javax.swing.JButton();
-
-        jButton1.setText("jButton1");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Time Triker");
-
-        jPanel1.setLayout(new java.awt.GridLayout(6, 0, 5, 5));
-
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnLogin);
->>>>>>> Stashed changes
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,7 +35,7 @@ public class frmAdminHome extends javax.swing.JFrame {
         dpHome.setLayout(dpHomeLayout);
         dpHomeLayout.setHorizontalGroup(
             dpHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 893, Short.MAX_VALUE)
         );
         dpHomeLayout.setVerticalGroup(
             dpHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,45 +49,26 @@ public class frmAdminHome extends javax.swing.JFrame {
             }
         });
 
-        btnSpare.setText("Spare parts");
-        btnSpare.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSpareActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSpare);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< Updated upstream
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(dpHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dpHome)
                 .addContainerGap())
-=======
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(726, 726, 726))
->>>>>>> Stashed changes
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-<<<<<<< Updated upstream
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dpHome)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 485, Short.MAX_VALUE)))
-=======
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
->>>>>>> Stashed changes
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 546, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -127,12 +82,6 @@ public class frmAdminHome extends javax.swing.JFrame {
         dpHome.add("Customer", customer);
         customer.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void btnSpareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpareActionPerformed
-        
-        frmSpare Spareparts = new frmSpare();
-        Spareparts.setVisible(true);
-    }//GEN-LAST:event_btnSpareActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,18 +119,7 @@ public class frmAdminHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-<<<<<<< Updated upstream
     private javax.swing.JDesktopPane dpHome;
     private javax.swing.JButton jButton1;
-=======
-    private javax.swing.JButton btnEmployer;
-    private javax.swing.JButton btnInvoice;
-    private javax.swing.JButton btnLogin;
-    private javax.swing.JButton btnSpare;
-    private javax.swing.JButton btnSupplier;
-    private javax.swing.JButton btnUser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
->>>>>>> Stashed changes
     // End of variables declaration//GEN-END:variables
 }
