@@ -445,10 +445,6 @@ public class frmInvoice extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtQtyKeyReleased
 
-<<<<<<< Updated upstream
-=======
- 
->>>>>>> Stashed changes
     private void tctCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tctCustomerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tctCustomerNameActionPerformed
@@ -456,10 +452,6 @@ public class frmInvoice extends javax.swing.JFrame {
     private void txtPNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPNameActionPerformed
-<<<<<<< Updated upstream
-=======
- 
->>>>>>> Stashed changes
 
     /**
      * @param args the command line arguments
