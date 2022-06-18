@@ -440,7 +440,7 @@ public class frmInvoice extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveAllActionPerformed
 
     private void txtQtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             calAmount();
         }
     }//GEN-LAST:event_txtQtyKeyReleased
