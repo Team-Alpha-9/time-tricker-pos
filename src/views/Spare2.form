@@ -193,7 +193,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
+              <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -232,7 +232,7 @@
                               <Component id="txtPCod" min="-2" pref="300" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="547" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="622" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
