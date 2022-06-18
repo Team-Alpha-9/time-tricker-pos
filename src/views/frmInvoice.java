@@ -1,3 +1,4 @@
+package views;
 
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
