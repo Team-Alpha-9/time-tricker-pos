@@ -4,8 +4,6 @@
  */
 package views;
 
-import javax.swing.JRootPane;
-
 /**
  *
  * @author buddh
@@ -28,111 +26,62 @@ public class frmAdminHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        btnLogin = new javax.swing.JButton();
-        btnUser = new javax.swing.JButton();
-        btnSupplier = new javax.swing.JButton();
-        btnEmployer = new javax.swing.JButton();
-        btnInvoice = new javax.swing.JButton();
+        dpHome = new javax.swing.JDesktopPane();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Time Triker");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new java.awt.GridLayout(5, 0, 5, 5));
+        javax.swing.GroupLayout dpHomeLayout = new javax.swing.GroupLayout(dpHome);
+        dpHome.setLayout(dpHomeLayout);
+        dpHomeLayout.setHorizontalGroup(
+            dpHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        dpHomeLayout.setVerticalGroup(
+            dpHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLogin);
-
-        btnUser.setText("User");
-        btnUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUserActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnUser);
-
-        btnSupplier.setText("Supplier");
-        btnSupplier.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSupplierActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSupplier);
-
-        btnEmployer.setText("Employer");
-        btnEmployer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEmployerActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEmployer);
-
-        btnInvoice.setText("Invoice");
-        btnInvoice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInvoiceActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnInvoice);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(738, 738, 738))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dpHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dpHome)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 485, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1002, 695));
-        setLocationRelativeTo(null);
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
-         
-        frmLogin frm_login = new frmLogin();
-        frm_login.setUndecorated(true);
-        frm_login.getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
-        frm_login.setVisible(true);
-        
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployerActionPerformed
-        
-        frmEmployer employer= new frmEmployer();
-        employer.setVisible(true);
-    }//GEN-LAST:event_btnEmployerActionPerformed
-
-    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        frmUser user = new frmUser();
-        user.setVisible(true);
-    }//GEN-LAST:event_btnUserActionPerformed
-
-    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
-       frmSuppliers supplier = new frmSuppliers();
-       supplier.setVisible(true);
-    }//GEN-LAST:event_btnSupplierActionPerformed
-
-    private void btnInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceActionPerformed
-        
-        frmInvoice invoice = new frmInvoice();
-        invoice.setVisible(true);
-        
-    }//GEN-LAST:event_btnInvoiceActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dpHome.removeAll();
+        pnlCustomer customer = new pnlCustomer();
+        customer.setSize(dpHome.getWidth(), dpHome.getHeight());
+        dpHome.add("Customer", customer);
+        customer.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,11 +119,7 @@ public class frmAdminHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEmployer;
-    private javax.swing.JButton btnInvoice;
-    private javax.swing.JButton btnLogin;
-    private javax.swing.JButton btnSupplier;
-    private javax.swing.JButton btnUser;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JDesktopPane dpHome;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
