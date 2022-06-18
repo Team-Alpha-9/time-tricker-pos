@@ -4,6 +4,8 @@
  */
 package kalindu.pos;
 
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Kalindu
@@ -156,6 +158,11 @@ public class Spare2 extends javax.swing.JFrame {
         jBtnItTyp.setText("Item Type ");
 
         jBtnUpd.setText("Update");
+        jBtnUpd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnUpdActionPerformed(evt);
+            }
+        });
 
         jBtnAddProd.setText("Add Products");
         jBtnAddProd.addActionListener(new java.awt.event.ActionListener() {
@@ -257,6 +264,22 @@ public class Spare2 extends javax.swing.JFrame {
                 "Product Code", "Product Name", "Item Type"
             }
         ));
+        jTableSpares.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableSparesMouseClicked(evt);
+            }
+        });
+        jTableSpares.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableSparesKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableSparesKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTableSparesKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableSpares);
         if (jTableSpares.getColumnModel().getColumnCount() > 0) {
             jTableSpares.getColumnModel().getColumn(2).setResizable(false);
@@ -322,6 +345,57 @@ public class Spare2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnAddProdActionPerformed
 
+    private void jBtnUpdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUpdActionPerformed
+  int updateProduct = jBtnUpd();
+        if (updateProduct > 0) {
+
+            resetAll();
+            JOptionPane.showMessageDialog(this, "Data Update Done ", "User Update", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /*  if (!txtPCod.getText().isEmpty()) {
+            if (!txtPNam.getText().isEmpty()) {
+                if(!CombRetail.getSelectedItem().equals("")){
+                    updateProduct();
+                } else {
+            }
+        }else{
+      }
+    }else{
+      }*/
+    }//GEN-LAST:event_jBtnUpdActionPerformed
+
+    private void jTableSparesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSparesKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableSparesKeyPressed
+
+    private void jTableSparesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSparesKeyReleased
+   
+    }//GEN-LAST:event_jTableSparesKeyReleased
+
+    private void jTableSparesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSparesKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableSparesKeyTyped
+
+    private void jTableSparesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSparesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableSparesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -382,4 +456,12 @@ public class Spare2 extends javax.swing.JFrame {
     private javax.swing.JTextField txtPNam;
     private javax.swing.JTextField txtPName1;
     // End of variables declaration//GEN-END:variables
+
+    private int jBtnUpd() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void resetAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
