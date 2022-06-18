@@ -95,6 +95,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         if (cmbStatus.getItemCount() > 0) {
             cmbStatus.setSelectedIndex(0);
         }
+                
         txtSupNumber.setText("");
         txtName.setText("");
         txtMobileNumber.setText("");

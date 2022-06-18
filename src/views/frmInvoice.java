@@ -179,9 +179,15 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel6.add(jLabel14);
 
         txtPCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPCode.setText("ddjj");
         jPanel6.add(txtPCode);
 
         txtPName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPNameActionPerformed(evt);
+            }
+        });
         jPanel6.add(txtPName);
 
         txtUnitPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -439,9 +445,15 @@ public class frmInvoice extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtQtyKeyReleased
 
+<<<<<<< Updated upstream
     private void tctCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tctCustomerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tctCustomerNameActionPerformed
+=======
+    private void txtPNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPNameActionPerformed
+>>>>>>> Stashed changes
 
     /**
      * @param args the command line arguments

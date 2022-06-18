@@ -328,12 +328,16 @@
                 <Component class="javax.swing.JTextField" name="txtPCode">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="text" type="java.lang.String" value="ddjj"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPName">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPNameActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtUnitPrice">
                   <Properties>
