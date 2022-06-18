@@ -4,6 +4,7 @@ import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -56,16 +57,15 @@ public class frmCustomers extends javax.swing.JFrame {
     private int updateCustomers() {
           int saveDone = 0;
         try {
-            pst = conn.prepareStatement("UPDATE customer SET name=?,address=?,email=?,contact=?");
+            pst = conn.prepareStatement("UPDATE customer SET name = ?, address = ? ,email = ?, contact = ? WHERE id = ?");
             pst.setString(1, txtCusName.getText());
             pst.setString(2, txtCusAddress.getText());
             pst.setString(3, txtCusEmail.getText());
             pst.setString(4, txtMobileNumber.getText());
             
-            
             saveDone = pst.executeUpdate();
             // saveDone = Statement.RETURN_GENERATED_KEYS;
-        } catch (Exception e) {
+         } catch (Exception e) {
             e.printStackTrace();
             //alerts.getErrorAlert(e);
         } finally {
@@ -100,9 +100,57 @@ public class frmCustomers extends javax.swing.JFrame {
         }
         return deleteDone;
     }
-         
-     
+    
+    // Reset Details
+    private void resetAll() {
+        {
+        
+        txtCusCode.setText("");
+        txtCusName.setText("");
+        txtMobileNumber.setText("");
+        txtCusEmail.setText("");
+        txtCusAddress.setText("");
 
+        cusID = 0;
+
+        filltblcustomers();
+     }
+    }
+    
+    // Details in the table
+    private void getCustomersDetailByName(int cusId ){
+         ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT * FROM customer WHERE id = ? ");
+            pst.setInt(1, cusId);
+            rs = pst.executeQuery();
+
+//            if (!rs.isBeforeFirst()) {
+//                userType.resetAll();
+//            }
+            if (rs.next()) {
+                cusID = rs.getInt(1);
+                //txtCusCode.setText(rs.getString(2));
+                txtCusName.setText(rs.getString(3));
+                txtCusAddress.setText(rs.getString(4));
+                txtMobileNumber.setText(rs.getString(5));
+                txtCusEmail.setText(rs.getString(5));      
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+        
+     
     // Save to table part
     private void filltblcustomers() {
         ResultSet rs = null;
@@ -157,6 +205,7 @@ public class frmCustomers extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,15 +216,20 @@ public class frmCustomers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Customer Code", "Customer Name", "Address", "Mobile Number", "Email"
+                "Customer Code", "Customer Name", "Address", "Mobile Number", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblCustomer);
@@ -249,18 +303,27 @@ public class frmCustomers extends javax.swing.JFrame {
             }
         });
 
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(436, 436, 436)
+                .addGap(171, 171, 171)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92)
+                .addGap(58, 58, 58)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89)
+                .addGap(55, 55, 55)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(577, Short.MAX_VALUE))
+                .addGap(49, 49, 49)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(343, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,17 +341,17 @@ public class frmCustomers extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(15, 15, 15)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1352, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(577, Short.MAX_VALUE)))
+                    .addContainerGap(134, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(610, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(642, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -319,8 +382,9 @@ public class frmCustomers extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -335,6 +399,25 @@ public class frmCustomers extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCusEmailActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+int deleteCustomers = 0;
+        if (cusID > 0) {
+
+            int result = JOptionPane.showConfirmDialog(rootPane, "Sure? You want to delete?", txtCusName.getText(),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+                deleteCustomers = deleteCustomers();
+            } else if (result == JOptionPane.NO_OPTION) {
+
+            } else {
+
+            }
+
+            if (deleteCustomers > 0) {
+                resetAll();
+                JOptionPane.showMessageDialog(this, "User delete done", "User Delete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -347,14 +430,32 @@ public class frmCustomers extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        int updateSuppliers = updateCustomers();
-        if (updateSuppliers > 0) {
+        int updateCustomers = updateCustomers();
+        if (updateCustomers > 0) {
 
             resetAll();
             JOptionPane.showMessageDialog(this, "Data Update Done ", "User Update", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
+   if (tblCustomer.getModel().getRowCount() > 0) {
+            try {
+                int row = tblCustomer.getSelectedRow();
+                cusID = Integer.parseInt(tblCustomer.getModel().getValueAt(row, 0).toString());
+                getCustomersDetailByName(cusID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+    }//GEN-LAST:event_tblCustomerMouseClicked
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        resetAll();
+
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,6 +494,7 @@ public class frmCustomers extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel10;
@@ -415,8 +517,6 @@ public class frmCustomers extends javax.swing.JFrame {
     private javax.swing.JTextField txtCusName;
     private javax.swing.JTextField txtMobileNumber;
     // End of variables declaration//GEN-END:variables
-
-    private void resetAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  
     }
-}
+
