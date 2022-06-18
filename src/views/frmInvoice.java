@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.event.KeyEvent;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,14 +41,14 @@ public class frmInvoice extends javax.swing.JFrame {
         txtInteCount = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtTAmount = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtDiscount = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtNetAmount = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtPayAmount = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtDiscount = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtDeuBalance = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -57,13 +58,11 @@ public class frmInvoice extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtPCode = new javax.swing.JTextField();
         txtPName = new javax.swing.JTextField();
         txtUnitPrice = new javax.swing.JTextField();
         txtQty = new javax.swing.JTextField();
-        txtLineDiscount = new javax.swing.JTextField();
         txtAmount = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         btnAddCart = new javax.swing.JButton();
@@ -73,6 +72,7 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnRemoveAll = new javax.swing.JButton();
         btnRemoveItem = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +84,7 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
 
         dcDate.setForeground(java.awt.SystemColor.text);
+        dcDate.setDateFormatString("yyyy-MM-dd");
         jPanel4.add(dcDate);
 
         jLabel1.setText("Customer Name:");
@@ -100,6 +101,10 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel4.add(jLabel3);
         jPanel4.add(txtTAmount);
 
+        jLabel8.setText("Discount:");
+        jPanel4.add(jLabel8);
+        jPanel4.add(txtDiscount);
+
         jLabel6.setText("Net Amount:");
         jPanel4.add(jLabel6);
         jPanel4.add(txtNetAmount);
@@ -108,13 +113,14 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel4.add(jLabel7);
         jPanel4.add(txtPayAmount);
 
-        jLabel8.setText("Discount:");
-        jPanel4.add(jLabel8);
-        jPanel4.add(txtDiscount);
-
-        jLabel5.setText("Due Balance:");
+        jLabel5.setText("Due / Balance:");
         jPanel4.add(jLabel5);
-        jPanel4.add(txtDeuBalance);
+
+        jLabel15.setFont(new java.awt.Font("Rockwell", 0, 18)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("0.00");
+        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(jLabel15);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
         jPanel5.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
@@ -164,9 +170,6 @@ public class frmInvoice extends javax.swing.JFrame {
         jLabel11.setText("Quantity");
         jPanel6.add(jLabel11);
 
-        jLabel12.setText("Discount");
-        jPanel6.add(jLabel12);
-
         jLabel14.setText("Amount");
         jPanel6.add(jLabel14);
 
@@ -180,10 +183,12 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel6.add(txtUnitPrice);
 
         txtQty.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtQty.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtQtyKeyReleased(evt);
+            }
+        });
         jPanel6.add(txtQty);
-
-        txtLineDiscount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel6.add(txtLineDiscount);
         jPanel6.add(txtAmount);
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 2, 10, 5));
@@ -223,6 +228,11 @@ public class frmInvoice extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblInvoice.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblInvoiceMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblInvoice);
         if (tblInvoice.getColumnModel().getColumnCount() > 0) {
             tblInvoice.getColumnModel().getColumn(0).setResizable(false);
@@ -237,11 +247,23 @@ public class frmInvoice extends javax.swing.JFrame {
 
         btnRemoveAll.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRemoveAll.setText("Remove All");
+        btnRemoveAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveAllActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnRemoveAll);
 
         btnRemoveItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRemoveItem.setText("Remove Item");
+        btnRemoveItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveItemActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnRemoveItem);
+
+        jLabel12.setText("Ave Qty");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -250,9 +272,12 @@ public class frmInvoice extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 418, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(211, 211, 211)
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
@@ -267,9 +292,11 @@ public class frmInvoice extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -318,9 +345,9 @@ public class frmInvoice extends javax.swing.JFrame {
     private void resetLine() {
         txtPCode.setText("");
         txtPName.setText("");
-        txtQty.setText("0");
         txtUnitPrice.setText("0");
-        txtLineDiscount.setText("0");
+        txtQty.setText("0");
+        txtAmount.setText("0");
     }
 
     private void addItem() {
@@ -330,9 +357,8 @@ public class frmInvoice extends javax.swing.JFrame {
             Vector<String> itenm = new Vector<>();
             itenm.add(txtPCode.getText());
             itenm.add(txtPName.getText());
-            itenm.add(txtQty.getText());
             itenm.add(txtUnitPrice.getText());
-            itenm.add(txtLineDiscount.getText());
+            itenm.add(txtQty.getText());
             itenm.add(txtAmount.getText());
 
             dtm.addRow(itenm);
@@ -351,6 +377,34 @@ public class frmInvoice extends javax.swing.JFrame {
         }
     }
 
+    private void removeItem() {
+        try {
+            if (tblInvoice.getRowCount() > 0) {
+                ((DefaultTableModel) tblInvoice.getModel()).removeRow(tblInvoice.getSelectedRow());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calAmount() {
+        try {
+            double qty = 0;
+            double unitPrice = 0;
+            double amount = 0;
+
+            qty = Double.parseDouble(txtQty.getText());
+            unitPrice = Double.parseDouble(txtUnitPrice.getText());
+
+            amount = (qty * unitPrice);
+
+            txtAmount.setText(String.valueOf(amount));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void btnAddCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCartActionPerformed
         addItem();
     }//GEN-LAST:event_btnAddCartActionPerformed
@@ -358,6 +412,24 @@ public class frmInvoice extends javax.swing.JFrame {
     private void btnLineResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLineResetActionPerformed
         resetLine();
     }//GEN-LAST:event_btnLineResetActionPerformed
+
+    private void tblInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInvoiceMouseClicked
+
+    }//GEN-LAST:event_tblInvoiceMouseClicked
+
+    private void btnRemoveItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveItemActionPerformed
+        removeItem();
+    }//GEN-LAST:event_btnRemoveItemActionPerformed
+
+    private void btnRemoveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveAllActionPerformed
+        removeAllItems();
+    }//GEN-LAST:event_btnRemoveAllActionPerformed
+
+    private void txtQtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
+            calAmount();
+        }
+    }//GEN-LAST:event_txtQtyKeyReleased
 
     /**
      * @param args the command line arguments
@@ -409,6 +481,7 @@ public class frmInvoice extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -429,10 +502,8 @@ public class frmInvoice extends javax.swing.JFrame {
     private javax.swing.JTable tblInvoice;
     private javax.swing.JTextField tctCustomerName;
     private javax.swing.JTextField txtAmount;
-    private javax.swing.JTextField txtDeuBalance;
     private javax.swing.JTextField txtDiscount;
     private javax.swing.JTextField txtInteCount;
-    private javax.swing.JTextField txtLineDiscount;
     private javax.swing.JTextField txtNetAmount;
     private javax.swing.JTextField txtPCode;
     private javax.swing.JTextField txtPName;
