@@ -95,6 +95,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         if (cmbStatus.getItemCount() > 0) {
             cmbStatus.setSelectedIndex(0);
         }
+
         txtSupNumber.setText("");
         txtName.setText("");
         txtMobileNumber.setText("");
@@ -402,7 +403,6 @@ public class frmSuppliers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
-
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
@@ -463,7 +463,6 @@ public class frmSuppliers extends javax.swing.JFrame {
             }
         }
 
-
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
@@ -522,7 +521,7 @@ public class frmSuppliers extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
