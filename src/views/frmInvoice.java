@@ -439,7 +439,7 @@ public class frmInvoice extends javax.swing.JFrame {
             itenm.add(txtUnitPrice.getText());
             itenm.add(txtQty.getText());
             itenm.add(txtAmount.getText());
-            itenm.add(lblQty.getText());
+            itenm.add(String.valueOf(stockId));
 
             dtm.addRow(itenm);
             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
@@ -661,7 +661,7 @@ public class frmInvoice extends javax.swing.JFrame {
     private void getProductDataByCode(String pCode) {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT product.name, stock.sale_price, stock.qty FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.code = ?");
+            pst = conn.prepareStatement("SELECT product.name, stock.sale_price, stock.qty, stock.id FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.code = ?");
             pst.setString(1, pCode);
             rs = pst.executeQuery();
 
@@ -669,6 +669,7 @@ public class frmInvoice extends javax.swing.JFrame {
                 txtPName.setText(rs.getString(1));
                 txtUnitPrice.setText(rs.getString(2));
                 lblQty.setText(rs.getString(3));
+                stockId = rs.getInt(4);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -686,7 +687,7 @@ public class frmInvoice extends javax.swing.JFrame {
     private void getProductDataByName(String pName) {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT product.code, stock.sale_price, stock.qty FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.name = ?");
+            pst = conn.prepareStatement("SELECT product.code, stock.sale_price, stock.qty, stock.id FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.name = ?");
             pst.setString(1, pName);
             rs = pst.executeQuery();
 
@@ -694,6 +695,7 @@ public class frmInvoice extends javax.swing.JFrame {
                 txtPCode.setText(rs.getString(1));
                 txtUnitPrice.setText(rs.getString(2));
                 lblQty.setText(rs.getString(3));
+                stockId = rs.getInt(4);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -808,20 +810,18 @@ public class frmInvoice extends javax.swing.JFrame {
         return saveDone;
     }
 
-    private int updateStock(int invoiceId) {
+    private int updateStock() {
         int saveDone = 0;
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("UPDATE stock SET qty = ? WHERE id = ?");
+            pst = conn.prepareStatement("UPDATE stock SET qty = (qty - ?) WHERE id = ?");
 
             for (int i = 0; i < tblInvoice.getRowCount(); i++) {
-                double aveQty = Double.parseDouble(lblQty.getText());
-                double saleQty = Double.parseDouble(tblInvoice.getValueAt(i, 0).toString());
-                pst.setInt(1,);
-                pst.setString(2, tblInvoice.getValueAt(i, 0).toString());
-                pst.setString(3, tblInvoice.getValueAt(i, 3).toString());
-                pst.setString(4, tblInvoice.getValueAt(i, 4).toString());
+
+                pst.setDouble(1, Double.parseDouble(tblInvoice.getValueAt(i, 3).toString()));
+                pst.setString(2, tblInvoice.getValueAt(i, 5).toString());
+
                 pst.addBatch();
             }
 
@@ -916,6 +916,20 @@ public class frmInvoice extends javax.swing.JFrame {
 
     private void txtPayAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPayAmountKeyReleased
         calBalance();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int saveInvoice = saveInvoice();
+            if (saveInvoice > 0) {
+                int saveInvoiceItems = saveInvoiceItems(saveInvoice);
+                if (saveInvoiceItems > 0) {
+                    int updateStock = updateStock();
+                    if (updateStock > 0) {
+                        resetAll();
+                        removeAllItems();
+                        JOptionPane.showMessageDialog(this, "Invoice Pay Done ", "Invoice Pay", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_txtPayAmountKeyReleased
 
     private void txtPNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPNameKeyReleased
@@ -936,9 +950,12 @@ public class frmInvoice extends javax.swing.JFrame {
         if (saveInvoice > 0) {
             int saveInvoiceItems = saveInvoiceItems(saveInvoice);
             if (saveInvoiceItems > 0) {
-                resetAll();
-                removeAllItems();
-                JOptionPane.showMessageDialog(this, "Invoice Pay Done ", "Invoice Pay", JOptionPane.INFORMATION_MESSAGE);
+                int updateStock = updateStock();
+                if (updateStock > 0) {
+                    resetAll();
+                    removeAllItems();
+                    JOptionPane.showMessageDialog(this, "Invoice Pay Done ", "Invoice Pay", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_btnPayActionPerformed
