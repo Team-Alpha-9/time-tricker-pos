@@ -680,6 +680,10 @@ public class frmInvoice extends javax.swing.JFrame {
 
     private void txtDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyReleased
         calDiscount();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtPayAmount.requestFocus(true);
+        }
+
     }//GEN-LAST:event_txtDiscountKeyReleased
 
     private void txtPayAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPayAmountKeyReleased
