@@ -143,6 +143,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtInteCountGrn">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtInteCountGrnActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
@@ -300,10 +303,14 @@
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtQtyGrnActionPerformed"/>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtQtyGrnKeyReleased"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtAmountGrn">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtAmountGrnActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -347,9 +354,9 @@
                       <Table columnCount="5" rowCount="0">
                         <Column editable="false" title="Code" type="java.lang.Integer"/>
                         <Column editable="false" title="Name" type="java.lang.String"/>
-                        <Column editable="false" title="Selling Price" type="java.lang.Double"/>
                         <Column editable="false" title="Buying Price" type="java.lang.Double"/>
                         <Column editable="false" title="Qty" type="java.lang.Integer"/>
+                        <Column editable="false" title="Amount" type="java.lang.Double"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

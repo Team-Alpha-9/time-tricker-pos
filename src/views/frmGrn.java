@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,12 +14,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ravin
  */
-public class frmGrm extends javax.swing.JFrame {
+public class frmGrn extends javax.swing.JFrame {
 
     /**
      * Creates new form frmGrm
      */
-    public frmGrm() {
+    public frmGrn() {
         initComponents();
     }
 
@@ -91,7 +92,32 @@ public class frmGrm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    
+    /*private void getProductDataByCode(String pCode) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT product.name, stock.sale_price, stock.qty FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.code = ?");
+            pst.setString(1, pCode);
+            rs = pst.executeQuery();
 
+            if (rs.next()) {
+                txtPName.setText(rs.getString(1));
+                txtUnitPrice.setText(rs.getString(2));
+                lblQty.setText(rs.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }*/
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -151,6 +177,12 @@ public class frmGrm extends javax.swing.JFrame {
 
         jLabel2.setText("Item Count:");
         jPanel4.add(jLabel2);
+
+        txtInteCountGrn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInteCountGrnActionPerformed(evt);
+            }
+        });
         jPanel4.add(txtInteCountGrn);
 
         jLabel3.setText("Sub Total");
@@ -218,12 +250,23 @@ public class frmGrm extends javax.swing.JFrame {
         jPanel6.add(txtUnitPriceGrn);
 
         txtQtyGrn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtQtyGrn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQtyGrnActionPerformed(evt);
+            }
+        });
         txtQtyGrn.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtQtyGrnKeyReleased(evt);
             }
         });
         jPanel6.add(txtQtyGrn);
+
+        txtAmountGrn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAmountGrnActionPerformed(evt);
+            }
+        });
         jPanel6.add(txtAmountGrn);
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 2, 10, 5));
@@ -243,11 +286,11 @@ public class frmGrm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Code", "Name", "Selling Price", "Buying Price", "Qty"
+                "Code", "Name", "Buying Price", "Qty", "Amount"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -373,6 +416,10 @@ public class frmGrm extends javax.swing.JFrame {
 
     private void txtQtyGrnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyGrnKeyReleased
 
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            /*getProductDataByCode(txtPCodeGrn.getText());*/
+            txtQtyGrn.requestFocus(true);
+        } 
 
     }//GEN-LAST:event_txtQtyGrnKeyReleased
 
@@ -392,6 +439,18 @@ public class frmGrm extends javax.swing.JFrame {
         removeItem();
     }//GEN-LAST:event_btnRemoveItemGrnActionPerformed
 
+    private void txtQtyGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtyGrnActionPerformed
+       calAmount();
+    }//GEN-LAST:event_txtQtyGrnActionPerformed
+
+    private void txtAmountGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountGrnActionPerformed
+        
+    }//GEN-LAST:event_txtAmountGrnActionPerformed
+
+    private void txtInteCountGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInteCountGrnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInteCountGrnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -409,20 +468,21 @@ public class frmGrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmGrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmGrn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmGrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmGrn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmGrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmGrn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmGrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmGrn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmGrm().setVisible(true);
+                new frmGrn().setVisible(true);
             }
         });
     }
