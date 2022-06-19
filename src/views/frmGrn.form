@@ -289,12 +289,12 @@
                     <Property name="text" type="java.lang.String" value="Amount"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtPCodeGrn">
+                <Component class="javax.swing.JTextField" name="txtPCode">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtPNameGrn">
+                <Component class="javax.swing.JTextField" name="txtPname">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>

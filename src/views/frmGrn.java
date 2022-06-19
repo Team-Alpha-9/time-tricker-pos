@@ -1,6 +1,10 @@
 package views;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
+import controllers.ConnectDB;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
@@ -9,20 +13,29 @@ import javax.swing.table.DefaultTableModel;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author ravin
  */
 public class frmGrn extends javax.swing.JFrame {
 
+    private PreparedStatement pst;
+    private Connection conn;
+
+    public frmGrn() {
+        initComponents();
+
+        conn = ConnectDB.getConn();
+
+        autocompletePCode();
+       
+        autocompletePName();
+
+    }
+
     /**
      * Creates new form frmGrm
      */
-    public frmGrn() {
-        initComponents();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,9 +43,9 @@ public class frmGrn extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
 
-      private void resetLine() {
-        txtPCodeGrn.setText("");
-        txtPNameGrn.setText("");
+    private void resetLine() {
+        txtPCode.setText("");
+        txtPname.setText("");
         txtUnitPriceGrn.setText("0");
         txtQtyGrn.setText("0");
         txtAmountGrn.setText("0");
@@ -43,16 +56,15 @@ public class frmGrn extends javax.swing.JFrame {
             DefaultTableModel dtm = (DefaultTableModel) TblGRN.getModel();
 
             Vector<String> itenm = new Vector<>();
-            itenm.add(txtPCodeGrn.getText());
-            itenm.add(txtPNameGrn.getText());
+            itenm.add(txtPCode.getText());
+            itenm.add(txtPname.getText());
             itenm.add(txtUnitPriceGrn.getText());
             itenm.add(txtQtyGrn.getText());
             itenm.add(txtAmountGrn.getText());
-            
+
             dtm.addRow(itenm);
             txtInteCountGrn.setText(String.valueOf(TblGRN.getRowCount()));
 
-           
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,14 +83,11 @@ public class frmGrn extends javax.swing.JFrame {
     private void removeItem() {
         try {
             if (TblGRN.getRowCount() > 0) {
-                
-                 
-                 
+
                 ((DefaultTableModel) TblGRN.getModel()).removeRow(TblGRN.getSelectedRow());
-                
+
                 txtInteCountGrn.setText(String.valueOf(TblGRN.getRowCount()));
-                
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,13 +111,13 @@ public class frmGrn extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void increasTotalAmount() {
         try {
             double subToal = Double.parseDouble(txtTSubTotalGrn.getText());
             double total = Double.parseDouble(txtAmountGrn.getText());
 
-            subToal +=total;
+            subToal += total;
 
             txtTSubTotalGrn.setText(String.valueOf(subToal));
 
@@ -116,8 +125,64 @@ public class frmGrn extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-   
+
+    private void autocompletePCode() {
+        ResultSet rs = null;
+        try {
+            TextAutoCompleter autoCompleter = new TextAutoCompleter(txtPCode);
+            if (autoCompleter.getItems() != null) {
+                autoCompleter.removeAllItems();
+            }
+
+            pst = conn.prepareStatement("SELECT code FROM product");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                autoCompleter.addItem(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void autocompletePName() {
+        ResultSet rs = null;
+        try {
+            TextAutoCompleter autoCompleter = new TextAutoCompleter(txtPname);
+            if (autoCompleter.getItems() != null) {
+                autoCompleter.removeAllItems();
+            }
+
+            pst = conn.prepareStatement("SELECT name FROM product");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                autoCompleter.addItem(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -142,8 +207,8 @@ public class frmGrn extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        txtPCodeGrn = new javax.swing.JTextField();
-        txtPNameGrn = new javax.swing.JTextField();
+        txtPCode = new javax.swing.JTextField();
+        txtPname = new javax.swing.JTextField();
         txtUnitPriceGrn = new javax.swing.JTextField();
         txtQtyGrn = new javax.swing.JTextField();
         txtAmountGrn = new javax.swing.JTextField();
@@ -246,11 +311,11 @@ public class frmGrn extends javax.swing.JFrame {
         jLabel14.setText("Amount");
         jPanel6.add(jLabel14);
 
-        txtPCodeGrn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel6.add(txtPCodeGrn);
+        txtPCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel6.add(txtPCode);
 
-        txtPNameGrn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel6.add(txtPNameGrn);
+        txtPname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel6.add(txtPname);
 
         txtUnitPriceGrn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel6.add(txtUnitPriceGrn);
@@ -422,12 +487,12 @@ public class frmGrn extends javax.swing.JFrame {
 
     private void txtQtyGrnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyGrnKeyReleased
 
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-             
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
             increasTotalAmount();
             /*getProductDataByCode(txtPCodeGrn.getText());*/
             txtQtyGrn.requestFocus(true);
-        } 
+        }
 
     }//GEN-LAST:event_txtQtyGrnKeyReleased
 
@@ -448,11 +513,11 @@ public class frmGrn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveItemGrnActionPerformed
 
     private void txtQtyGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtyGrnActionPerformed
-       calAmount();
+        calAmount();
     }//GEN-LAST:event_txtQtyGrnActionPerformed
 
     private void txtAmountGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountGrnActionPerformed
-        
+
     }//GEN-LAST:event_txtAmountGrnActionPerformed
 
     private void txtInteCountGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInteCountGrnActionPerformed
@@ -528,8 +593,8 @@ public class frmGrn extends javax.swing.JFrame {
     private javax.swing.JTextField tctSupplierName;
     private javax.swing.JTextField txtAmountGrn;
     private javax.swing.JTextField txtInteCountGrn;
-    private javax.swing.JTextField txtPCodeGrn;
-    private javax.swing.JTextField txtPNameGrn;
+    private javax.swing.JTextField txtPCode;
+    private javax.swing.JTextField txtPname;
     private javax.swing.JTextField txtQtyGrn;
     private javax.swing.JTextField txtTSubTotalGrn;
     private javax.swing.JTextField txtUnitPriceGrn;
