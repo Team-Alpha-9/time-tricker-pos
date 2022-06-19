@@ -48,8 +48,11 @@ public class frmGrn extends javax.swing.JFrame {
             itenm.add(txtUnitPriceGrn.getText());
             itenm.add(txtQtyGrn.getText());
             itenm.add(txtAmountGrn.getText());
-
+            
             dtm.addRow(itenm);
+            txtInteCountGrn.setText(String.valueOf(TblGRN.getRowCount()));
+
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,7 +71,14 @@ public class frmGrn extends javax.swing.JFrame {
     private void removeItem() {
         try {
             if (TblGRN.getRowCount() > 0) {
+                
+                 
+                 
                 ((DefaultTableModel) TblGRN.getModel()).removeRow(TblGRN.getSelectedRow());
+                
+                txtInteCountGrn.setText(String.valueOf(TblGRN.getRowCount()));
+                
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,32 +103,21 @@ public class frmGrn extends javax.swing.JFrame {
         }
     }
     
-    
-    /*private void getProductDataByCode(String pCode) {
-        ResultSet rs = null;
+    private void increasTotalAmount() {
         try {
-            pst = conn.prepareStatement("SELECT product.name, stock.sale_price, stock.qty FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.code = ?");
-            pst.setString(1, pCode);
-            rs = pst.executeQuery();
+            double subToal = Double.parseDouble(txtTSubTotalGrn.getText());
+            double total = Double.parseDouble(txtAmountGrn.getText());
 
-            if (rs.next()) {
-                txtPName.setText(rs.getString(1));
-                txtUnitPrice.setText(rs.getString(2));
-                lblQty.setText(rs.getString(3));
-            }
+            subToal +=total;
+
+            txtTSubTotalGrn.setText(String.valueOf(subToal));
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                pst.close();
-                rs.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                //alerts.getErrorAlert(e);
-            }
         }
-    }*/
-
+    }
+    
+   
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -187,6 +186,13 @@ public class frmGrn extends javax.swing.JFrame {
 
         jLabel3.setText("Sub Total");
         jPanel4.add(jLabel3);
+
+        txtTSubTotalGrn.setText("0");
+        txtTSubTotalGrn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTSubTotalGrnActionPerformed(evt);
+            }
+        });
         jPanel4.add(txtTSubTotalGrn);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
@@ -290,7 +296,7 @@ public class frmGrn extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -417,6 +423,8 @@ public class frmGrn extends javax.swing.JFrame {
     private void txtQtyGrnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyGrnKeyReleased
 
          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+             
+            increasTotalAmount();
             /*getProductDataByCode(txtPCodeGrn.getText());*/
             txtQtyGrn.requestFocus(true);
         } 
@@ -450,6 +458,10 @@ public class frmGrn extends javax.swing.JFrame {
     private void txtInteCountGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInteCountGrnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtInteCountGrnActionPerformed
+
+    private void txtTSubTotalGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTSubTotalGrnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTSubTotalGrnActionPerformed
 
     /**
      * @param args the command line arguments
