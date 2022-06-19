@@ -24,7 +24,7 @@ public class frmInvoice extends javax.swing.JFrame {
 
     private PreparedStatement pst;
     private Connection conn;
-    int cusId;
+    int cusId, stockId;
 
     /**
      * Creates new form invoices
@@ -292,14 +292,14 @@ public class frmInvoice extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Code", "Name", "Price", "Qty", "T Amount"
+                "Code", "Name", "Price", "Qty", "T Amount", "##"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -322,6 +322,7 @@ public class frmInvoice extends javax.swing.JFrame {
             tblInvoice.getColumnModel().getColumn(2).setResizable(false);
             tblInvoice.getColumnModel().getColumn(3).setResizable(false);
             tblInvoice.getColumnModel().getColumn(4).setResizable(false);
+            tblInvoice.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 2, 10, 5));
@@ -438,6 +439,7 @@ public class frmInvoice extends javax.swing.JFrame {
             itenm.add(txtUnitPrice.getText());
             itenm.add(txtQty.getText());
             itenm.add(txtAmount.getText());
+            itenm.add(lblQty.getText());
 
             dtm.addRow(itenm);
             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
@@ -757,6 +759,7 @@ public class frmInvoice extends javax.swing.JFrame {
             if (rs.next()) {
                 saveDone = rs.getInt(1);
             }
+            System.out.println("Key : " + saveDone);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -772,27 +775,28 @@ public class frmInvoice extends javax.swing.JFrame {
         return saveDone;
     }
 
-    private void saveInvoiceItems(int invoiceId) {
+    private int saveInvoiceItems(int invoiceId) {
+        int saveDone = 0;
         try {
-            int raw = 0;
+
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("INSERT INTO invoice items(invoice_number, product_code, quantity, unit_price) VALUES(?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO invoice_items(invoice_number, product_code, quantity, unit_price) VALUES(?,?,?,?)");
 
-            while (tblInvoice.getRowCount() > 0) {
+            for (int i = 0; i < tblInvoice.getRowCount(); i++) {
                 pst.setInt(1, invoiceId);
-                pst.setString(2, tblInvoice.getValueAt(raw, 0).toString());
-                pst.setString(1, tblInvoice.getValueAt(raw, 3).toString());
-                pst.setString(1, tblInvoice.getValueAt(raw, 4).toString());
+                pst.setString(2, tblInvoice.getValueAt(i, 0).toString());
+                pst.setString(3, tblInvoice.getValueAt(i, 3).toString());
+                pst.setString(4, tblInvoice.getValueAt(i, 4).toString());
                 pst.addBatch();
-
-                ++raw;
             }
 
-            pst.executeBatch();
+            int[] executeBatch = pst.executeBatch();
+            saveDone = executeBatch.length;
             conn.commit();
             conn.setAutoCommit(true);
 
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 pst.close();
@@ -801,6 +805,55 @@ public class frmInvoice extends javax.swing.JFrame {
                 //alerts.getErrorAlert(e);
             }
         }
+        return saveDone;
+    }
+
+    private int updateStock(int invoiceId) {
+        int saveDone = 0;
+        try {
+
+            conn.setAutoCommit(false);
+            pst = conn.prepareStatement("UPDATE stock SET qty = ? WHERE id = ?");
+
+            for (int i = 0; i < tblInvoice.getRowCount(); i++) {
+                double aveQty = Double.parseDouble(lblQty.getText());
+                double saleQty = Double.parseDouble(tblInvoice.getValueAt(i, 0).toString());
+                pst.setInt(1,);
+                pst.setString(2, tblInvoice.getValueAt(i, 0).toString());
+                pst.setString(3, tblInvoice.getValueAt(i, 3).toString());
+                pst.setString(4, tblInvoice.getValueAt(i, 4).toString());
+                pst.addBatch();
+            }
+
+            int[] executeBatch = pst.executeBatch();
+            saveDone = executeBatch.length;
+            conn.commit();
+            conn.setAutoCommit(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private void resetAll() {
+
+        txtCustomerName.setText("");
+        txtInteCount.setText("0");
+        txtTAmount.setText("0");
+        txtDiscount.setText("0");
+        txtNetAmount.setText("0");
+        txtPayAmount.setText("0");
+        lblDB_Value.setText("0");
+
+        cusId = 0;
     }
 
     private void btnAddCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCartActionPerformed
@@ -881,7 +934,12 @@ public class frmInvoice extends javax.swing.JFrame {
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
         int saveInvoice = saveInvoice();
         if (saveInvoice > 0) {
-            saveInvoiceItems(saveInvoice);
+            int saveInvoiceItems = saveInvoiceItems(saveInvoice);
+            if (saveInvoiceItems > 0) {
+                resetAll();
+                removeAllItems();
+                JOptionPane.showMessageDialog(this, "Invoice Pay Done ", "Invoice Pay", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnPayActionPerformed
 
