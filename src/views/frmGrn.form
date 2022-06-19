@@ -123,6 +123,9 @@
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="Customer Name:"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tctSupplierNameKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel4">
                   <Properties>
@@ -176,13 +179,16 @@
                 <Property name="verticalGap" type="int" value="5"/>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="jButton2">
+                <Component class="javax.swing.JButton" name="btnOrder">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="12" style="1"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Order"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOrderActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton1">
                   <Properties>
@@ -360,7 +366,7 @@
                       <Table columnCount="5" rowCount="0">
                         <Column editable="false" title="Code" type="java.lang.String"/>
                         <Column editable="false" title="Name" type="java.lang.String"/>
-                        <Column editable="false" title="Buying Price" type="java.lang.String"/>
+                        <Column editable="false" title="Sale Price" type="java.lang.String"/>
                         <Column editable="false" title="Qty" type="java.lang.String"/>
                         <Column editable="false" title="Amount" type="java.lang.String"/>
                       </Table>

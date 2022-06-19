@@ -6,7 +6,10 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -22,14 +25,18 @@ public class frmGrn extends javax.swing.JFrame {
     private PreparedStatement pst;
     private Connection conn;
 
+    int supId;
+    String supName;
+
     public frmGrn() {
         initComponents();
 
         conn = ConnectDB.getConn();
 
         autocompletePCode();
-       
+
         autocompletePName();
+        autocompleteSupplierName();
 
     }
 
@@ -182,6 +189,134 @@ public class frmGrn extends javax.swing.JFrame {
         }
     }
 
+    private void autocompleteSupplierName() {
+        ResultSet rs = null;
+        try {
+            TextAutoCompleter autoCompleter = new TextAutoCompleter(tctSupplierName);
+            if (autoCompleter.getItems() != null) {
+                autoCompleter.removeAllItems();
+            }
+
+            pst = conn.prepareStatement("SELECT name FROM supplier");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                autoCompleter.addItem(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private int saveGrn() {
+        int saveDone = 0;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("INSERT INTO grn(supplier_id ,date,sub_total,item_count,status,user_id  ) VALUES(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, supId);
+            pst.setString(2, ((JTextField) dcDateGrn.getDateEditor().getUiComponent()).getText());
+            pst.setString(3, txtTSubTotalGrn.getText());
+            pst.setString(4, txtInteCountGrn.getText());
+            pst.setString(5, "Active");
+            pst.setInt(6, 1);
+
+            pst.executeUpdate();
+
+            rs = pst.getGeneratedKeys();
+            if (rs.next()) {
+                saveDone = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private int saveGrnProduct(int grnId) {
+        int saveDone = 0;
+        try {
+
+            conn.setAutoCommit(false);
+            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id,quantity,sale_prce,product_code) VALUES(?,?,?,?)");
+
+            for (int i = 0; i < TblGRN.getRowCount(); i++) {
+                pst.setInt(1, grnId);
+                pst.setString(2, TblGRN.getValueAt(i, 3).toString());
+                pst.setString(3, TblGRN.getValueAt(i, 2).toString());
+                pst.setString(4, TblGRN.getValueAt(i, 0).toString());
+                pst.addBatch();
+            }
+
+            int[] executeBatch = pst.executeBatch();
+            saveDone = executeBatch.length;
+            conn.commit();
+            conn.setAutoCommit(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+    
+//    private int updateStock() {
+//        int saveDone = 0;
+//        try {
+//
+//            conn.setAutoCommit(false);
+//            pst = conn.prepareStatement("UPDATE stock SET qty = (qty + ?) WHERE id = ?");
+//
+//            for (int i = 0; i < tblInvoice.getRowCount(); i++) {
+//
+//                pst.setDouble(1, Double.parseDouble(tblInvoice.getValueAt(i, 3).toString()));
+//                pst.setString(2, tblInvoice.getValueAt(i, 5).toString());
+//
+//                pst.addBatch();
+//            }
+//
+//            int[] executeBatch = pst.executeBatch();
+//            saveDone = executeBatch.length;
+//            conn.commit();
+//            conn.setAutoCommit(true);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                pst.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                //alerts.getErrorAlert(e);
+//            }
+//        }
+//        return saveDone;
+//    }
+
+//            pst = conn.prepareStatement("INSERT INTO grn_product(id ,grn_id,quantity,,puchase_price,sale_prce,product_code ) VALUES(?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -198,7 +333,7 @@ public class frmGrn extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtTSubTotalGrn = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnOrder = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -230,6 +365,11 @@ public class frmGrn extends javax.swing.JFrame {
         jPanel4.add(jLabel1);
 
         tctSupplierName.setToolTipText("Customer Name:");
+        tctSupplierName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tctSupplierNameKeyReleased(evt);
+            }
+        });
         jPanel4.add(tctSupplierName);
 
         jLabel4.setText("Date");
@@ -263,9 +403,14 @@ public class frmGrn extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
         jPanel5.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Order");
-        jPanel5.add(jButton2);
+        btnOrder.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnOrder.setText("Order");
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnOrder);
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Reset All");
@@ -357,7 +502,7 @@ public class frmGrn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Code", "Name", "Buying Price", "Qty", "Amount"
+                "Code", "Name", "Sale Price", "Qty", "Amount"
             }
         ) {
             Class[] types = new Class [] {
@@ -528,6 +673,51 @@ public class frmGrn extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTSubTotalGrnActionPerformed
 
+    private void tctSupplierNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tctSupplierNameKeyReleased
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            getSupplierDataByName(tctSupplierName.getText());
+        }
+    }//GEN-LAST:event_tctSupplierNameKeyReleased
+
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+
+        int saveGrn = saveGrn();
+        if (saveGrn > 0) {
+            int saveGrnProduct = saveGrnProduct(saveGrn);
+            if (saveGrnProduct > 0) {
+                //resetAll();
+                JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        }
+    }//GEN-LAST:event_btnOrderActionPerformed
+
+    private void getSupplierDataByName(String supName) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id, name FROM supplier WHERE name = ?");
+            pst.setString(1, supName);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                supId = rs.getInt(1);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -567,11 +757,11 @@ public class frmGrn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TblGRN;
     private javax.swing.JButton btnAddToCart;
+    private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnRemoveAllGrn;
     private javax.swing.JButton btnRemoveItemGrn;
     private com.toedter.calendar.JDateChooser dcDateGrn;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
