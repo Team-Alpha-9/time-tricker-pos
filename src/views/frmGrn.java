@@ -283,39 +283,6 @@ public class frmGrn extends javax.swing.JFrame {
         return saveDone;
     }
 
-//    private int updateStock() {
-//        int saveDone = 0;
-//        try {
-//
-//            conn.setAutoCommit(false);
-//            pst = conn.prepareStatement("UPDATE stock SET qty = (qty + ?) WHERE id = ?");
-//
-//            for (int i = 0; i < tblInvoice.getRowCount(); i++) {
-//
-//                pst.setDouble(1, Double.parseDouble(tblInvoice.getValueAt(i, 3).toString()));
-//                pst.setString(2, tblInvoice.getValueAt(i, 5).toString());
-//
-//                pst.addBatch();
-//            }
-//
-//            int[] executeBatch = pst.executeBatch();
-//            saveDone = executeBatch.length;
-//            conn.commit();
-//            conn.setAutoCommit(true);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                pst.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                //alerts.getErrorAlert(e);
-//            }
-//        }
-//        return saveDone;
-//    }
-//            pst = conn.prepareStatement("INSERT INTO grn_product(id ,grn_id,quantity,,puchase_price,sale_prce,product_code ) VALUES(?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
