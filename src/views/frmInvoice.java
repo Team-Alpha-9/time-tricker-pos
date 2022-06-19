@@ -227,6 +227,11 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel6.add(jLabel14);
 
         txtPCode.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPCodeActionPerformed(evt);
+            }
+        });
         txtPCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPCodeKeyReleased(evt);
@@ -959,6 +964,10 @@ public class frmInvoice extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnPayActionPerformed
+
+    private void txtPCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPCodeActionPerformed
 
     /**
      * @param args the command line arguments

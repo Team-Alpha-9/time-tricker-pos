@@ -17,7 +17,7 @@ public class ConnectDB {
     private static String serverIP, port, database, username, password;
     //To Connect DB.........
 
-//    
+    
 //  public static Connection getConn() {
 //        if (conn == null) {
 //            try {

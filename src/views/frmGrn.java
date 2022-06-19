@@ -283,6 +283,47 @@ public class frmGrn extends javax.swing.JFrame {
         return saveDone;
     }
 
+    private int updateStock() {
+        int saveDone = 0;
+        try {
+
+            conn.setAutoCommit(false);
+            pst = conn.prepareStatement("UPDATE stock SET qty = (qty - ?) WHERE id = ?");
+
+            for (int i = 0; i < TblGRN.getRowCount(); i++) {
+
+                pst.setDouble(1, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
+                pst.setString(2, TblGRN.getValueAt(i, 5).toString());
+
+                pst.addBatch();
+            }
+
+            int[] executeBatch = pst.executeBatch();
+            saveDone = executeBatch.length;
+            conn.commit();
+            conn.setAutoCommit(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private void resetAll() {
+
+        tctSupplierName.setText("");
+        txtInteCountGrn.setText("");
+        txtTSubTotalGrn.setText("");
+
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -299,7 +340,7 @@ public class frmGrn extends javax.swing.JFrame {
         txtTSubTotalGrn = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         btnOrder = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -377,9 +418,14 @@ public class frmGrn extends javax.swing.JFrame {
         });
         jPanel5.add(btnOrder);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Reset All");
-        jPanel5.add(jButton1);
+        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReset.setText("Reset All");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnReset);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -422,6 +468,11 @@ public class frmGrn extends javax.swing.JFrame {
         jPanel6.add(jLabel14);
 
         txtPCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPCodeKeyReleased(evt);
+            }
+        });
         jPanel6.add(txtPCode);
 
         txtPname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -652,12 +703,27 @@ public class frmGrn extends javax.swing.JFrame {
         if (saveGrn > 0) {
             int saveGrnProduct = saveGrnProduct(saveGrn);
             if (saveGrnProduct > 0) {
+                updateStock();
                 //resetAll();
                 JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+
             }
 
         }
     }//GEN-LAST:event_btnOrderActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+
+        resetAll();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            getSupplierDataByName(txtPCode.getText());
+            txtPname.requestFocus(true);
+        }
+    }//GEN-LAST:event_txtPCodeKeyReleased
 
     private void getSupplierDataByName(String supName) {
         ResultSet rs = null;
@@ -668,6 +734,31 @@ public class frmGrn extends javax.swing.JFrame {
 
             if (rs.next()) {
                 supId = rs.getInt(1);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void getProductIdByName(String pCode) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id, name FROM product WHERE name = ?");
+            pst.setString(1, pCode);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                txtPCode.setText(rs.getString(1));
+                txtPname.setText(rs.getString(2));
 
             }
         } catch (Exception e) {
@@ -725,8 +816,8 @@ public class frmGrn extends javax.swing.JFrame {
     private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnRemoveAllGrn;
     private javax.swing.JButton btnRemoveItemGrn;
+    private javax.swing.JButton btnReset;
     private com.toedter.calendar.JDateChooser dcDateGrn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
