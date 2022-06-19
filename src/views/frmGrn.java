@@ -255,7 +255,7 @@ public class frmGrn extends javax.swing.JFrame {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id,quantity,sale_prce,product_code) VALUES(?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id, quantity, sale_price, product_code) VALUES(?,?,?,?)");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
                 pst.setInt(1, grnId);
@@ -282,7 +282,7 @@ public class frmGrn extends javax.swing.JFrame {
         }
         return saveDone;
     }
-    
+
 //    private int updateStock() {
 //        int saveDone = 0;
 //        try {
@@ -315,9 +315,7 @@ public class frmGrn extends javax.swing.JFrame {
 //        }
 //        return saveDone;
 //    }
-
 //            pst = conn.prepareStatement("INSERT INTO grn_product(id ,grn_id,quantity,,puchase_price,sale_prce,product_code ) VALUES(?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -725,7 +723,7 @@ public class frmGrn extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
