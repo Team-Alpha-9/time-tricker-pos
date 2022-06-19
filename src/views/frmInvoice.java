@@ -1,6 +1,11 @@
 package views;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
+import controllers.ConnectDB;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,11 +19,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmInvoice extends javax.swing.JFrame {
 
+    private PreparedStatement pst;
+    private Connection conn;
+
     /**
      * Creates new form invoices
      */
     public frmInvoice() {
         initComponents();
+
+        conn = ConnectDB.getConn();
+
+        autocompletePCode();
+        autocompletePName();
     }
 
     /**
@@ -39,16 +52,16 @@ public class frmInvoice extends javax.swing.JFrame {
         tctCustomerName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtInteCount = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtNetAmount = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtDiscount = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtTAmount = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtDiscount = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtNetAmount = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtPayAmount = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        lblDB = new javax.swing.JLabel();
+        lblDB_Value = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -57,11 +70,13 @@ public class frmInvoice extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtPCode = new javax.swing.JTextField();
         txtPName = new javax.swing.JTextField();
         txtUnitPrice = new javax.swing.JTextField();
+        lblQty = new javax.swing.JLabel();
         txtQty = new javax.swing.JTextField();
         txtAmount = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
@@ -72,7 +87,6 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnRemoveAll = new javax.swing.JButton();
         btnRemoveItem = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,30 +118,44 @@ public class frmInvoice extends javax.swing.JFrame {
         txtInteCount.setText("0");
         jPanel4.add(txtInteCount);
 
+        jLabel3.setText("Total Amount:");
+        jPanel4.add(jLabel3);
+
+        txtTAmount.setText("0");
+        jPanel4.add(txtTAmount);
+
+        jLabel8.setText("Discount:");
+        jPanel4.add(jLabel8);
+
+        txtDiscount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDiscountKeyReleased(evt);
+            }
+        });
+        jPanel4.add(txtDiscount);
+
         jLabel6.setText("Net Amount:");
         jPanel4.add(jLabel6);
         jPanel4.add(txtNetAmount);
 
-        jLabel8.setText("Discount:");
-        jPanel4.add(jLabel8);
-        jPanel4.add(txtDiscount);
-
-        jLabel3.setText("Total Amount:");
-        jPanel4.add(jLabel3);
-        jPanel4.add(txtTAmount);
-
         jLabel7.setText("Payable Amount:");
         jPanel4.add(jLabel7);
+
+        txtPayAmount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPayAmountKeyReleased(evt);
+            }
+        });
         jPanel4.add(txtPayAmount);
 
-        jLabel5.setText("Due / Balance:");
-        jPanel4.add(jLabel5);
+        lblDB.setText("Due / Balance:");
+        jPanel4.add(lblDB);
 
-        jLabel15.setFont(new java.awt.Font("Rockwell", 0, 18)); // NOI18N
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("0.00");
-        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel4.add(jLabel15);
+        lblDB_Value.setFont(new java.awt.Font("Rockwell", 0, 18)); // NOI18N
+        lblDB_Value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDB_Value.setText("0.00");
+        lblDB_Value.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(lblDB_Value);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
         jPanel5.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
@@ -174,17 +202,24 @@ public class frmInvoice extends javax.swing.JFrame {
         jLabel13.setText("Unit Price");
         jPanel6.add(jLabel13);
 
+        jLabel12.setText("Avelable Qty");
+        jPanel6.add(jLabel12);
+
         jLabel11.setText("Quantity");
         jPanel6.add(jLabel11);
 
         jLabel14.setText("Amount");
         jPanel6.add(jLabel14);
 
-        txtPCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPCode.setText("ddjj");
+        txtPCode.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPCodeKeyReleased(evt);
+            }
+        });
         jPanel6.add(txtPCode);
 
-        txtPName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txtPName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPNameActionPerformed(evt);
@@ -192,16 +227,23 @@ public class frmInvoice extends javax.swing.JFrame {
         });
         jPanel6.add(txtPName);
 
-        txtUnitPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtUnitPrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtUnitPrice.setText("0");
         jPanel6.add(txtUnitPrice);
 
-        txtQty.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        lblQty.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblQty.setText("0");
+        jPanel6.add(lblQty);
+
+        txtQty.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtQty.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtQtyKeyReleased(evt);
             }
         });
         jPanel6.add(txtQty);
+
+        txtAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel6.add(txtAmount);
 
         jPanel7.setLayout(new java.awt.GridLayout(1, 2, 10, 5));
@@ -230,12 +272,19 @@ public class frmInvoice extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Code", "Name", "Price", "Qty", "Discount", "T Amount"
+                "Code", "Name", "Price", "Qty", "T Amount"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -253,7 +302,6 @@ public class frmInvoice extends javax.swing.JFrame {
             tblInvoice.getColumnModel().getColumn(2).setResizable(false);
             tblInvoice.getColumnModel().getColumn(3).setResizable(false);
             tblInvoice.getColumnModel().getColumn(4).setResizable(false);
-            tblInvoice.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 2, 10, 5));
@@ -276,8 +324,6 @@ public class frmInvoice extends javax.swing.JFrame {
         });
         jPanel8.add(btnRemoveItem);
 
-        jLabel12.setText("Ave Qty");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -285,12 +331,9 @@ public class frmInvoice extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 418, Short.MAX_VALUE)
+                        .addGap(0, 795, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(211, 211, 211)
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
@@ -307,9 +350,7 @@ public class frmInvoice extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
@@ -364,6 +405,7 @@ public class frmInvoice extends javax.swing.JFrame {
         txtUnitPrice.setText("0");
         txtQty.setText("0");
         txtAmount.setText("0");
+        lblQty.setText("0");
     }
 
     private void addItem() {
@@ -378,7 +420,8 @@ public class frmInvoice extends javax.swing.JFrame {
             itenm.add(txtAmount.getText());
 
             dtm.addRow(itenm);
-             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
+            txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
+            resetLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -389,7 +432,8 @@ public class frmInvoice extends javax.swing.JFrame {
             while (tblInvoice.getRowCount() > 0) {
                 ((DefaultTableModel) tblInvoice.getModel()).removeRow(0);
             }
-             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
+            txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
+            txtTAmount.setText("0");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -398,9 +442,14 @@ public class frmInvoice extends javax.swing.JFrame {
     private void removeItem() {
         try {
             if (tblInvoice.getRowCount() > 0) {
+
+                txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
+
+                decreasTotalAmount();
+
                 ((DefaultTableModel) tblInvoice.getModel()).removeRow(tblInvoice.getSelectedRow());
             }
-             txtInteCount.setText(String.valueOf(tblInvoice.getRowCount()));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -408,9 +457,14 @@ public class frmInvoice extends javax.swing.JFrame {
 
     private void calAmount() {
         try {
+
             double qty = 0;
             double unitPrice = 0;
             double amount = 0;
+
+            if (txtQty.getText().equals("")) {
+                txtQty.setText("0");
+            }
 
             qty = Double.parseDouble(txtQty.getText());
             unitPrice = Double.parseDouble(txtUnitPrice.getText());
@@ -423,19 +477,160 @@ public class frmInvoice extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    private void increaseItemCount(){
-    
+
+    private void increasTotalAmount() {
         try {
-            
-            
-         
-                    
+            double totalAmount = Double.parseDouble(txtTAmount.getText());
+            double amount = Double.parseDouble(txtAmount.getText());
+
+            totalAmount += amount;
+
+            txtTAmount.setText(String.valueOf(totalAmount));
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
-    
+    }
+
+    private void decreasTotalAmount() {
+        try {
+            double totalAmount = Double.parseDouble(txtTAmount.getText());
+            double amount = Double.parseDouble(tblInvoice.getValueAt(tblInvoice.getSelectedRow(), 4).toString());
+
+            totalAmount -= amount;
+
+            txtTAmount.setText(String.valueOf(totalAmount));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calDiscount() {
+        try {
+
+            if (txtDiscount.getText().equals("")) {
+                txtDiscount.setText("0");
+            }
+
+            double tAmount = Double.parseDouble(txtTAmount.getText());
+            double dis = Double.parseDouble(txtDiscount.getText());
+
+            double netAmount = (tAmount - dis);
+
+            txtNetAmount.setText(String.valueOf(netAmount));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calBalance() {
+        try {
+
+            if (txtPayAmount.getText().equals("")) {
+                txtPayAmount.setText("0");
+            }
+
+            double netAmount = Double.parseDouble(txtNetAmount.getText());
+            double payAmount = Double.parseDouble(txtPayAmount.getText());
+
+            double balance = 0;
+
+            if (netAmount > payAmount) {
+                balance = (netAmount - payAmount);
+                lblDB.setText("Deu");
+                lblDB_Value.setText(String.valueOf(balance));
+            } else {
+                balance = (payAmount - netAmount);
+                lblDB.setText("Balance");
+                lblDB_Value.setText(String.valueOf(balance));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void autocompletePCode() {
+        ResultSet rs = null;
+        try {
+            TextAutoCompleter autoCompleter = new TextAutoCompleter(txtPCode);
+            if (autoCompleter.getItems() != null) {
+                autoCompleter.removeAllItems();
+            }
+
+            pst = conn.prepareStatement("SELECT code FROM product");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                autoCompleter.addItem(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void autocompletePName() {
+        ResultSet rs = null;
+        try {
+            TextAutoCompleter autoCompleter = new TextAutoCompleter(txtPName);
+            if (autoCompleter.getItems() != null) {
+                autoCompleter.removeAllItems();
+            }
+
+            pst = conn.prepareStatement("SELECT name FROM product");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                autoCompleter.addItem(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void getProductDataByCode(String pCode) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT product.name, stock.sale_price, stock.qty FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.code = ?");
+            pst.setString(1, pCode);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                txtPName.setText(rs.getString(1));
+                txtUnitPrice.setText(rs.getString(2));
+                lblQty.setText(rs.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
     }
 
     private void btnAddCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCartActionPerformed
@@ -459,8 +654,12 @@ public class frmInvoice extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveAllActionPerformed
 
     private void txtQtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyReleased
+        calAmount();
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            calAmount();
+            increasTotalAmount();
+            addItem();
+            txtDiscount.requestFocus(true);
         }
     }//GEN-LAST:event_txtQtyKeyReleased
 
@@ -471,6 +670,21 @@ public class frmInvoice extends javax.swing.JFrame {
     private void txtPNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPNameActionPerformed
+
+    private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            getProductDataByCode(txtPCode.getText());
+            txtQty.requestFocus(true);
+        }
+    }//GEN-LAST:event_txtPCodeKeyReleased
+
+    private void txtDiscountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDiscountKeyReleased
+        calDiscount();
+    }//GEN-LAST:event_txtDiscountKeyReleased
+
+    private void txtPayAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPayAmountKeyReleased
+        calBalance();
+    }//GEN-LAST:event_txtPayAmountKeyReleased
 
     /**
      * @param args the command line arguments
@@ -522,11 +736,9 @@ public class frmInvoice extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -540,6 +752,9 @@ public class frmInvoice extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDB;
+    private javax.swing.JLabel lblDB_Value;
+    private javax.swing.JLabel lblQty;
     private javax.swing.JTable tblInvoice;
     private javax.swing.JTextField tctCustomerName;
     private javax.swing.JTextField txtAmount;
