@@ -6,7 +6,10 @@ import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -21,6 +24,7 @@ public class frmInvoice extends javax.swing.JFrame {
 
     private PreparedStatement pst;
     private Connection conn;
+    int cusId;
 
     /**
      * Creates new form invoices
@@ -32,6 +36,7 @@ public class frmInvoice extends javax.swing.JFrame {
 
         autocompletePCode();
         autocompletePName();
+        autocompleteCusName();
     }
 
     /**
@@ -49,7 +54,7 @@ public class frmInvoice extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         dcDate = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
-        tctCustomerName = new javax.swing.JTextField();
+        txtCustomerName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtInteCount = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -63,8 +68,8 @@ public class frmInvoice extends javax.swing.JFrame {
         lblDB = new javax.swing.JLabel();
         lblDB_Value = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        btnPay = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -104,13 +109,18 @@ public class frmInvoice extends javax.swing.JFrame {
         jLabel1.setText("Customer Name:");
         jPanel4.add(jLabel1);
 
-        tctCustomerName.setToolTipText("Customer Name:");
-        tctCustomerName.addActionListener(new java.awt.event.ActionListener() {
+        txtCustomerName.setToolTipText("Customer Name:");
+        txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tctCustomerNameActionPerformed(evt);
+                txtCustomerNameActionPerformed(evt);
             }
         });
-        jPanel4.add(tctCustomerName);
+        txtCustomerName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCustomerNameKeyReleased(evt);
+            }
+        });
+        jPanel4.add(txtCustomerName);
 
         jLabel2.setText("Item Count:");
         jPanel4.add(jLabel2);
@@ -160,13 +170,18 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(190, 50));
         jPanel5.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Reset");
-        jPanel5.add(jButton2);
+        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReset.setText("Reset");
+        jPanel5.add(btnReset);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Pay");
-        jPanel5.add(jButton1);
+        btnPay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPay.setText("Pay");
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnPay);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -223,6 +238,11 @@ public class frmInvoice extends javax.swing.JFrame {
         txtPName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPNameActionPerformed(evt);
+            }
+        });
+        txtPName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPNameKeyReleased(evt);
             }
         });
         jPanel6.add(txtPName);
@@ -608,6 +628,34 @@ public class frmInvoice extends javax.swing.JFrame {
         }
     }
 
+    private void autocompleteCusName() {
+        ResultSet rs = null;
+        try {
+            TextAutoCompleter autoCompleter = new TextAutoCompleter(txtCustomerName);
+            if (autoCompleter.getItems() != null) {
+                autoCompleter.removeAllItems();
+            }
+
+            pst = conn.prepareStatement("SELECT name FROM customer");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                autoCompleter.addItem(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
     private void getProductDataByCode(String pCode) {
         ResultSet rs = null;
         try {
@@ -626,6 +674,128 @@ public class frmInvoice extends javax.swing.JFrame {
             try {
                 pst.close();
                 rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void getProductDataByName(String pName) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT product.code, stock.sale_price, stock.qty FROM product INNER JOIN stock ON product.code = stock.product_code  WHERE product.name = ?");
+            pst.setString(1, pName);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                txtPCode.setText(rs.getString(1));
+                txtUnitPrice.setText(rs.getString(2));
+                lblQty.setText(rs.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private void getCustomerDataByName(String cusName) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id, name FROM customer WHERE name = ?");
+            pst.setString(1, cusName);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cusId = rs.getInt(1);
+                txtCustomerName.setText(rs.getString(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private int saveInvoice() {
+        int saveDone = 0;
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("INSERT INTO invoice(customer_id, invoice_date, item_count, total_amount, status, user_id) VALUES(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, cusId);
+            pst.setString(2, ((JTextField) dcDate.getDateEditor().getUiComponent()).getText());
+            pst.setString(3, txtInteCount.getText());
+            pst.setString(4, txtTAmount.getText());
+
+            String status = "";
+
+            if (lblDB.getText().equals("Deu")) {
+                status = "Credit";
+            } else {
+                status = "Payed";
+            }
+
+            pst.setString(5, status);
+            pst.setInt(6, 1);
+
+            pst.executeUpdate();
+
+            rs = pst.getGeneratedKeys();
+            if (rs.next()) {
+                saveDone = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private void saveInvoiceItems(int invoiceId) {
+        try {
+            int raw = 0;
+            conn.setAutoCommit(false);
+            pst = conn.prepareStatement("INSERT INTO invoice items(invoice_number, product_code, quantity, unit_price) VALUES(?,?,?,?)");
+
+            while (tblInvoice.getRowCount() > 0) {
+                pst.setInt(1, invoiceId);
+                pst.setString(2, tblInvoice.getValueAt(raw, 0).toString());
+                pst.setString(1, tblInvoice.getValueAt(raw, 3).toString());
+                pst.setString(1, tblInvoice.getValueAt(raw, 4).toString());
+                pst.addBatch();
+
+                ++raw;
+            }
+
+            pst.executeBatch();
+            conn.commit();
+            conn.setAutoCommit(true);
+
+        } catch (Exception e) {
+        } finally {
+            try {
+                pst.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 //alerts.getErrorAlert(e);
@@ -654,6 +824,11 @@ public class frmInvoice extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveAllActionPerformed
 
     private void txtQtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyReleased
+        if (lblQty.getText().equals(txtQty.getText()) || Double.parseDouble(lblQty.getText()) < Double.parseDouble(txtQty.getText())) {
+            JOptionPane.showMessageDialog(this, "Qty is not enoghud", "Product Stock", JOptionPane.INFORMATION_MESSAGE);
+            txtQty.setText(lblQty.getText());
+        }
+
         calAmount();
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -663,9 +838,9 @@ public class frmInvoice extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtQtyKeyReleased
 
-    private void tctCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tctCustomerNameActionPerformed
+    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tctCustomerNameActionPerformed
+    }//GEN-LAST:event_txtCustomerNameActionPerformed
 
     private void txtPNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPNameActionPerformed
         // TODO add your handling code here:
@@ -689,6 +864,26 @@ public class frmInvoice extends javax.swing.JFrame {
     private void txtPayAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPayAmountKeyReleased
         calBalance();
     }//GEN-LAST:event_txtPayAmountKeyReleased
+
+    private void txtPNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPNameKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            getProductDataByName(txtPName.getText());
+            txtQty.requestFocus(true);
+        }
+    }//GEN-LAST:event_txtPNameKeyReleased
+
+    private void txtCustomerNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerNameKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            getCustomerDataByName(txtCustomerName.getText());
+        }
+    }//GEN-LAST:event_txtCustomerNameKeyReleased
+
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+        int saveInvoice = saveInvoice();
+        if (saveInvoice > 0) {
+            saveInvoiceItems(saveInvoice);
+        }
+    }//GEN-LAST:event_btnPayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -729,11 +924,11 @@ public class frmInvoice extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCart;
     private javax.swing.JButton btnLineReset;
+    private javax.swing.JButton btnPay;
     private javax.swing.JButton btnRemoveAll;
     private javax.swing.JButton btnRemoveItem;
+    private javax.swing.JButton btnReset;
     private com.toedter.calendar.JDateChooser dcDate;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -760,8 +955,8 @@ public class frmInvoice extends javax.swing.JFrame {
     private javax.swing.JLabel lblDB_Value;
     private javax.swing.JLabel lblQty;
     private javax.swing.JTable tblInvoice;
-    private javax.swing.JTextField tctCustomerName;
     private javax.swing.JTextField txtAmount;
+    private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtDiscount;
     private javax.swing.JTextField txtInteCount;
     private javax.swing.JTextField txtNetAmount;
