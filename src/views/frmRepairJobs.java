@@ -349,6 +349,11 @@ public class frmRepairJobs extends javax.swing.JFrame {
         jPanel6.add(btnReset);
 
         btnFinish.setText("Job FInish");
+        btnFinish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinishActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -908,6 +913,10 @@ public class frmRepairJobs extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
+new frmFinishJobMenu().setVisible(true);
+    }//GEN-LAST:event_btnFinishActionPerformed
 
     /**
      * @param args the command line arguments
