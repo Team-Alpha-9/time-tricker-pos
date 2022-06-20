@@ -10,6 +10,7 @@ package models;
  */
 public class LoggingSession {
 
+    private static int userId = 1;
     private static String userName = "admin";
     private static String userType = "Admin";
 
@@ -39,5 +40,19 @@ public class LoggingSession {
      */
     public static void setUserType(String aUserType) {
         userType = aUserType;
+    }
+
+    /**
+     * @return the userId
+     */
+    public static int getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param aUserId the userId to set
+     */
+    public static void setUserId(int aUserId) {
+        userId = aUserId;
     }
 }
