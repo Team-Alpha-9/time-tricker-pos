@@ -51,10 +51,10 @@ public class frmInvoice extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        dcDate = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         txtCustomerName = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        dcDate = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         txtInteCount = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -99,13 +99,6 @@ public class frmInvoice extends javax.swing.JFrame {
 
         jPanel4.setLayout(new java.awt.GridLayout(16, 1, 5, 5));
 
-        jLabel4.setText("Date");
-        jPanel4.add(jLabel4);
-
-        dcDate.setForeground(java.awt.SystemColor.text);
-        dcDate.setDateFormatString("yyyy-MM-dd");
-        jPanel4.add(dcDate);
-
         jLabel1.setText("Customer Name:");
         jPanel4.add(jLabel1);
 
@@ -121,6 +114,13 @@ public class frmInvoice extends javax.swing.JFrame {
             }
         });
         jPanel4.add(txtCustomerName);
+
+        jLabel4.setText("Date");
+        jPanel4.add(jLabel4);
+
+        dcDate.setForeground(java.awt.SystemColor.text);
+        dcDate.setDateFormatString("yyyy-MM-dd");
+        jPanel4.add(dcDate);
 
         jLabel2.setText("Item Count:");
         jPanel4.add(jLabel2);
@@ -206,7 +206,7 @@ public class frmInvoice extends javax.swing.JFrame {
 
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
-        jPanel6.setLayout(new java.awt.GridLayout(2, 5, 22, 5));
+        jPanel6.setLayout(new java.awt.GridLayout(2, 5, 20, 5));
 
         jLabel9.setText("Product Code");
         jPanel6.add(jLabel9);
@@ -859,10 +859,14 @@ public class frmInvoice extends javax.swing.JFrame {
         lblDB_Value.setText("0");
 
         cusId = 0;
+        removeAllItems();
     }
 
     private void btnAddCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCartActionPerformed
+        increasTotalAmount();
         addItem();
+        txtDiscount.requestFocus(true);
+
     }//GEN-LAST:event_btnAddCartActionPerformed
 
     private void btnLineResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLineResetActionPerformed
@@ -947,6 +951,7 @@ public class frmInvoice extends javax.swing.JFrame {
     private void txtCustomerNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerNameKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             getCustomerDataByName(txtCustomerName.getText());
+            txtPCode.requestFocus(true);
         }
     }//GEN-LAST:event_txtCustomerNameKeyReleased
 

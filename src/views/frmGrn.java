@@ -288,7 +288,7 @@ public class frmGrn extends javax.swing.JFrame {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("UPDATE stock SET qty = (qty - ?) WHERE id = ?");
+            pst = conn.prepareStatement("UPDATE stock SET qty = (qty + ?) WHERE code = ?");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
 
@@ -718,7 +718,7 @@ public class frmGrn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             getSupplierDataByName(txtPCode.getText());
             txtPname.requestFocus(true);
