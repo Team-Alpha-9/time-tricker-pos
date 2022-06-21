@@ -34,6 +34,9 @@
                   </Group>
                   <Component id="btnRepair" alignment="0" pref="120" max="32767" attributes="0"/>
                   <Component id="btnCustomer" alignment="0" pref="120" max="32767" attributes="0"/>
+                  <Component id="btnSupplier" alignment="1" pref="120" max="32767" attributes="0"/>
+                  <Component id="btnEmployee" alignment="0" pref="120" max="32767" attributes="0"/>
+                  <Component id="btnUser" alignment="1" pref="120" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="dpHome" max="32767" attributes="0"/>
@@ -55,7 +58,13 @@
                       <Component id="btnRepair" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnCustomer" min="-2" pref="46" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="614" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnSupplier" min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnEmployee" min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnUser" min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="440" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -109,6 +118,30 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCustomerActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSupplier">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Supplier"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSupplierActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEmployee">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Employee"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEmployeeActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnUser">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="User"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUserActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

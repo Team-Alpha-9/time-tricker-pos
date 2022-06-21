@@ -31,6 +31,9 @@ public class frmAdminHome extends javax.swing.JFrame {
         btnGrn = new javax.swing.JButton();
         btnRepair = new javax.swing.JButton();
         btnCustomer = new javax.swing.JButton();
+        btnSupplier = new javax.swing.JButton();
+        btnEmployee = new javax.swing.JButton();
+        btnUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,6 +76,27 @@ public class frmAdminHome extends javax.swing.JFrame {
             }
         });
 
+        btnSupplier.setText("Supplier");
+        btnSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupplierActionPerformed(evt);
+            }
+        });
+
+        btnEmployee.setText("Employee");
+        btnEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmployeeActionPerformed(evt);
+            }
+        });
+
+        btnUser.setText("User");
+        btnUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,7 +108,10 @@ public class frmAdminHome extends javax.swing.JFrame {
                         .addComponent(btnGrn, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                         .addComponent(btnInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnRepair, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(btnCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(btnCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnSupplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dpHome)
                 .addContainerGap())
@@ -103,7 +130,13 @@ public class frmAdminHome extends javax.swing.JFrame {
                         .addComponent(btnRepair, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 614, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 440, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -138,6 +171,18 @@ public class frmAdminHome extends javax.swing.JFrame {
     private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerActionPerformed
         new frmCustomers().setVisible(true);
     }//GEN-LAST:event_btnCustomerActionPerformed
+
+    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
+        new frmSuppliers().setVisible(true);
+    }//GEN-LAST:event_btnSupplierActionPerformed
+
+    private void btnEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEmployeeActionPerformed
+
+    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,9 +221,12 @@ public class frmAdminHome extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCustomer;
+    private javax.swing.JButton btnEmployee;
     private javax.swing.JButton btnGrn;
     private javax.swing.JButton btnInvoice;
     private javax.swing.JButton btnRepair;
+    private javax.swing.JButton btnSupplier;
+    private javax.swing.JButton btnUser;
     private javax.swing.JDesktopPane dpHome;
     // End of variables declaration//GEN-END:variables
 }
