@@ -265,8 +265,6 @@ public class frmLogin extends javax.swing.JFrame {
                 username = rs.getString("user_name");
                 pin = rs.getString("password");
                 usertype = rs.getString("user_type");
-                System.out.println(userName);
-                System.out.println(pin);
 
             }
         } catch (Exception e) {
