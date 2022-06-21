@@ -15,6 +15,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import models.LoggingSession;
 
 /**
  *
@@ -25,7 +26,7 @@ public class pnlGrn extends javax.swing.JPanel {
     private PreparedStatement pst;
     private Connection conn;
 
-    int supId;
+    int supId, stockId;
     String supName;
 
     /**
@@ -103,7 +104,7 @@ public class pnlGrn extends javax.swing.JPanel {
         jLabel14.setText("Amount");
         jPanel6.add(jLabel14);
 
-        txtPCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtPCode.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txtPCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPCodeKeyReleased(evt);
@@ -111,18 +112,18 @@ public class pnlGrn extends javax.swing.JPanel {
         });
         jPanel6.add(txtPCode);
 
-        txtPname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel6.add(txtPname);
-
-        txtUnitPriceGrn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel6.add(txtUnitPriceGrn);
-
-        txtQtyGrn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtQtyGrn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQtyGrnActionPerformed(evt);
+        txtPname.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtPname.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPnameKeyReleased(evt);
             }
         });
+        jPanel6.add(txtPname);
+
+        txtUnitPriceGrn.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel6.add(txtUnitPriceGrn);
+
+        txtQtyGrn.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtQtyGrn.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtQtyGrnKeyReleased(evt);
@@ -130,6 +131,7 @@ public class pnlGrn extends javax.swing.JPanel {
         });
         jPanel6.add(txtQtyGrn);
 
+        txtAmountGrn.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtAmountGrn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAmountGrnActionPerformed(evt);
@@ -154,14 +156,14 @@ public class pnlGrn extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Code", "Name", "Sale Price", "Qty", "Amount"
+                "Code", "Name", "Sale Price", "Qty", "Amount", "##"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -172,12 +174,20 @@ public class pnlGrn extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        TblGRN.getTableHeader().setReorderingAllowed(false);
         TblGRN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblGRNMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TblGRN);
+        if (TblGRN.getColumnModel().getColumnCount() > 0) {
+            TblGRN.getColumnModel().getColumn(0).setResizable(false);
+            TblGRN.getColumnModel().getColumn(1).setResizable(false);
+            TblGRN.getColumnModel().getColumn(2).setResizable(false);
+            TblGRN.getColumnModel().getColumn(3).setResizable(false);
+            TblGRN.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jPanel8.setLayout(new java.awt.GridLayout(1, 2, 10, 5));
 
@@ -353,6 +363,7 @@ public class pnlGrn extends javax.swing.JPanel {
         txtUnitPriceGrn.setText("0");
         txtQtyGrn.setText("0");
         txtAmountGrn.setText("0");
+        txtPCode.requestFocus(true);
     }
 
     private void addItem() {
@@ -365,9 +376,11 @@ public class pnlGrn extends javax.swing.JPanel {
             itenm.add(txtUnitPriceGrn.getText());
             itenm.add(txtQtyGrn.getText());
             itenm.add(txtAmountGrn.getText());
+            itenm.add(String.valueOf(stockId));
 
             dtm.addRow(itenm);
             txtInteCountGrn.setText(String.valueOf(TblGRN.getRowCount()));
+            resetLine();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -403,6 +416,10 @@ public class pnlGrn extends javax.swing.JPanel {
             double qty = 0;
             double unitPrice = 0;
             double amount = 0;
+
+            if (txtQtyGrn.getText().equals("")) {
+                txtQtyGrn.setText("0");
+            }
 
             qty = Double.parseDouble(txtQtyGrn.getText());
             unitPrice = Double.parseDouble(txtUnitPriceGrn.getText());
@@ -518,13 +535,13 @@ public class pnlGrn extends javax.swing.JPanel {
         int saveDone = 0;
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("INSERT INTO grn(supplier_id ,date,sub_total,item_count,status,user_id  ) VALUES(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pst = conn.prepareStatement("INSERT INTO grn(supplier_id, date, sub_total, item_count, status, user_id) VALUES(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, supId);
             pst.setString(2, ((JTextField) dcDateGrn.getDateEditor().getUiComponent()).getText());
             pst.setString(3, txtTSubTotalGrn.getText());
             pst.setString(4, txtInteCountGrn.getText());
-            pst.setString(5, "Active");
-            pst.setInt(6, 1);
+            pst.setString(5, "Receive");
+            pst.setInt(6, LoggingSession.getUserId());
 
             pst.executeUpdate();
 
@@ -552,14 +569,51 @@ public class pnlGrn extends javax.swing.JPanel {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id, quantity, sale_price, product_code) VALUES(?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id, product_code, quantity, sale_price) VALUES(?,?,?,?)");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
                 pst.setInt(1, grnId);
-                pst.setString(2, TblGRN.getValueAt(i, 3).toString());
-                pst.setString(3, TblGRN.getValueAt(i, 2).toString());
-                pst.setString(4, TblGRN.getValueAt(i, 0).toString());
+                pst.setString(2, TblGRN.getValueAt(i, 0).toString());
+                pst.setInt(3, Integer.parseInt(TblGRN.getValueAt(i, 3).toString()));
+                pst.setDouble(4, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
                 pst.addBatch();
+            }
+
+            int[] executeBatch = pst.executeBatch();
+            saveDone = executeBatch.length;
+            conn.commit();
+            conn.setAutoCommit(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+        return saveDone;
+    }
+
+    private int addStock() {
+        int saveDone = 0;
+        try {
+
+            conn.setAutoCommit(false);
+            pst = conn.prepareStatement("INSERT INTO stock(product_code, qty, purchase_price, sale_price) VALUES(?,?,?,?)");
+
+            for (int i = 0; i < TblGRN.getRowCount(); i++) {
+
+                if (!checkAlreadyProduct(TblGRN.getValueAt(i, 0).toString())) {
+                    pst.setString(1, TblGRN.getValueAt(i, 0).toString());
+                    pst.setDouble(2, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
+                    pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setDouble(4, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+
+                    pst.addBatch();
+                }
             }
 
             int[] executeBatch = pst.executeBatch();
@@ -585,14 +639,18 @@ public class pnlGrn extends javax.swing.JPanel {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("UPDATE stock SET qty = (qty + ?) WHERE code = ?");
+            pst = conn.prepareStatement("UPDATE stock SET qty = (qty + ?), purchase_price = ?, sale_price = ?   WHERE product_code = ?");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
 
-                pst.setDouble(1, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
-                pst.setString(2, TblGRN.getValueAt(i, 5).toString());
+                if (checkAlreadyProduct(TblGRN.getValueAt(i, 0).toString())) {
+                    pst.setDouble(1, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
+                    pst.setDouble(2, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setString(4, TblGRN.getValueAt(i, 0).toString());
 
-                pst.addBatch();
+                    pst.addBatch();
+                }
             }
 
             int[] executeBatch = pst.executeBatch();
@@ -614,11 +672,10 @@ public class pnlGrn extends javax.swing.JPanel {
     }
 
     private void resetAll() {
-
         tctSupplierName.setText("");
         txtInteCountGrn.setText("");
         txtTSubTotalGrn.setText("");
-
+        removeAllItems();
     }
 
     private void getSupplierDataByName(String supName) {
@@ -645,17 +702,15 @@ public class pnlGrn extends javax.swing.JPanel {
         }
     }
 
-    private void getProductIdByName(String pCode) {
+    private void getProductIdByCode(String pCode) {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT id, name FROM product WHERE name = ?");
+            pst = conn.prepareStatement("SELECT name FROM product WHERE code = ?");
             pst.setString(1, pCode);
             rs = pst.executeQuery();
 
             if (rs.next()) {
-                txtPCode.setText(rs.getString(1));
-                txtPname.setText(rs.getString(2));
-
+                txtPname.setText(rs.getString(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -670,25 +725,73 @@ public class pnlGrn extends javax.swing.JPanel {
         }
     }
 
-    private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
+    private void getProductIdByName(String pName) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT name FROM product WHERE name = ?");
+            pst.setString(1, pName);
+            rs = pst.executeQuery();
 
+            if (rs.next()) {
+                txtPCode.setText(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
+    private boolean checkAlreadyProduct(String code) {
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        boolean already = false;
+        try {
+            pst = conn.prepareStatement("SELECT id FROM stock WHERE product_code = ?");
+            pst.setString(1, code);
+            rs = pst.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                already = false;
+            }
+            if (rs.next()) {
+                already = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return already;
+    }
+
+    private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            getSupplierDataByName(txtPCode.getText());
-            txtPname.requestFocus(true);
+            getProductIdByCode(txtPCode.getText());
+            txtUnitPriceGrn.requestFocus(true);
         }
     }//GEN-LAST:event_txtPCodeKeyReleased
 
-    private void txtQtyGrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtyGrnActionPerformed
-        calAmount();
-    }//GEN-LAST:event_txtQtyGrnActionPerformed
-
     private void txtQtyGrnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyGrnKeyReleased
-
+        calAmount();
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
             increasTotalAmount();
             /*getProductDataByCode(txtPCodeGrn.getText());*/
+            addItem();
             txtQtyGrn.requestFocus(true);
+
         }
     }//GEN-LAST:event_txtQtyGrnKeyReleased
 
@@ -715,8 +818,8 @@ public class pnlGrn extends javax.swing.JPanel {
     private void tctSupplierNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tctSupplierNameKeyReleased
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
             getSupplierDataByName(tctSupplierName.getText());
+            txtPCode.requestFocus(true);
         }
     }//GEN-LAST:event_tctSupplierNameKeyReleased
 
@@ -734,8 +837,9 @@ public class pnlGrn extends javax.swing.JPanel {
         if (saveGrn > 0) {
             int saveGrnProduct = saveGrnProduct(saveGrn);
             if (saveGrnProduct > 0) {
+                addStock();
                 updateStock();
-                //resetAll();
+                resetAll();
                 JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
 
             }
@@ -747,6 +851,13 @@ public class pnlGrn extends javax.swing.JPanel {
 
         resetAll();
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void txtPnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPnameKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            getProductIdByName(txtPname.getText());
+            txtUnitPriceGrn.requestFocus(true);
+        }
+    }//GEN-LAST:event_txtPnameKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TblGRN;
