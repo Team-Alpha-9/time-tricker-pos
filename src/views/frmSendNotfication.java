@@ -138,12 +138,12 @@ public class frmSendNotfication extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void btnSENDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSENDMouseClicked
- JOptionPane.showMessageDialog(this, "Email Sent Successfully", "Email Sent", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Email Sent Successfully", "Email Sent", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnSENDMouseClicked
 
     private void btnSENDMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSENDMouseReleased
-          new frmRepairJobs().setVisible(true);
-    
+        //new frmRepairJobs().setVisible(true);
+
     }//GEN-LAST:event_btnSENDMouseReleased
 
     /**
@@ -153,7 +153,7 @@ public class frmSendNotfication extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
