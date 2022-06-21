@@ -121,6 +121,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="tctSupplierName">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="shehan"/>
                     <Property name="toolTipText" type="java.lang.String" value="Customer Name:"/>
                   </Properties>
                   <Events>
