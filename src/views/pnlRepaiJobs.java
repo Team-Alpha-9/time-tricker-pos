@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package views;
 
@@ -20,18 +20,18 @@ import net.proteanit.sql.DbUtils;
 
 /**
  *
- * @author MSI
+ * @author buddh
  */
-public class frmRepairJobs extends javax.swing.JFrame {
+public class pnlRepaiJobs extends javax.swing.JPanel {
 
     private PreparedStatement pst;
     private Connection conn;
     int cusId, stockId;
 
     /**
-     * Creates new form frmRepairJobs
+     * Creates new form pnlRepaiJobs
      */
-    public frmRepairJobs() {
+    public pnlRepaiJobs() {
         initComponents();
 
         conn = ConnectDB.getConn();
@@ -52,25 +52,6 @@ public class frmRepairJobs extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        txtCusName = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        dcStart = new com.toedter.calendar.JDateChooser();
-        jLabel5 = new javax.swing.JLabel();
-        tpStart = new com.github.lgooddatepicker.components.TimePicker();
-        jLabel2 = new javax.swing.JLabel();
-        dcEnd = new com.toedter.calendar.JDateChooser();
-        jLabel6 = new javax.swing.JLabel();
-        tpEnd = new com.github.lgooddatepicker.components.TimePicker();
-        jLabel7 = new javax.swing.JLabel();
-        txtJobCost = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtItemCost = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtTotalCost = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        cmbStatus = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblJobs = new javax.swing.JTable();
@@ -95,78 +76,32 @@ public class frmRepairJobs extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnRemoveAll = new javax.swing.JButton();
         btnRemoveItem = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        btnFinish = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
-        btnFinish = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtCusName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        dcStart = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        tpStart = new com.github.lgooddatepicker.components.TimePicker();
+        jLabel2 = new javax.swing.JLabel();
+        dcEnd = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        tpEnd = new com.github.lgooddatepicker.components.TimePicker();
+        jLabel7 = new javax.swing.JLabel();
+        txtJobCost = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtItemCost = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtTotalCost = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        cmbStatus = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel5.setLayout(new java.awt.GridLayout(18, 1, 5, 5));
-
-        jLabel4.setText("Customer Name");
-        jPanel5.add(jLabel4);
-
-        txtCusName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtCusNameKeyReleased(evt);
-            }
-        });
-        jPanel5.add(txtCusName);
-
-        jLabel1.setText("Start Date");
-        jPanel5.add(jLabel1);
-
-        dcStart.setDateFormatString("yyyy-MM-dd");
-        jPanel5.add(dcStart);
-
-        jLabel5.setText("Start Time");
-        jPanel5.add(jLabel5);
-        jPanel5.add(tpStart);
-
-        jLabel2.setText("End Date");
-        jPanel5.add(jLabel2);
-
-        dcEnd.setDateFormatString("yyyy-MM-dd");
-        jPanel5.add(dcEnd);
-
-        jLabel6.setText("End Time");
-        jPanel5.add(jLabel6);
-        jPanel5.add(tpEnd);
-
-        jLabel7.setText("Job Cost");
-        jPanel5.add(jLabel7);
-
-        txtJobCost.setText("0");
-        txtJobCost.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtJobCostKeyReleased(evt);
-            }
-        });
-        jPanel5.add(txtJobCost);
-
-        jLabel9.setText("Item Cost");
-        jPanel5.add(jLabel9);
-
-        txtItemCost.setText("0");
-        txtItemCost.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtItemCostActionPerformed(evt);
-            }
-        });
-        jPanel5.add(txtItemCost);
-
-        jLabel8.setText("Total Cost");
-        jPanel5.add(jLabel8);
-
-        txtTotalCost.setText("0");
-        jPanel5.add(txtTotalCost);
-
-        jLabel3.setText("Status");
-        jPanel5.add(jLabel3);
-
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Repairing", "Finish" }));
-        jPanel5.add(cmbStatus);
+        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
         tblJobs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -304,19 +239,19 @@ public class frmRepairJobs extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1122, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -330,10 +265,14 @@ public class frmRepairJobs extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 34, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
+
+        btnFinish.setText("Job FInish");
 
         jPanel6.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
 
@@ -348,12 +287,96 @@ public class frmRepairJobs extends javax.swing.JFrame {
         btnReset.setText("Reset");
         jPanel6.add(btnReset);
 
-        btnFinish.setText("Job FInish");
-        btnFinish.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFinishActionPerformed(evt);
+        jPanel5.setLayout(new java.awt.GridLayout(18, 1, 5, 5));
+
+        jLabel4.setText("Customer Name");
+        jPanel5.add(jLabel4);
+
+        txtCusName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCusNameKeyReleased(evt);
             }
         });
+        jPanel5.add(txtCusName);
+
+        jLabel1.setText("Start Date");
+        jPanel5.add(jLabel1);
+
+        dcStart.setDateFormatString("yyyy-MM-dd");
+        jPanel5.add(dcStart);
+
+        jLabel5.setText("Start Time");
+        jPanel5.add(jLabel5);
+        jPanel5.add(tpStart);
+
+        jLabel2.setText("End Date");
+        jPanel5.add(jLabel2);
+
+        dcEnd.setDateFormatString("yyyy-MM-dd");
+        jPanel5.add(dcEnd);
+
+        jLabel6.setText("End Time");
+        jPanel5.add(jLabel6);
+        jPanel5.add(tpEnd);
+
+        jLabel7.setText("Job Cost");
+        jPanel5.add(jLabel7);
+
+        txtJobCost.setText("0");
+        txtJobCost.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtJobCostKeyReleased(evt);
+            }
+        });
+        jPanel5.add(txtJobCost);
+
+        jLabel9.setText("Item Cost");
+        jPanel5.add(jLabel9);
+
+        txtItemCost.setText("0");
+        txtItemCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtItemCostActionPerformed(evt);
+            }
+        });
+        jPanel5.add(txtItemCost);
+
+        jLabel8.setText("Total Cost");
+        jPanel5.add(jLabel8);
+
+        txtTotalCost.setText("0");
+        jPanel5.add(txtTotalCost);
+
+        jLabel3.setText("Status");
+        jPanel5.add(jLabel3);
+
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Repairing", "Finish" }));
+        jPanel5.add(cmbStatus);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -361,14 +384,10 @@ public class frmRepairJobs extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,28 +395,20 @@ public class frmRepairJobs extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void resetAll() {
@@ -837,16 +848,29 @@ public class frmRepairJobs extends javax.swing.JFrame {
         }
     }
 
+    private void txtCusNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCusNameKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            getCustomerDataByName(txtCusName.getText());
+            txtPCode.requestFocus(true);
+        }
+    }//GEN-LAST:event_txtCusNameKeyReleased
+
+    private void txtJobCostKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJobCostKeyReleased
+        calToatlCost();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            saveJob();
+        }
+    }//GEN-LAST:event_txtJobCostKeyReleased
+
     private void txtItemCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtItemCostActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtItemCostActionPerformed
 
-    private void txtPNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPNameKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            getProductDataByName(txtPName.getText());
-            txtQty.requestFocus(true);
-        }
-    }//GEN-LAST:event_txtPNameKeyReleased
+    private void btnLineResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLineResetActionPerformed
+        increasItemCost();
+        addItem();
+        txtQty.requestFocus(true);
+    }//GEN-LAST:event_btnLineResetActionPerformed
 
     private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -855,18 +879,12 @@ public class frmRepairJobs extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPCodeKeyReleased
 
-    private void txtCusNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCusNameKeyReleased
+    private void txtPNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPNameKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            getCustomerDataByName(txtCusName.getText());
-            txtPCode.requestFocus(true);
+            getProductDataByName(txtPName.getText());
+            txtQty.requestFocus(true);
         }
-    }//GEN-LAST:event_txtCusNameKeyReleased
-
-    private void btnLineResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLineResetActionPerformed
-        increasItemCost();
-        addItem();
-        txtQty.requestFocus(true);
-    }//GEN-LAST:event_btnLineResetActionPerformed
+    }//GEN-LAST:event_txtPNameKeyReleased
 
     private void txtQtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtyKeyReleased
         if (lblQty.getText().equals(txtQty.getText()) || Double.parseDouble(lblQty.getText()) < Double.parseDouble(txtQty.getText())) {
@@ -891,13 +909,6 @@ public class frmRepairJobs extends javax.swing.JFrame {
         removeItem();
     }//GEN-LAST:event_btnRemoveItemActionPerformed
 
-    private void txtJobCostKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJobCostKeyReleased
-        calToatlCost();
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            saveJob();
-        }
-    }//GEN-LAST:event_txtJobCostKeyReleased
-
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
         int saveJob = saveJob();
@@ -913,46 +924,6 @@ public class frmRepairJobs extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
-new frmFinishJobMenu().setVisible(true);
-    }//GEN-LAST:event_btnFinishActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmRepairJobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmRepairJobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmRepairJobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmRepairJobs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmRepairJobs().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -986,6 +957,7 @@ new frmFinishJobMenu().setVisible(true);
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
