@@ -253,11 +253,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, 136, 150));
 
         jPanel2.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
-
-        txtSupNumber.setText("sdsdfsd");
         jPanel2.add(txtSupNumber);
-
-        txtName.setText("sddd");
         jPanel2.add(txtName);
 
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Deactive" }));
@@ -390,7 +386,7 @@ public class frmSuppliers extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblsupplier);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1410, 383));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 1410, 383));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

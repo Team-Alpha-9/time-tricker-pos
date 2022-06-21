@@ -370,6 +370,7 @@ public class frmGrn extends javax.swing.JFrame {
         jLabel1.setText("Supplier Name:");
         jPanel4.add(jLabel1);
 
+        tctSupplierName.setText("shehan");
         tctSupplierName.setToolTipText("Customer Name:");
         tctSupplierName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {

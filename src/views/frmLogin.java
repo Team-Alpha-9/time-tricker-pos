@@ -5,19 +5,34 @@
  */
 package views;
 
+import controllers.ConnectDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import models.LoggingSession;
+import java.sql.ResultSet;
+
 /**
  *
  * @author shehan
  */
 public class frmLogin extends javax.swing.JFrame {
 
+    PreparedStatement pst;
+    Connection conn;
+    int spareID = 0;
+    private int userID;
+    private String username, pin, usertype;
+
+    public frmLogin() {
+        initComponents();
+        conn = ConnectDB.getConn();
+
+        // filltblSpare();
+    }
+
     /**
      * Creates new form frmLogin
      */
-    public frmLogin() {
-        initComponents();
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -195,6 +210,51 @@ public class frmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserNameActionPerformed
 
+    public void getLogin() {
+
+        String userName = txtUserName.getText();
+        String password = txtPassword.getText();
+
+        dataReader.getUserByUNandPW(userName, password);
+
+        if (!txtUserName.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+            if (userName.equals(username) && password.equals(pin)) {
+                  new frmLogin().setVisible(true);
+
+            } else if (!userName.equals(username) && !password.equals(pin)) {
+                //alerts.getWarningAlert("Warning", "Something went wrong", "Your user name and password incorrect !.\nPlease connect your system administrator.");
+            } else if (username == "" || pin == "") {
+                //alerts.getWarningAlert("Warning", "Something went wrong", "Could not found your login information !.\nPlease connect your system administrator.");
+            }
+        }
+    }
+
+    private void getUserByUNandPW(String userName, String password) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT id,user_name,password,usertype FROM  user_name = ? AND password = ?");
+            pst.setString(1, userName);
+            pst.setString(2, password);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                userID = (rs.getInt("id"));
+                username = (rs.getString("user_name"));
+                pin = (rs.getString("password"));
+                usertype = (rs.getString("user_type.type"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
     }//GEN-LAST:event_btnLoginActionPerformed
