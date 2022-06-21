@@ -7,11 +7,6 @@ package controllers;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-<<<<<<< Updated upstream
-=======
-import views.frmAdminHome;
-import views.frmInvoice;
->>>>>>> Stashed changes
 import views.frmLogin;
 
 /**
@@ -30,13 +25,10 @@ public class RunApp {
             System.err.println("Failed to initialize LaF");
         }
 
-<<<<<<< Updated upstream
         frmLogin login = new frmLogin();
         login.setUndecorated(true);
         login.setVisible(true);
-=======
-        new frmLogin().setVisible(true);
->>>>>>> Stashed changes
+
     }
 
 }

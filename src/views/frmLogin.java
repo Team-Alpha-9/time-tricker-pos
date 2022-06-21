@@ -8,8 +8,9 @@ package views;
 import controllers.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import models.LoggingSession;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import models.LoggingSession;
 
 /**
  *
@@ -210,21 +211,37 @@ public class frmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserNameActionPerformed
 
-    public void getLogin() {
+    private void getLogin() {
 
         String userName = txtUserName.getText();
-        String password = txtPassword.getText();
+        String password = String.valueOf(txtPassword.getPassword());
 
-        dataReader.getUserByUNandPW(userName, password);
+        getUserByUNandPW(userName, password);
 
-        if (!txtUserName.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+        if (!txtUserName.getText().isEmpty() && !txtPassword.getPassword().toString().isEmpty()) {
             if (userName.equals(username) && password.equals(pin)) {
-                  new frmLogin().setVisible(true);
+
+                LoggingSession.setUserId(userID);
+                LoggingSession.setUserName(username);
+                LoggingSession.setUserType(usertype);
+
+                if (LoggingSession.getUserType().equals("Admin")) {
+                    new frmAdminHome().setVisible(true);
+                } else if (LoggingSession.getUserType().equals("Cashier")) {
+                    new frmCashierHome().setVisible(true);
+                } else if (LoggingSession.getUserType().equals("Store Keeper")) {
+                    new frmStoreKeeperHome().setVisible(true);
+                } else if (LoggingSession.getUserType().equals("Watch Worker")) {
+                    new frmWatchWorkerHome().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Your Not In System User. Get out Mother Fucker", "Something went wrong", JOptionPane.WARNING_MESSAGE);
+                }
 
             } else if (!userName.equals(username) && !password.equals(pin)) {
-                //alerts.getWarningAlert("Warning", "Something went wrong", "Your user name and password incorrect !.\nPlease connect your system administrator.");
+                JOptionPane.showMessageDialog(this, "Your Not In System User. Get out Mother Fucker", "Something went wrong", JOptionPane.WARNING_MESSAGE);
+
             } else if (username == "" || pin == "") {
-                //alerts.getWarningAlert("Warning", "Something went wrong", "Could not found your login information !.\nPlease connect your system administrator.");
+                JOptionPane.showMessageDialog(this, "Please enter User Name and Password", "Something went wrong", JOptionPane.WARNING_MESSAGE);
             }
         }
     }
@@ -232,16 +249,18 @@ public class frmLogin extends javax.swing.JFrame {
     private void getUserByUNandPW(String userName, String password) {
         ResultSet rs = null;
         try {
-            pst = conn.prepareStatement("SELECT id,user_name,password,usertype FROM  user_name = ? AND password = ?");
+            pst = conn.prepareStatement("SELECT id, user_name, password, user_type FROM user WHERE user_name = ? AND password = ?");
             pst.setString(1, userName);
             pst.setString(2, password);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                userID = (rs.getInt("id"));
-                username = (rs.getString("user_name"));
-                pin = (rs.getString("password"));
-                usertype = (rs.getString("user_type.type"));
+                userID = rs.getInt("id");
+                username = rs.getString("user_name");
+                pin = rs.getString("password");
+                usertype = rs.getString("user_type");
+                System.out.println(userName);
+                System.out.println(pin);
 
             }
         } catch (Exception e) {
@@ -255,8 +274,9 @@ public class frmLogin extends javax.swing.JFrame {
             }
         }
     }
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        getLogin();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
