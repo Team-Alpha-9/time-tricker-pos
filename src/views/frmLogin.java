@@ -241,6 +241,8 @@ public class frmLogin extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Your Not In System User. Get out Mother Fucker", "Something went wrong", JOptionPane.WARNING_MESSAGE);
                 }
 
+                this.dispose();
+
             } else if (!userName.equals(username) && !password.equals(pin)) {
                 JOptionPane.showMessageDialog(this, "Your Not In System User. Get out Mother Fucker", "Something went wrong", JOptionPane.WARNING_MESSAGE);
 

@@ -236,7 +236,10 @@ public class frmSuppliers extends javax.swing.JFrame {
 
         jLabel3.setText("jLabel3");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Supplier");
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
@@ -388,7 +391,8 @@ public class frmSuppliers extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 1410, 383));
 
-        pack();
+        setSize(new java.awt.Dimension(1460, 744));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed

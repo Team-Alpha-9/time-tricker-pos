@@ -5,7 +5,10 @@
 package views.home;
 
 import views.frmCustomers;
+import views.frmEmployer;
+import views.frmProduct;
 import views.frmSuppliers;
+import views.frmUser;
 import views.pnlGrn;
 import views.pnlInvoice;
 import views.pnlRepaiJobs;
@@ -40,8 +43,10 @@ public class frmAdminHome extends javax.swing.JFrame {
         btnSupplier = new javax.swing.JButton();
         btnEmployee = new javax.swing.JButton();
         btnUser = new javax.swing.JButton();
+        btnProduct = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Time TrikerAdmin Home");
 
         javax.swing.GroupLayout dpHomeLayout = new javax.swing.GroupLayout(dpHome);
         dpHome.setLayout(dpHomeLayout);
@@ -103,6 +108,13 @@ public class frmAdminHome extends javax.swing.JFrame {
             }
         });
 
+        btnProduct.setText("Product");
+        btnProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,7 +129,8 @@ public class frmAdminHome extends javax.swing.JFrame {
                     .addComponent(btnCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addComponent(btnSupplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addComponent(btnEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(btnUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(btnUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dpHome)
                 .addContainerGap())
@@ -139,10 +152,12 @@ public class frmAdminHome extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 440, Short.MAX_VALUE)))
+                        .addGap(0, 382, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -183,12 +198,16 @@ public class frmAdminHome extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSupplierActionPerformed
 
     private void btnEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeeActionPerformed
-        // TODO add your handling code here:
+        new frmEmployer().setVisible(true);
     }//GEN-LAST:event_btnEmployeeActionPerformed
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        // TODO add your handling code here:
+        new frmUser().setVisible(true);
     }//GEN-LAST:event_btnUserActionPerformed
+
+    private void btnProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductActionPerformed
+        new frmProduct().setVisible(true);
+    }//GEN-LAST:event_btnProductActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,6 +249,7 @@ public class frmAdminHome extends javax.swing.JFrame {
     private javax.swing.JButton btnEmployee;
     private javax.swing.JButton btnGrn;
     private javax.swing.JButton btnInvoice;
+    private javax.swing.JButton btnProduct;
     private javax.swing.JButton btnRepair;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUser;

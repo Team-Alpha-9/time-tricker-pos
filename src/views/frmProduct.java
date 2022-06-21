@@ -5,12 +5,10 @@
 package views;
 
 import controllers.ConnectDB;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -54,23 +52,21 @@ public class frmProduct extends javax.swing.JFrame {
         }
         return saveDone;
     }
-    
+
     private void resetAll() {
-        
-                
+
         txtPcode.setText("");
         txtPname.setText("");
-        
+
         if (CmbItem.getItemCount() > 0) {
             CmbItem.setSelectedIndex(0);
         }
-        
 
         spareID = 0;
 
         filltblSpare();
     }
-    
+
     private void filltblSpare() {
         ResultSet rs = null;
         try {
@@ -97,7 +93,6 @@ public class frmProduct extends javax.swing.JFrame {
             }
         }
     }
-
 
     /**
      * Creates new form Spare2
@@ -222,7 +217,10 @@ public class frmProduct extends javax.swing.JFrame {
                 .addGap(75, 75, 75))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Products");
+        setResizable(false);
+        setType(java.awt.Window.Type.POPUP);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 380));
 
@@ -387,7 +385,8 @@ public class frmProduct extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1123, 488));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CombOneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CombOneMouseClicked
@@ -425,17 +424,16 @@ public class frmProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPnameActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-         int saveSpare = saveSpare();
+        int saveSpare = saveSpare();
         if (saveSpare > 0) {
             resetAll();
             JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
 
-        
         resetAll();
     }//GEN-LAST:event_btnResetActionPerformed
 
@@ -462,7 +460,7 @@ public class frmProduct extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

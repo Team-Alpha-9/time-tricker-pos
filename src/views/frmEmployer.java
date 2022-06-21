@@ -233,7 +233,10 @@ public class frmEmployer extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Employee");
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         jLabel1.setText("ID");
 
@@ -426,7 +429,8 @@ public class frmEmployer extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1261, 764));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
