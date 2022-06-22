@@ -6,16 +6,21 @@ package views;
 
 import com.mxrck.autocompleter.TextAutoCompleter;
 import controllers.ConnectDB;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import models.LoggingSession;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -26,7 +31,7 @@ public class pnlGrn extends javax.swing.JPanel {
     private PreparedStatement pst;
     private Connection conn;
 
-    int supId, stockId;
+    int supId;
     String supName;
 
     /**
@@ -57,11 +62,13 @@ public class pnlGrn extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtPCode = new javax.swing.JTextField();
         txtPname = new javax.swing.JTextField();
-        txtUnitPriceGrn = new javax.swing.JTextField();
+        txtPurchasePrice = new javax.swing.JTextField();
+        txtSalePrice = new javax.swing.JTextField();
         txtQtyGrn = new javax.swing.JTextField();
         txtAmountGrn = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
@@ -87,7 +94,7 @@ public class pnlGrn extends javax.swing.JPanel {
 
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 2, true));
 
-        jPanel6.setLayout(new java.awt.GridLayout(2, 5, 22, 5));
+        jPanel6.setLayout(new java.awt.GridLayout(2, 6, 22, 5));
 
         jLabel9.setText("Product Code");
         jPanel6.add(jLabel9);
@@ -95,8 +102,11 @@ public class pnlGrn extends javax.swing.JPanel {
         jLabel10.setText("Product Name");
         jPanel6.add(jLabel10);
 
-        jLabel13.setText("Unit Price");
+        jLabel13.setText("Purchase Price");
         jPanel6.add(jLabel13);
+
+        jLabel5.setText("Sale Price");
+        jPanel6.add(jLabel5);
 
         jLabel11.setText("Quantity");
         jPanel6.add(jLabel11);
@@ -120,8 +130,9 @@ public class pnlGrn extends javax.swing.JPanel {
         });
         jPanel6.add(txtPname);
 
-        txtUnitPriceGrn.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jPanel6.add(txtUnitPriceGrn);
+        txtPurchasePrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel6.add(txtPurchasePrice);
+        jPanel6.add(txtSalePrice);
 
         txtQtyGrn.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtQtyGrn.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -156,7 +167,7 @@ public class pnlGrn extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Code", "Name", "Sale Price", "Qty", "Amount", "##"
+                "Code", "Name", "Purchase Price", "Sale Price", "Qty", "Amount"
             }
         ) {
             Class[] types = new Class [] {
@@ -186,6 +197,7 @@ public class pnlGrn extends javax.swing.JPanel {
             TblGRN.getColumnModel().getColumn(1).setResizable(false);
             TblGRN.getColumnModel().getColumn(2).setResizable(false);
             TblGRN.getColumnModel().getColumn(3).setResizable(false);
+            TblGRN.getColumnModel().getColumn(4).setResizable(false);
             TblGRN.getColumnModel().getColumn(5).setResizable(false);
         }
 
@@ -360,7 +372,7 @@ public class pnlGrn extends javax.swing.JPanel {
     private void resetLine() {
         txtPCode.setText("");
         txtPname.setText("");
-        txtUnitPriceGrn.setText("0");
+        txtPurchasePrice.setText("0");
         txtQtyGrn.setText("0");
         txtAmountGrn.setText("0");
         txtPCode.requestFocus(true);
@@ -373,10 +385,10 @@ public class pnlGrn extends javax.swing.JPanel {
             Vector<String> itenm = new Vector<>();
             itenm.add(txtPCode.getText());
             itenm.add(txtPname.getText());
-            itenm.add(txtUnitPriceGrn.getText());
+            itenm.add(txtPurchasePrice.getText());
+            itenm.add(txtSalePrice.getText());
             itenm.add(txtQtyGrn.getText());
             itenm.add(txtAmountGrn.getText());
-            itenm.add(String.valueOf(stockId));
 
             dtm.addRow(itenm);
             txtInteCountGrn.setText(String.valueOf(TblGRN.getRowCount()));
@@ -422,7 +434,7 @@ public class pnlGrn extends javax.swing.JPanel {
             }
 
             qty = Double.parseDouble(txtQtyGrn.getText());
-            unitPrice = Double.parseDouble(txtUnitPriceGrn.getText());
+            unitPrice = Double.parseDouble(txtPurchasePrice.getText());
 
             amount = (qty * unitPrice);
 
@@ -569,13 +581,15 @@ public class pnlGrn extends javax.swing.JPanel {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id, product_code, quantity, sale_price) VALUES(?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO grn_product(grn_id, product_code, puchase_price, sale_price, quantity) VALUES(?,?,?,?,?)");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
                 pst.setInt(1, grnId);
                 pst.setString(2, TblGRN.getValueAt(i, 0).toString());
-                pst.setInt(3, Integer.parseInt(TblGRN.getValueAt(i, 3).toString()));
-                pst.setDouble(4, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                pst.setInt(4, Integer.parseInt(TblGRN.getValueAt(i, 3).toString()));
+                pst.setInt(5, Integer.parseInt(TblGRN.getValueAt(i, 4).toString()));
+
                 pst.addBatch();
             }
 
@@ -602,15 +616,15 @@ public class pnlGrn extends javax.swing.JPanel {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("INSERT INTO stock(product_code, qty, purchase_price, sale_price) VALUES(?,?,?,?)");
+            pst = conn.prepareStatement("INSERT INTO stock(product_code, purchase_price, sale_price, qty) VALUES(?,?,?,?)");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
 
                 if (!checkAlreadyProduct(TblGRN.getValueAt(i, 0).toString())) {
                     pst.setString(1, TblGRN.getValueAt(i, 0).toString());
-                    pst.setDouble(2, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
-                    pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
-                    pst.setDouble(4, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setDouble(2, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
+                    pst.setDouble(4, Double.parseDouble(TblGRN.getValueAt(i, 4).toString()));
 
                     pst.addBatch();
                 }
@@ -639,14 +653,14 @@ public class pnlGrn extends javax.swing.JPanel {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("UPDATE stock SET qty = (qty + ?), purchase_price = ?, sale_price = ?   WHERE product_code = ?");
+            pst = conn.prepareStatement("UPDATE stock SET  purchase_price = ?, sale_price = ?, qty = (qty + ?)   WHERE product_code = ?");
 
             for (int i = 0; i < TblGRN.getRowCount(); i++) {
 
                 if (checkAlreadyProduct(TblGRN.getValueAt(i, 0).toString())) {
-                    pst.setDouble(1, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
-                    pst.setDouble(2, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
-                    pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setDouble(1, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
+                    pst.setDouble(2, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
+                    pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 4).toString()));
                     pst.setString(4, TblGRN.getValueAt(i, 0).toString());
 
                     pst.addBatch();
@@ -776,10 +790,44 @@ public class pnlGrn extends javax.swing.JPanel {
         return already;
     }
 
+    private void getPaidInvoice(String invoiceId, String viewType) {
+        try {
+            String path = "C:\\Program Files\\Common Files\\TimeTriker\\Reports\\GRN.jrxml";
+            JasperReport RI = JasperCompileManager.compileReport(path);
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("GRN_Id", invoiceId);
+            JasperPrint printIt = JasperFillManager.fillReport(RI, parameter, conn);
+            if (viewType.equals("PRINT")) {
+                JasperPrintManager.printReport(printIt, false);
+                //JasperPrintManager.printReport(printIt, false);
+            } else if (viewType.equals("VIEW")) {
+                JasperViewer.viewReport(printIt, false);
+                /*try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    //JasperViewer viewer = new JasperViewer(printIt, false);
+                    //viewer.setVisible(true);
+                    JasperViewer.viewReport(printIt, false);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        } catch (Exception e) {
+            Toolkit.getDefaultToolkit().beep();
+            e.printStackTrace();
+
+        }
+    }
+
     private void txtPCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPCodeKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             getProductIdByCode(txtPCode.getText());
-            txtUnitPriceGrn.requestFocus(true);
+            txtPurchasePrice.requestFocus(true);
         }
     }//GEN-LAST:event_txtPCodeKeyReleased
 
@@ -790,8 +838,7 @@ public class pnlGrn extends javax.swing.JPanel {
             increasTotalAmount();
             /*getProductDataByCode(txtPCodeGrn.getText());*/
             addItem();
-            txtQtyGrn.requestFocus(true);
-
+            txtPCode.requestFocus(true);
         }
     }//GEN-LAST:event_txtQtyGrnKeyReleased
 
@@ -800,7 +847,10 @@ public class pnlGrn extends javax.swing.JPanel {
     }//GEN-LAST:event_txtAmountGrnActionPerformed
 
     private void btnAddToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToCartActionPerformed
+        increasTotalAmount();
+        /*getProductDataByCode(txtPCodeGrn.getText());*/
         addItem();
+        txtPCode.requestFocus(true);
     }//GEN-LAST:event_btnAddToCartActionPerformed
 
     private void TblGRNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblGRNMouseClicked
@@ -839,6 +889,7 @@ public class pnlGrn extends javax.swing.JPanel {
             if (saveGrnProduct > 0) {
                 addStock();
                 updateStock();
+                getPaidInvoice(String.valueOf(saveGrn), "VIEW");
                 resetAll();
                 JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
 
@@ -855,7 +906,7 @@ public class pnlGrn extends javax.swing.JPanel {
     private void txtPnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPnameKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             getProductIdByName(txtPname.getText());
-            txtUnitPriceGrn.requestFocus(true);
+            txtPurchasePrice.requestFocus(true);
         }
     }//GEN-LAST:event_txtPnameKeyReleased
 
@@ -875,6 +926,7 @@ public class pnlGrn extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -889,8 +941,9 @@ public class pnlGrn extends javax.swing.JPanel {
     private javax.swing.JTextField txtInteCountGrn;
     private javax.swing.JTextField txtPCode;
     private javax.swing.JTextField txtPname;
+    private javax.swing.JTextField txtPurchasePrice;
     private javax.swing.JTextField txtQtyGrn;
+    private javax.swing.JTextField txtSalePrice;
     private javax.swing.JTextField txtTSubTotalGrn;
-    private javax.swing.JTextField txtUnitPriceGrn;
     // End of variables declaration//GEN-END:variables
 }

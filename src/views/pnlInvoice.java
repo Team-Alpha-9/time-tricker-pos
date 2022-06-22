@@ -6,16 +6,21 @@ package views;
 
 import com.mxrck.autocompleter.TextAutoCompleter;
 import controllers.ConnectDB;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import models.LoggingSession;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -853,6 +858,40 @@ public class pnlInvoice extends javax.swing.JPanel {
         removeAllItems();
     }
 
+    private void getPaidInvoice(String invoiceId, String viewType) {
+        try {
+            String path = "C:\\Program Files\\Common Files\\TimeTriker\\Reports\\Paid_Invoice.jrxml";
+            JasperReport RI = JasperCompileManager.compileReport(path);
+            Map<String, Object> parameter = new HashMap<>();
+            parameter.put("InvoiceNumber", invoiceId);
+            JasperPrint printIt = JasperFillManager.fillReport(RI, parameter, conn);
+            if (viewType.equals("PRINT")) {
+                JasperPrintManager.printReport(printIt, false);
+                //JasperPrintManager.printReport(printIt, false);
+            } else if (viewType.equals("VIEW")) {
+                JasperViewer.viewReport(printIt, false);
+                /*try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    //JasperViewer viewer = new JasperViewer(printIt, false);
+                    //viewer.setVisible(true);
+                    JasperViewer.viewReport(printIt, false);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        } catch (Exception e) {
+            Toolkit.getDefaultToolkit().beep();
+            e.printStackTrace();
+
+        }
+    }
+
     private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCustomerNameActionPerformed
@@ -896,6 +935,7 @@ public class pnlInvoice extends javax.swing.JPanel {
             if (saveInvoiceItems > 0) {
                 int updateStock = updateStock();
                 if (updateStock > 0) {
+                    getPaidInvoice(String.valueOf(saveInvoice), "VIEW");
                     resetAll();
                     removeAllItems();
                     JOptionPane.showMessageDialog(this, "Invoice Pay Done ", "Invoice Pay", JOptionPane.INFORMATION_MESSAGE);

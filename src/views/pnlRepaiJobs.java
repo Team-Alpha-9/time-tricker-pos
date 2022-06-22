@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -26,7 +27,7 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
 
     private PreparedStatement pst;
     private Connection conn;
-    int cusId, stockId;
+    int cusId, jobID;
 
     /**
      * Creates new form pnlRepaiJobs
@@ -127,6 +128,11 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
             }
         });
         tblJobs.getTableHeader().setReorderingAllowed(false);
+        tblJobs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblJobsMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblJobs);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 2, 5, 5));
@@ -518,7 +524,7 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
                 txtPName.setText(rs.getString(1));
                 txtUnitPrice.setText(rs.getString(2));
                 lblQty.setText(rs.getString(3));
-                stockId = rs.getInt(4);
+                //stockId = rs.getInt(4);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -544,7 +550,7 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
                 txtPCode.setText(rs.getString(1));
                 txtUnitPrice.setText(rs.getString(2));
                 lblQty.setText(rs.getString(3));
-                stockId = rs.getInt(4);
+                //stockId = rs.getInt(4);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -848,6 +854,38 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
         }
     }
 
+    private void getJobDataById(int jobId) {
+        ResultSet rs = null;
+        try {
+            pst = conn.prepareStatement("SELECT repair_jobs.job_id, customer.name, repair_jobs.start_date, repair_jobs.start_time, repair_jobs.end_date, repair_jobs.end_time, repair_jobs.job_cost, repair_jobs.item_cost,(repair_jobs.job_cost + repair_jobs.item_cost), repair_jobs.status FROM repair_jobs INNER JOIN customer ON repair_jobs.customer_id = customer.id WHERE repair_jobs.job_id = ?");
+            pst.setInt(1, jobId);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                jobID = rs.getInt(1);
+                txtCusName.setText(rs.getString(2));
+                dcStart.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString(3)));
+                tpStart.setText(rs.getString(4));
+                dcEnd.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString(5)));
+                tpEnd.setText(rs.getString(6));
+                txtJobCost.setText(rs.getString(7));
+                txtItemCost.setText(rs.getString(8));
+                txtTotalCost.setText(rs.getString(9));
+                cmbStatus.getModel().setSelectedItem(rs.getString(10));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //alerts.getErrorAlert(e);
+            }
+        }
+    }
+
     private void txtCusNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCusNameKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             getCustomerDataByName(txtCusName.getText());
@@ -924,6 +962,18 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblJobsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJobsMouseClicked
+        if (tblJobs.getModel().getRowCount() > 0) {
+            try {
+                int row = tblJobs.getSelectedRow();
+                jobID = Integer.parseInt(tblJobs.getModel().getValueAt(row, 0).toString());
+                getJobDataById(jobID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_tblJobsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

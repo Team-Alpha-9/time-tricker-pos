@@ -12,6 +12,7 @@ import views.frmUser;
 import views.pnlGrn;
 import views.pnlInvoice;
 import views.pnlRepaiJobs;
+import views.pnlReports;
 
 /**
  *
@@ -44,6 +45,7 @@ public class frmAdminHome extends javax.swing.JFrame {
         btnEmployee = new javax.swing.JButton();
         btnUser = new javax.swing.JButton();
         btnProduct = new javax.swing.JButton();
+        btnReports = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Time TrikerAdmin Home");
@@ -115,6 +117,13 @@ public class frmAdminHome extends javax.swing.JFrame {
             }
         });
 
+        btnReports.setText("Reports");
+        btnReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,7 +139,8 @@ public class frmAdminHome extends javax.swing.JFrame {
                     .addComponent(btnSupplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addComponent(btnEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addComponent(btnUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(btnProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(btnProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(btnReports, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dpHome)
                 .addContainerGap())
@@ -157,7 +167,9 @@ public class frmAdminHome extends javax.swing.JFrame {
                         .addComponent(btnEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 382, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnReports, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 324, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -209,6 +221,14 @@ public class frmAdminHome extends javax.swing.JFrame {
         new frmProduct().setVisible(true);
     }//GEN-LAST:event_btnProductActionPerformed
 
+    private void btnReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportsActionPerformed
+        dpHome.removeAll();
+        pnlReports reports = new pnlReports();
+        reports.setSize(dpHome.getWidth(), dpHome.getHeight());
+        dpHome.add("Reports", reports);
+        reports.setVisible(true);
+    }//GEN-LAST:event_btnReportsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -251,6 +271,7 @@ public class frmAdminHome extends javax.swing.JFrame {
     private javax.swing.JButton btnInvoice;
     private javax.swing.JButton btnProduct;
     private javax.swing.JButton btnRepair;
+    private javax.swing.JButton btnReports;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUser;
     private javax.swing.JDesktopPane dpHome;
