@@ -773,6 +773,7 @@ public class pnlRepaiJobs extends javax.swing.JPanel {
                 pst.setString(2, tblItems.getValueAt(i, 0).toString());
                 pst.setString(3, tblItems.getValueAt(i, 2).toString());
                 pst.setString(4, tblItems.getValueAt(i, 3).toString());
+
                 pst.addBatch();
             }
 

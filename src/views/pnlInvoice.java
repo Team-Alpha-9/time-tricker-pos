@@ -790,6 +790,7 @@ public class pnlInvoice extends javax.swing.JPanel {
                 pst.setString(2, tblInvoice.getValueAt(i, 0).toString());
                 pst.setString(3, tblInvoice.getValueAt(i, 3).toString());
                 pst.setString(4, tblInvoice.getValueAt(i, 4).toString());
+
                 pst.addBatch();
             }
 
@@ -816,12 +817,12 @@ public class pnlInvoice extends javax.swing.JPanel {
         try {
 
             conn.setAutoCommit(false);
-            pst = conn.prepareStatement("UPDATE stock SET qty = (qty - ?) WHERE id = ?");
+            pst = conn.prepareStatement("UPDATE stock SET qty = (qty - ?) WHERE product_code = ?");
 
             for (int i = 0; i < tblInvoice.getRowCount(); i++) {
 
                 pst.setDouble(1, Double.parseDouble(tblInvoice.getValueAt(i, 3).toString()));
-                pst.setString(2, tblInvoice.getValueAt(i, 5).toString());
+                pst.setString(2, tblInvoice.getValueAt(i, 0).toString());
 
                 pst.addBatch();
             }
@@ -919,6 +920,7 @@ public class pnlInvoice extends javax.swing.JPanel {
                 if (saveInvoiceItems > 0) {
                     int updateStock = updateStock();
                     if (updateStock > 0) {
+                        getPaidInvoice(String.valueOf(saveInvoice), "VIEW");
                         resetAll();
                         removeAllItems();
                         JOptionPane.showMessageDialog(this, "Invoice Pay Done ", "Invoice Pay", JOptionPane.INFORMATION_MESSAGE);

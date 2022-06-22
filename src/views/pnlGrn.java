@@ -43,7 +43,6 @@ public class pnlGrn extends javax.swing.JPanel {
         conn = ConnectDB.getConn();
 
         autocompletePCode();
-
         autocompletePName();
         autocompleteSupplierName();
     }
@@ -373,6 +372,7 @@ public class pnlGrn extends javax.swing.JPanel {
         txtPCode.setText("");
         txtPname.setText("");
         txtPurchasePrice.setText("0");
+        txtSalePrice.setText("0");
         txtQtyGrn.setText("0");
         txtAmountGrn.setText("0");
         txtPCode.requestFocus(true);
@@ -579,7 +579,6 @@ public class pnlGrn extends javax.swing.JPanel {
     private int saveGrnProduct(int grnId) {
         int saveDone = 0;
         try {
-
             conn.setAutoCommit(false);
             pst = conn.prepareStatement("INSERT INTO grn_product(grn_id, product_code, puchase_price, sale_price, quantity) VALUES(?,?,?,?,?)");
 
@@ -587,7 +586,7 @@ public class pnlGrn extends javax.swing.JPanel {
                 pst.setInt(1, grnId);
                 pst.setString(2, TblGRN.getValueAt(i, 0).toString());
                 pst.setDouble(3, Double.parseDouble(TblGRN.getValueAt(i, 2).toString()));
-                pst.setInt(4, Integer.parseInt(TblGRN.getValueAt(i, 3).toString()));
+                pst.setDouble(4, Double.parseDouble(TblGRN.getValueAt(i, 3).toString()));
                 pst.setInt(5, Integer.parseInt(TblGRN.getValueAt(i, 4).toString()));
 
                 pst.addBatch();
@@ -891,7 +890,7 @@ public class pnlGrn extends javax.swing.JPanel {
                 updateStock();
                 getPaidInvoice(String.valueOf(saveGrn), "VIEW");
                 resetAll();
-                JOptionPane.showMessageDialog(this, "Data Save Done ", "User Save", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Data Save Done ", "GRN Save", JOptionPane.INFORMATION_MESSAGE);
 
             }
 

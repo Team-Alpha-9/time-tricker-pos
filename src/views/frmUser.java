@@ -104,7 +104,7 @@ public class frmUser extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
         jPanel5.add(pfPassword);
 
-        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Store Keeper", "Cashier", "Wotch Wekers" }));
+        cmbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Cashier", "Store Keeper", "Watch Worker" }));
         jPanel5.add(cmbUserType);
 
         jPanel6.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
